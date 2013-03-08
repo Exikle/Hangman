@@ -29,7 +29,10 @@ public class Game extends Canvas implements Runnable {
     private Boolean running = false;
     private final int FRAME_WIDTH = 500, FRAME_HEIGHT = 375;
     private final String GAME_NAME = "Hangman";
-    private JFrame frame;
+    JFrame frame;
+
+    String[] categories = { "Easy", "Food", "Standard", "Geography", "Hard",
+            "Holidays", "Animals", "Sports" };
 
     private String bgPath = "/ChalkBackground.png";
     private String manPath = "/Hangman Sprite.png";
@@ -44,7 +47,7 @@ public class Game extends Canvas implements Runnable {
     HangmanSpriteSheet sheet;
     MouseInputHandler mInput;
 
-    public final int CHANCES = 6;
+    public final int CHANCES = 7;
     int chancesLeft = CHANCES;
 
     State currentState = State.START_MENU;
@@ -127,15 +130,35 @@ public class Game extends Canvas implements Runnable {
 
         g.setFont(dFont.deriveFont((float) 15));
         g.drawString("Xid Studios", 250, 58);
+
         if (currentState == State.START_MENU) {
             g.setFont(dFont.deriveFont((float) 28));
-            g.drawString("One Player", 250, 150);
-            g.drawString("Two Players", 250, 225);
+            g.drawString("One Player", 240, 150);
+            g.drawString("Two Players", 240, 225);
         } else if (currentState == State.PLAY_SCREEN) {
             setHangerImage();
             g.drawImage(hanger, 80, 90, 113, 256, null);
             g.setFont(dFont.deriveFont((float) 31));
             g.drawString(chancesLeft + "", 100, 330);
+        } else if ((currentState == State.PLAYER_ONE_MENU)
+                || (currentState == State.PLAYER_TWO_MENU)) {
+            g.setFont(dFont.deriveFont((float) 28));
+            g.drawString("PLAY", 400, 330);
+            if (currentState == State.PLAYER_ONE_MENU) {
+                g.drawString("Player One", 240, 100);
+                g.drawString("Categories", 240, 175);
+                g.setFont(dFont.deriveFont((float) 15));
+                g.drawString("Easy", 250, 200);
+                g.drawString("Food", 250, 215);
+                g.drawString("Standard", 250, 230);
+                g.drawString("Geography", 250, 245);
+                g.drawString("Hard", 250, 260);
+                g.drawString("Holidays", 250, 275);
+                g.drawString("Animals", 250, 290);
+                g.drawString("Sports", 250, 305);
+            } else if (currentState == State.PLAYER_TWO_MENU) {
+
+            }
         }
 
         g.dispose();
@@ -143,8 +166,8 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void setHangerImage() {
-        if ((chancesLeft > 0) && (chancesLeft < 6)) {
-            int num = chancesLeft - 5;
+        if (chancesLeft > 0) {
+            int num = chancesLeft - 7;
             if (num < 0) {
                 num = num * -1;
             }
