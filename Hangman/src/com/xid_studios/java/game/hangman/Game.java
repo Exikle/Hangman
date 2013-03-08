@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable {
 
     HangmanSpriteSheet sheet;
 
-    public final int CHANCES = 5;
+    public final int CHANCES = 6;
     int chancesLeft = CHANCES;
 
     State currentState = State.START_MENU;
@@ -139,7 +139,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void setHangerImage() {
-        if (chancesLeft > 0) {
+        if ((chancesLeft > 0)&&(chancesLeft<6)) {
             int num = chancesLeft - 5;
             if (num < 0) {
                 num = num * -1;
