@@ -42,6 +42,7 @@ public class Game extends Canvas implements Runnable {
     public Font dFont = null;
 
     HangmanSpriteSheet sheet;
+    MouseInputHandler mInput;
 
     public final int CHANCES = 6;
     int chancesLeft = CHANCES;
@@ -59,12 +60,12 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
         }
         sheet = new HangmanSpriteSheet(manPath);
+        mInput = new MouseInputHandler(this);
 
         try {
             File f = new File(fontPath);
             FileInputStream in = new FileInputStream(f);
             dFont = Font.createFont(Font.TRUETYPE_FONT, in);
-            System.out.println("Created Derived Font");
         } catch (Exception e) {
             System.out.println("Problem Creating Font");
         }
@@ -123,6 +124,9 @@ public class Game extends Canvas implements Runnable {
         g.setFont(dFont.deriveFont((float) 38));
         g.drawString("Hangman", 45, 58);
         g.drawString("X", 445, 58);
+
+        g.setFont(dFont.deriveFont((float) 15));
+        g.drawString("Xid Studios", 250, 58);
         if (currentState == State.START_MENU) {
             g.setFont(dFont.deriveFont((float) 28));
             g.drawString("One Player", 250, 150);
@@ -139,7 +143,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void setHangerImage() {
-        if ((chancesLeft > 0)&&(chancesLeft<6)) {
+        if ((chancesLeft > 0) && (chancesLeft < 6)) {
             int num = chancesLeft - 5;
             if (num < 0) {
                 num = num * -1;
