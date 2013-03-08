@@ -7,9 +7,12 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -31,14 +34,16 @@ public class Game extends Canvas implements Runnable {
     private String bgPath = "/ChalkBackground.png";
     private String manPath = "/Hangman Sprite.png";
     private String gallowPath = "/Gallows.png";
+    private String fontPath = "res/VTK.ttf";
 
     private BufferedImage chalkBoard = null;
     private BufferedImage hanger = null;
     private BufferedImage gallows = null;
+    public Font dFont = null;
 
     HangmanSpriteSheet sheet;
 
-    public final int CHANCES = 2;
+    public final int CHANCES = 5;
     int chancesLeft = CHANCES;
 
     State currentState = State.START_MENU;
@@ -54,6 +59,15 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
         }
         sheet = new HangmanSpriteSheet(manPath);
+
+        try {
+            File f = new File(fontPath);
+            FileInputStream in = new FileInputStream(f);
+            dFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            System.out.println("Created Derived Font");
+        } catch (Exception e) {
+            System.out.println("Problem Creating Font");
+        }
 
         frame = new JFrame(GAME_NAME);
         frame.setUndecorated(true);
@@ -105,9 +119,19 @@ public class Game extends Canvas implements Runnable {
         g.drawImage(gallows, 0, 65, gallows.getWidth(), gallows.getHeight(),
                 null);
 
+        g.setColor(Color.WHITE);
+        g.setFont(dFont.deriveFont((float) 38));
+        g.drawString("Hangman", 45, 58);
+        g.drawString("X", 445, 58);
         if (currentState == State.START_MENU) {
+            g.setFont(dFont.deriveFont((float) 28));
+            g.drawString("One Player", 250, 150);
+            g.drawString("Two Players", 250, 225);
+        } else if (currentState == State.PLAY_SCREEN) {
             setHangerImage();
             g.drawImage(hanger, 80, 90, 113, 256, null);
+            g.setFont(dFont.deriveFont((float) 31));
+            g.drawString(chancesLeft + "", 100, 330);
         }
 
         g.dispose();
