@@ -45,6 +45,12 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage gallows = null;
     private BufferedImage btnBorder = null;
 
+    final String DEFAULT_P1 = "Player";
+    final String DEFAULT_P2 = "Comput";
+
+    String playerOne = DEFAULT_P1;
+    String playerTwo = DEFAULT_P2;
+
     private BufferedImage startDisplayHanger = null;
     public Font dFont = null;
 
@@ -154,14 +160,14 @@ public class Game extends Canvas implements Runnable {
             g.drawImage(hanger, 80, 90, 113, 256, null);
             g.setFont(dFont.deriveFont((float) 31));
             g.drawString(chancesLeft + "", 100, 330);
-            
+
         } else if ((currentState == State.PLAYER_ONE_MENU)
                 || (currentState == State.PLAYER_TWO_MENU)) {
-            
+
             g.setFont(dFont.deriveFont((float) 28));
             g.drawString("PLAY", 400, 330);
             g.drawImage(btnBorder, 390, 295, 80, 50, null);
-            
+
             if (currentState == State.PLAYER_ONE_MENU) {
                 g.drawString("Player One's Name", 240, 100);
                 g.drawString("Categories", 240, 175);

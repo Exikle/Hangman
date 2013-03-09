@@ -7,10 +7,11 @@ import java.awt.event.MouseListener;
 public class MouseInputHandler implements MouseListener {
 
     Game game;
-    State currentState;
-    State previousState;
+    State currentState = null;
+    State previousState = null;
 
     Rectangle close = new Rectangle(445, 30, 25, 25);
+    Rectangle back = new Rectangle(0, 0, 10, 10);
     Rectangle player1 = new Rectangle(240, 80, 190, 20);
     Rectangle player2 = new Rectangle(240, 200, 190, 20);
     Rectangle play = new Rectangle(392, 298, 466, 341);
@@ -26,25 +27,33 @@ public class MouseInputHandler implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent m) {
-//        System.out.println(m.getX() + "," + m.getY());
+        // System.out.println(m.getX() + "," + m.getY());
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
 
         // System.out.println("State: " + currentState);
 
         if (mouse.intersects(close)) {
             System.exit(0);
+        } else if (mouse.intersects(back)) {
+            if (previousState != null) {
+                game.currentState = previousState;
+                currentState = previousState;
+            }
         } else if (currentState == State.START_MENU) {
             if (mouse.intersects(player1)) {
+                previousState = currentState;
                 game.currentState = State.PLAYER_ONE_MENU;
                 currentState = State.PLAYER_ONE_MENU;
             }
             if (mouse.intersects(player2)) {
+                previousState = currentState;
                 game.currentState = State.PLAYER_TWO_MENU;
                 currentState = State.PLAYER_TWO_MENU;
             }
         } else if ((currentState == State.PLAYER_ONE_MENU)
                 || (currentState == State.PLAYER_TWO_MENU)) {
             if (mouse.intersects(play)) {
+                previousState = currentState;
                 game.currentState = State.PLAY_SCREEN;
                 currentState = State.PLAY_SCREEN;
                 if (currentState == State.PLAYER_ONE_MENU) {
