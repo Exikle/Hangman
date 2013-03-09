@@ -9,11 +9,11 @@ public class MouseInputHandler implements MouseListener {
     Game game;
     State currentState;
     State previousState;
-    
+
     Rectangle close = new Rectangle(445, 30, 25, 25);
-    Rectangle player1 = new Rectangle(235, 125, 190, 30);
-    Rectangle player2 = new Rectangle(235, 200, 190, 30);
-    Rectangle play = new Rectangle(400, 305, 465, 330);
+    Rectangle player1 = new Rectangle(240, 80, 190, 20);
+    Rectangle player2 = new Rectangle(240, 200, 190, 20);
+    Rectangle play = new Rectangle(392, 298, 466, 341);
     Rectangle unDragable;
 
     Rectangle mouse;
@@ -26,10 +26,10 @@ public class MouseInputHandler implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent m) {
-        System.out.println(m.getX() + "," + m.getY());
+//        System.out.println(m.getX() + "," + m.getY());
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
 
-        System.out.println("State: " + currentState);
+        // System.out.println("State: " + currentState);
 
         if (mouse.intersects(close)) {
             System.exit(0);
@@ -48,7 +48,10 @@ public class MouseInputHandler implements MouseListener {
                 game.currentState = State.PLAY_SCREEN;
                 currentState = State.PLAY_SCREEN;
                 if (currentState == State.PLAYER_ONE_MENU) {
+                    // get player name and category picked
                 } else if (currentState == State.PLAYER_TWO_MENU) {
+                    // get both player names and the custom puzzle (and
+                    // category?)
                 }
             }
         } else if (currentState == State.PLAY_SCREEN) {
@@ -75,8 +78,6 @@ public class MouseInputHandler implements MouseListener {
     @Override
     public void mousePressed(MouseEvent m) {
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
-        // a rectangle of the frame except for the wooden part which should be
-        // dragable
         unDragable = new Rectangle(25, 25, 450, 325);
         if (!mouse.intersects(unDragable)) {
             // code for dragging

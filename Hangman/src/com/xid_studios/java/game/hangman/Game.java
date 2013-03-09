@@ -37,11 +37,15 @@ public class Game extends Canvas implements Runnable {
     private String bgPath = "/ChalkBackground.png";
     private String manPath = "/Hangman Sprite.png";
     private String gallowPath = "/Gallows.png";
-    private String fontPath = "res/VTK.ttf";
+    private String buttonPath = "/ButtonBorder.png";
+    private String fontPath = "res/EraserDust.ttf";
 
     private BufferedImage chalkBoard = null;
     private BufferedImage hanger = null;
     private BufferedImage gallows = null;
+    private BufferedImage btnBorder = null;
+
+    private BufferedImage startDisplayHanger = null;
     public Font dFont = null;
 
     HangmanSpriteSheet sheet;
@@ -59,11 +63,14 @@ public class Game extends Canvas implements Runnable {
         try {
             chalkBoard = ImageIO.read(Game.class.getResourceAsStream(bgPath));
             gallows = ImageIO.read(Game.class.getResourceAsStream(gallowPath));
+            btnBorder = ImageIO
+                    .read(Game.class.getResourceAsStream(buttonPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
         sheet = new HangmanSpriteSheet(manPath);
         mInput = new MouseInputHandler(this);
+        setStartDisplayHanger();
 
         try {
             File f = new File(fontPath);
@@ -129,34 +136,46 @@ public class Game extends Canvas implements Runnable {
         g.drawString("X", 445, 58);
 
         g.setFont(dFont.deriveFont((float) 15));
-        g.drawString("Xid Studios", 250, 58);
+        g.drawString("Xid Studios", 200, 58);
 
         if (currentState == State.START_MENU) {
             g.setFont(dFont.deriveFont((float) 28));
-            g.drawString("One Player", 240, 150);
+            g.drawString("One Player", 240, 100);
+            g.drawImage(btnBorder, 233, 75, 150, 33, null);
+            g.drawImage(startDisplayHanger, 240, 90, 56, 128, null);
+
             g.drawString("Two Players", 240, 225);
+            g.drawImage(btnBorder, 233, 200, 175, 33, null);
+            g.drawImage(startDisplayHanger, 240, 220, 56, 128, null);
+            g.drawImage(startDisplayHanger, 296, 220, 56, 128, null);
+
         } else if (currentState == State.PLAY_SCREEN) {
             setHangerImage();
             g.drawImage(hanger, 80, 90, 113, 256, null);
             g.setFont(dFont.deriveFont((float) 31));
             g.drawString(chancesLeft + "", 100, 330);
+            
         } else if ((currentState == State.PLAYER_ONE_MENU)
                 || (currentState == State.PLAYER_TWO_MENU)) {
+            
             g.setFont(dFont.deriveFont((float) 28));
             g.drawString("PLAY", 400, 330);
+            g.drawImage(btnBorder, 390, 295, 80, 50, null);
+            
             if (currentState == State.PLAYER_ONE_MENU) {
-                g.drawString("Player One", 240, 100);
+                g.drawString("Player One's Name", 240, 100);
                 g.drawString("Categories", 240, 175);
                 g.setFont(dFont.deriveFont((float) 15));
-                g.drawString("Easy", 250, 200);
-                g.drawString("Food", 250, 215);
-                g.drawString("Standard", 250, 230);
-                g.drawString("Geography", 250, 245);
-                g.drawString("Hard", 250, 260);
-                g.drawString("Holidays", 250, 275);
-                g.drawString("Animals", 250, 290);
-                g.drawString("Sports", 250, 305);
+                for (int c = 0; c < categories.length; c++) {
+                    g.drawString(categories[c], 250, 200 + (c * 15));
+                }
+
             } else if (currentState == State.PLAYER_TWO_MENU) {
+                g.drawString("Player One's Name", 240, 100);
+                g.drawString("Player Two's Name", 240, 175);
+                g.drawString("Custom Puzzle:", 240, 250);
+                g.setFont(dFont.deriveFont((float) 15));
+                g.drawString("6 Letters Max", 240, 262);
 
             }
         }
@@ -175,6 +194,10 @@ public class Game extends Canvas implements Runnable {
         } else {
             System.out.println("You Lose");
         }
+    }
+
+    public void setStartDisplayHanger() {
+        startDisplayHanger = sheet.getHanger(6);
     }
 
     public static void main(final String[] args) {
