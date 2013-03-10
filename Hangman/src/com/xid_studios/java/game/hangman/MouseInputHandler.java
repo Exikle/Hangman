@@ -56,6 +56,8 @@ public class MouseInputHandler implements MouseListener {
                 previousState = currentState;
                 game.currentState = State.PLAY_SCREEN;
                 currentState = State.PLAY_SCREEN;
+                new ImportPuzzles(game, game.category);
+                game.createPuzzle();
                 if (currentState == State.PLAYER_ONE_MENU) {
                     // get player name and category picked
                 } else if (currentState == State.PLAYER_TWO_MENU) {

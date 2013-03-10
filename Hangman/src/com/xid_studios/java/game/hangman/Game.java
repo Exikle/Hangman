@@ -47,9 +47,11 @@ public class Game extends Canvas implements Runnable {
 
     final String DEFAULT_P1 = "Player";
     final String DEFAULT_P2 = "Comput";
+    String puzzle = "puzzle";
 
     String playerOne = DEFAULT_P1;
     String playerTwo = DEFAULT_P2;
+    String[] allPuz;
 
     private BufferedImage startDisplayHanger = null;
     public Font dFont = null;
@@ -59,8 +61,13 @@ public class Game extends Canvas implements Runnable {
 
     public final int CHANCES = 7;
     int chancesLeft = CHANCES;
+    int puzLength;
+
+    char[] puzzleSplit;
+    char[] hid;
 
     State currentState = State.START_MENU;
+    public String category = "Easy";
 
     public Game() {
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -155,12 +162,6 @@ public class Game extends Canvas implements Runnable {
             g.drawImage(startDisplayHanger, 240, 220, 56, 128, null);
             g.drawImage(startDisplayHanger, 296, 220, 56, 128, null);
 
-        } else if (currentState == State.PLAY_SCREEN) {
-            setHangerImage();
-            g.drawImage(hanger, 80, 90, 113, 256, null);
-            g.setFont(dFont.deriveFont((float) 31));
-            g.drawString(chancesLeft + "", 100, 330);
-
         } else if ((currentState == State.PLAYER_ONE_MENU)
                 || (currentState == State.PLAYER_TWO_MENU)) {
 
@@ -184,6 +185,17 @@ public class Game extends Canvas implements Runnable {
                 g.drawString("6 Letters Max", 240, 262);
 
             }
+        } else if (currentState == State.PLAY_SCREEN) {
+            setHangerImage();
+            g.drawImage(hanger, 80, 90, 113, 256, null);
+            g.setFont(dFont.deriveFont((float) 31));
+            g.drawString(chancesLeft + "", 100, 330);
+
+            // for (int x = 0; x < puzLength; x++) {
+            //
+            // }
+//            g.drawString("" + puzzleSplit[0], 400, 330);
+
         }
 
         g.dispose();
@@ -208,6 +220,29 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(final String[] args) {
         new Game().start();
+    }
+
+    public void createPuzzle() {
+        int length = allPuz.length;
+        int randomNum = (int) (Math.random() * length);
+        // if (players == 1)
+        puzzle = "" + allPuz[randomNum];
+        // else if (players == 2)
+        // puz = customPuzzleField.getText();
+        // System.out.println(puzzle);
+        puzLength = puzzle.length();
+        puzzleSplit = new char[length];
+        hid = new char[length];
+        // int count = 0;
+        puzzleSplit[0] = (puzzle.charAt(0));
+        // for (int x = 0; x < puzLength; x++) {
+        // puzzleSplit[x] = (puzzle.charAt(x));
+        // if (puzzleSplit[x] == ' ') {
+        // hid[x] = (' ');
+        // // count += 1;
+        // } else
+        // hid[x] = ('_');
+        // }
     }
 
 }
