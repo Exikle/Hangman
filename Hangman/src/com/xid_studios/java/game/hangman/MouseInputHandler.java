@@ -4,20 +4,19 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseInputHandler implements MouseListener {
+class MouseInputHandler implements MouseListener {
 
-    Game game;
-    State currentState = null;
-    State previousState = null;
+    private final Game game;
+    private State currentState = null;
+    private State previousState = null;
 
-    Rectangle close = new Rectangle(445, 30, 30, 35);
-    Rectangle back = new Rectangle(0, 0, 10, 10);
-    Rectangle player1 = new Rectangle(240, 80, 190, 20);
-    Rectangle player2 = new Rectangle(240, 200, 190, 20);
-    Rectangle play = new Rectangle(392, 298, 466, 341);
-    Rectangle unDragable;
+    private final Rectangle close = new Rectangle(445, 30, 30, 35);
+    private final Rectangle back = new Rectangle(0, 0, 10, 10);
+    private final Rectangle player1 = new Rectangle(240, 80, 190, 20);
+    private final Rectangle player2 = new Rectangle(240, 200, 190, 20);
+    private final Rectangle play = new Rectangle(392, 298, 466, 341);
 
-    Rectangle mouse;
+    private Rectangle mouse;
 
     public MouseInputHandler(Game game) {
         game.addMouseListener(this);
@@ -89,7 +88,7 @@ public class MouseInputHandler implements MouseListener {
     @Override
     public void mousePressed(MouseEvent m) {
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
-        unDragable = new Rectangle(25, 25, 450, 325);
+        Rectangle unDragable = new Rectangle(25, 25, 450, 325);
         if (!mouse.intersects(unDragable)) {
             // code for dragging
         }

@@ -7,20 +7,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 
-public class ImportPuzzles {
-    String category;
-    Game game;
-    String[] allPuz;
-    int linenum;
+class ImportPuzzles {
+    private final String category;
+    private String[] allPuz;
+    private int linenum;
 
     public ImportPuzzles(Game game, String category) {
-        this.game = game;
+        Game game1 = game;
         this.category = category;
         getPuz();
         game.allPuz = allPuz;
     }
 
-    public void getPuz() {
+    void getPuz() {
         BufferedReader in = null;
         String line = "";
         File f = new File("res/Word List/" + category + ".txt");

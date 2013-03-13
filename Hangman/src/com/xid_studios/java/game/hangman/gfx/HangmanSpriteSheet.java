@@ -7,10 +7,7 @@ import javax.imageio.ImageIO;
 
 public class HangmanSpriteSheet {
 
-    public String path;
-    public int width;
-    public int height;
-    BufferedImage image = null;
+    private BufferedImage image = null;
 
     public HangmanSpriteSheet(String path) {
         try {
@@ -24,15 +21,16 @@ public class HangmanSpriteSheet {
             return;
         }
 
-        this.path = path;
-        this.width = image.getWidth();
-        this.height = image.getHeight();
+        String path1 = path;
+        int width = image.getWidth();
+        int height = image.getHeight();
     }
 
     public BufferedImage getHanger(int c) {
-        BufferedImage hangerImg = image.getSubimage((113 * c), 0,
-                113, 256);
-        return hangerImg;
+//        BufferedImage hangerImg = image.getSubimage((113 * c), 0,
+//                113, 256);
+//        return hangerImg;
+        return  image.getSubimage((113 * c), 0,113, 256);
     }
 
 }

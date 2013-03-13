@@ -27,69 +27,64 @@ public class Game extends Canvas implements Runnable {
 	 */
     private static final long serialVersionUID = 1L;
     private Boolean running = false;
-    private final int FRAME_WIDTH = 500, FRAME_HEIGHT = 375;
-    private final String GAME_NAME = "Hangman";
-    JFrame frame;
 
-    String[] categories = { "Easy", "Food", "Standard", "Geography", "Hard",
+    private final String[] categories = { "Easy", "Food", "Standard", "Geography", "Hard",
             "Holidays", "Animals", "Sports" };
-
-    private String bgPath = "/ChalkBackground.png";
-    private String manPath = "/Hangman Sprite.png";
-    private String gallowPath = "/Gallows.png";
-    private String buttonPath = "/ButtonBorder.png";
-    private String fontPath = "res/EraserDust.ttf";
 
     private BufferedImage chalkBoard = null;
     private BufferedImage hanger = null;
     private BufferedImage gallows = null;
     private BufferedImage btnBorder = null;
 
-    final String DEFAULT_P1 = "";
-    final String DEFAULT_P2 = "";
-    String puzzle = "puzzle";
+    private final String DEFAULT_P1 = "";
+    private final String DEFAULT_P2 = "";
 
     String playerOne = DEFAULT_P1;
     String playerTwo = DEFAULT_P2;
     String[] allPuz;
 
-    Boolean puzzleCreated = false;
+    private Boolean puzzleCreated = false;
     private BufferedImage startDisplayHanger = null;
-    public Font dFont = null;
+    private Font dFont = null;
 
-    HangmanSpriteSheet sheet;
-    MouseInputHandler mInput;
-    KeyInputHandler kInput;
+    private final HangmanSpriteSheet sheet;
 
-    public final int CHANCES = 7;
-    int chancesLeft = CHANCES;
-    int puzLength;
+    private final int CHANCES = 7;
+    private final int chancesLeft = CHANCES;
+    private int puzLength;
 
     char[] puzzleSplit;
     char[] hid;
 
     State currentState = State.START_MENU;
-    public String category = "Easy";
+    public final String category = "Easy";
     public String pOneName;
 
-    public Game() {
+    private Game() {
+        int FRAME_WIDTH = 500;
+        int FRAME_HEIGHT = 375;
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setMaximumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         try {
+            String bgPath = "/ChalkBackground.png";
             chalkBoard = ImageIO.read(Game.class.getResourceAsStream(bgPath));
+            String gallowPath = "/Gallows.png";
             gallows = ImageIO.read(Game.class.getResourceAsStream(gallowPath));
+            String buttonPath = "/ButtonBorder.png";
             btnBorder = ImageIO
                     .read(Game.class.getResourceAsStream(buttonPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String manPath = "/Hangman Sprite.png";
         sheet = new HangmanSpriteSheet(manPath);
-        mInput = new MouseInputHandler(this);
-        kInput = new KeyInputHandler(this);
+        MouseInputHandler mInput = new MouseInputHandler(this);
+        KeyInputHandler kInput = new KeyInputHandler(this);
         setStartDisplayHanger();
 
         try {
+            String fontPath = "res/EraserDust.ttf";
             File f = new File(fontPath);
             FileInputStream in = new FileInputStream(f);
             dFont = Font.createFont(Font.TRUETYPE_FONT, in);
@@ -97,7 +92,8 @@ public class Game extends Canvas implements Runnable {
             System.out.println("Problem Creating Font");
         }
 
-        frame = new JFrame(GAME_NAME);
+        String GAME_NAME = "Hangman";
+        JFrame frame = new JFrame(GAME_NAME);
         frame.setUndecorated(true);
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -112,7 +108,7 @@ public class Game extends Canvas implements Runnable {
 
     }
 
-    public synchronized void start() {
+    synchronized void start() {
         running = true;
         new Thread(this).start();
     }
@@ -126,13 +122,11 @@ public class Game extends Canvas implements Runnable {
 
         while (running) {
             boolean shouldRender = true;
-            if (shouldRender) {
-                render();
-            }
+            render();
         }
     }
 
-    public void render() {
+    void render() {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -211,7 +205,7 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    public void setHangerImage() {
+    void setHangerImage() {
         if (chancesLeft > 0) {
             int num = chancesLeft - 7;
             if (num < 0) {
@@ -223,7 +217,7 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    public void setStartDisplayHanger() {
+    void setStartDisplayHanger() {
         startDisplayHanger = sheet.getHanger(6);
     }
 
@@ -234,7 +228,7 @@ public class Game extends Canvas implements Runnable {
     public void createPuzzle() {
         int length = allPuz.length;
         int randomNum = (int) (Math.random() * length);
-        puzzle = "" + allPuz[randomNum];
+        String puzzle = "" + allPuz[randomNum];
         puzzle = puzzle.toUpperCase();
         System.out.println(puzzle);
         puzLength = puzzle.length();

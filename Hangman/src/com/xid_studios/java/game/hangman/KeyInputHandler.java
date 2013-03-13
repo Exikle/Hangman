@@ -3,15 +3,16 @@ package com.xid_studios.java.game.hangman;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyInputHandler implements KeyListener {
+class KeyInputHandler implements KeyListener {
     String puzzle;
-    Game game;
-    State currentState = null;
+    private final Game game;
+    private State currentState = null;
     String pOneName = "";
-    int count;
-    final char[] letter = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-            'X', 'Y', 'Z' };
+    private int count;
+    private final char[] letter = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+            'V', 'W', 'X', 'Y', 'Z' };
+    int correctCount;
 
     public KeyInputHandler(Game game) {
         game.addKeyListener(this);
@@ -39,11 +40,11 @@ public class KeyInputHandler implements KeyListener {
         if (currentState == State.PLAY_SCREEN) {
             for (int x = 0; x < 26; x++) {
                 if (key.equals("" + letter[x])) {
-                    System.out.println(letter[x]);
                     for (int y = 0; y < game.puzzleSplit.length; y++) {
                         if (key.equalsIgnoreCase("" + game.puzzleSplit[y])) {
                             game.hid[y] = game.puzzleSplit[y];
-                            System.out.println("correct");
+                            correctCount++;
+                            System.out.println(correctCount);
                         }
                     }
                 }
