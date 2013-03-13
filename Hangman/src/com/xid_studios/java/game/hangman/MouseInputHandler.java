@@ -10,7 +10,7 @@ public class MouseInputHandler implements MouseListener {
     State currentState = null;
     State previousState = null;
 
-    Rectangle close = new Rectangle(445, 30, 25, 25);
+    Rectangle close = new Rectangle(445, 30, 30, 35);
     Rectangle back = new Rectangle(0, 0, 10, 10);
     Rectangle player1 = new Rectangle(240, 80, 190, 20);
     Rectangle player2 = new Rectangle(240, 200, 190, 20);

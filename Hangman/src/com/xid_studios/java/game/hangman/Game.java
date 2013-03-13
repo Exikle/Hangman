@@ -45,19 +45,21 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage gallows = null;
     private BufferedImage btnBorder = null;
 
-    final String DEFAULT_P1 = "Player";
-    final String DEFAULT_P2 = "Comput";
+    final String DEFAULT_P1 = "";
+    final String DEFAULT_P2 = "";
     String puzzle = "puzzle";
 
     String playerOne = DEFAULT_P1;
     String playerTwo = DEFAULT_P2;
     String[] allPuz;
 
+    Boolean puzzleCreated = false;
     private BufferedImage startDisplayHanger = null;
     public Font dFont = null;
 
     HangmanSpriteSheet sheet;
     MouseInputHandler mInput;
+    KeyInputHandler kInput;
 
     public final int CHANCES = 7;
     int chancesLeft = CHANCES;
@@ -68,6 +70,7 @@ public class Game extends Canvas implements Runnable {
 
     State currentState = State.START_MENU;
     public String category = "Easy";
+    public String pOneName;
 
     public Game() {
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -83,6 +86,7 @@ public class Game extends Canvas implements Runnable {
         }
         sheet = new HangmanSpriteSheet(manPath);
         mInput = new MouseInputHandler(this);
+        kInput = new KeyInputHandler(this);
         setStartDisplayHanger();
 
         try {
@@ -171,6 +175,7 @@ public class Game extends Canvas implements Runnable {
 
             if (currentState == State.PLAYER_ONE_MENU) {
                 g.drawString("Player One's Name", 240, 100);
+                g.drawString(playerOne, 240, 125);
                 g.drawString("Categories", 240, 175);
                 g.setFont(dFont.deriveFont((float) 15));
                 for (int c = 0; c < categories.length; c++) {
@@ -194,8 +199,12 @@ public class Game extends Canvas implements Runnable {
             // for (int x = 0; x < puzLength; x++) {
             //
             // }
-//            g.drawString("" + puzzleSplit[0], 400, 330);
-
+            if (puzzleCreated) {
+                for (int x = 0; x < puzLength; x++) {
+//                    g.drawString("" + puzzleSplit[x], 260 + (x * 40), 330);
+                    g.drawString("" + hid[x], 250 + (x * 20), 330);
+                }
+            }
         }
 
         g.dispose();
@@ -225,24 +234,21 @@ public class Game extends Canvas implements Runnable {
     public void createPuzzle() {
         int length = allPuz.length;
         int randomNum = (int) (Math.random() * length);
-        // if (players == 1)
         puzzle = "" + allPuz[randomNum];
-        // else if (players == 2)
-        // puz = customPuzzleField.getText();
-        // System.out.println(puzzle);
+        puzzle = puzzle.toUpperCase();
+        System.out.println(puzzle);
         puzLength = puzzle.length();
-        puzzleSplit = new char[length];
-        hid = new char[length];
-        // int count = 0;
-        puzzleSplit[0] = (puzzle.charAt(0));
-        // for (int x = 0; x < puzLength; x++) {
-        // puzzleSplit[x] = (puzzle.charAt(x));
-        // if (puzzleSplit[x] == ' ') {
-        // hid[x] = (' ');
-        // // count += 1;
-        // } else
-        // hid[x] = ('_');
-        // }
+        puzzleSplit = new char[puzLength];
+        hid = new char[puzLength];
+
+        for (int x = 0; x < puzLength; x++) {
+            puzzleSplit[x] = (puzzle.charAt(x));
+            if (puzzleSplit[x] == ' ') {
+                hid[x] = (' ');
+            } else
+                hid[x] = ('-');
+        }
+        puzzleCreated = true;
     }
 
 }
