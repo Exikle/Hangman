@@ -28,13 +28,14 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     private Boolean running = false;
 
-    private final String[] categories = { "Easy", "Food", "Standard", "Geography", "Hard",
-            "Holidays", "Animals", "Sports" };
+    private final String[] categories = { "Easy", "Food", "Standard",
+            "Geography", "Hard", "Holidays", "Animals", "Sports" };
 
     private BufferedImage chalkBoard = null;
     private BufferedImage hanger = null;
     private BufferedImage gallows = null;
     private BufferedImage btnBorder = null;
+    private BufferedImage line = null;
 
     private final String DEFAULT_P1 = "";
     private final String DEFAULT_P2 = "";
@@ -43,6 +44,8 @@ public class Game extends Canvas implements Runnable {
     String playerTwo = DEFAULT_P2;
     String[] allPuz;
 
+    String[] pOne = { "", "", "", "", "", "" };
+
     private Boolean puzzleCreated = false;
     private BufferedImage startDisplayHanger = null;
     private Font dFont = null;
@@ -50,7 +53,7 @@ public class Game extends Canvas implements Runnable {
     private final HangmanSpriteSheet sheet;
 
     private final int CHANCES = 7;
-    private final int chancesLeft = CHANCES;
+    int chancesLeft = CHANCES;
     private int puzLength;
 
     char[] puzzleSplit;
@@ -72,8 +75,10 @@ public class Game extends Canvas implements Runnable {
             String gallowPath = "/Gallows.png";
             gallows = ImageIO.read(Game.class.getResourceAsStream(gallowPath));
             String buttonPath = "/ButtonBorder.png";
+            String linePath = "/Line.png";
             btnBorder = ImageIO
                     .read(Game.class.getResourceAsStream(buttonPath));
+            line = ImageIO.read(Game.class.getResourceAsStream(linePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,7 +174,12 @@ public class Game extends Canvas implements Runnable {
 
             if (currentState == State.PLAYER_ONE_MENU) {
                 g.drawString("Player One's Name", 240, 100);
-                g.drawString(playerOne, 240, 125);
+                // g.drawString(playerOne, 240, 125);
+                g.setFont(dFont.deriveFont((float) 20));
+                for (int p = 0; p < pOne.length; p++) {
+                    g.drawString(pOne[p], 240 + (p * 15), 125);
+                }
+                g.setFont(dFont.deriveFont((float) 28));
                 g.drawString("Categories", 240, 175);
                 g.setFont(dFont.deriveFont((float) 15));
                 for (int c = 0; c < categories.length; c++) {
@@ -186,18 +196,45 @@ public class Game extends Canvas implements Runnable {
             }
         } else if (currentState == State.PLAY_SCREEN) {
             setHangerImage();
+            g.drawImage(line, 225, 290, 225, 26, null);
             g.drawImage(hanger, 80, 90, 113, 256, null);
             g.setFont(dFont.deriveFont((float) 31));
             g.drawString(chancesLeft + "", 100, 330);
 
-            // for (int x = 0; x < puzLength; x++) {
-            //
-            // }
+            g.drawString("Player One", 240, 100);
+            g.setFont(dFont.deriveFont((float) 20));
+            for (int p = 0; p < pOne.length; p++) {
+                g.drawString(pOne[p], 240 + (p * 20), 125);
+            }
+
+            g.setFont(dFont.deriveFont((float) 28));
             if (puzzleCreated) {
                 for (int x = 0; x < puzLength; x++) {
-//                    g.drawString("" + puzzleSplit[x], 260 + (x * 40), 330);
                     g.drawString("" + hid[x], 250 + (x * 20), 330);
                 }
+            }
+            g.setFont(dFont.deriveFont((float) 31));
+            g.drawString("Category:", 240, 160);
+            g.setFont(dFont.deriveFont((float) 20));
+            g.drawString(category, 240, 185);
+        } else if (currentState == State.LOSE_SCREEN) {
+            g.drawImage(line, 225, 290, 225, 26, null);
+            g.setFont(dFont.deriveFont((float) 28));
+            g.drawString("LOSE", 100, 330);
+            // setHangerImage();
+            g.drawImage(hanger, 80, 90, 113, 256, null);
+            for (int x = 0; x < puzLength; x++) {
+                g.drawString("" + puzzleSplit[x], 250 + (x * 20), 330);
+            }
+
+        } else if (currentState == State.WIN_SCREEN) {
+            g.drawImage(line, 225, 290, 225, 26, null);
+            g.setFont(dFont.deriveFont((float) 28));
+            g.drawString("WIN", 100, 330);
+            // setHangerImage();
+            g.drawImage(hanger, 80, 90, 113, 256, null);
+            for (int x = 0; x < puzLength; x++) {
+                g.drawString("" + puzzleSplit[x], 250 + (x * 20), 330);
             }
         }
 
