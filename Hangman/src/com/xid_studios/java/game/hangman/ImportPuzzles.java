@@ -13,7 +13,6 @@ class ImportPuzzles {
     private int linenum;
 
     public ImportPuzzles(Game game, String category) {
-        Game game1 = game;
         this.category = category;
         getPuz();
         game.allPuz = allPuz;

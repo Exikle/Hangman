@@ -3,15 +3,18 @@ package com.xid_studios.java.game.hangman;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-class MouseInputHandler implements MouseListener {
+class MouseInputHandler implements MouseListener, MouseMotionListener {
+    int posX = 0, posY = 0;
+    Boolean allowed = false;
 
     private final Game game;
     private State currentState = null;
     private State previousState = null;
 
     private final Rectangle close = new Rectangle(445, 30, 30, 35);
-    private final Rectangle back = new Rectangle(0, 0, 10, 10);
+    private final Rectangle back = new Rectangle(400, 30, 37, 37);
     private final Rectangle player1 = new Rectangle(240, 80, 190, 20);
     private final Rectangle player2 = new Rectangle(240, 200, 190, 20);
     private final Rectangle play = new Rectangle(392, 298, 466, 341);
@@ -20,18 +23,21 @@ class MouseInputHandler implements MouseListener {
 
     public MouseInputHandler(Game game) {
         game.addMouseListener(this);
+        game.addMouseMotionListener(this);
         this.game = game;
         currentState = game.currentState;
     }
 
     @Override
     public void mouseClicked(MouseEvent m) {
-        // System.out.println(m.getX() + "," + m.getY());
+         System.out.println(m.getX() + "," + m.getY());
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
 
         // System.out.println("State: " + currentState);
 
         if (mouse.intersects(close)) {
+            game.running = false;
+            
             System.exit(0);
         } else if (mouse.intersects(back)) {
             if (previousState != null) {
@@ -91,11 +97,31 @@ class MouseInputHandler implements MouseListener {
         Rectangle unDragable = new Rectangle(25, 25, 450, 325);
         if (!mouse.intersects(unDragable)) {
             // code for dragging
+            posX = m.getX();
+            posY = m.getY();
+            allowed = true;
+            System.out.println("Picked it up");
+        } else {
+            allowed = false;
+            System.out.println("No Carrying Allowed");
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent m) {
+    }
+
+    public void mouseDragged(MouseEvent m) {
+        if (allowed) {
+            game.frame.setLocation(m.getXOnScreen() - posX, m.getYOnScreen()
+                    - posY);
+            System.out.println("Dropped it");
+        }
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
