@@ -9,6 +9,9 @@ class MouseInputHandler implements MouseListener, MouseMotionListener {
     int posX = 0, posY = 0;
     Boolean allowed = false;
 
+    final int FRAME_WIDTH = 500;
+    final int FRAME_HEIGHT = 375;
+
     private final Game game;
     private State currentState = null;
     private State previousState = null;
@@ -30,19 +33,19 @@ class MouseInputHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent m) {
-         System.out.println(m.getX() + "," + m.getY());
+        System.out.println(m.getX() + "," + m.getY());
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
 
         // System.out.println("State: " + currentState);
 
         if (mouse.intersects(close)) {
             game.running = false;
-            
+
             System.exit(0);
         } else if (mouse.intersects(back)) {
             if (previousState != null) {
-                game.currentState = previousState;
-                currentState = previousState;
+                game.currentState = game.currentState.previousState();
+                currentState = game.currentState.previousState();
             }
         } else if (currentState == State.START_MENU) {
             if (mouse.intersects(player1)) {
@@ -94,16 +97,14 @@ class MouseInputHandler implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent m) {
         mouse = new Rectangle(m.getX(), m.getY(), 1, 1);
-        Rectangle unDragable = new Rectangle(25, 25, 450, 325);
+        Rectangle unDragable = new Rectangle(18, 18, FRAME_WIDTH - 18,
+                FRAME_HEIGHT - 18);
         if (!mouse.intersects(unDragable)) {
-            // code for dragging
             posX = m.getX();
             posY = m.getY();
             allowed = true;
-            System.out.println("Picked it up");
         } else {
             allowed = false;
-            System.out.println("No Carrying Allowed");
         }
     }
 

@@ -8,7 +8,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -93,10 +93,8 @@ public class Game extends Canvas implements Runnable {
             createBufferStrategy(2);
             return;
         }
-
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
         bg.render(g);
-
         currentState.getRenderer().render(g);
 
         g.dispose();
