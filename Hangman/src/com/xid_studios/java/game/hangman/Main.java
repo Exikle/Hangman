@@ -29,22 +29,7 @@ public class Main extends StateBasedGame {
         this.addState(new PlayScreen(playScreen));
         this.addState(new LoseScreen(loseMenu));
         this.addState(new WinScreen(winMenu));
-
     }
-
-    // @Override
-    // public void init(GameContainer gc) throws SlickException {
-    //
-    // }
-    //
-    // @Override
-    // public void update(GameContainer gc, int delta) throws SlickException {
-    //
-    // }
-    //
-    // public void render(GameContainer gc, Graphics g) throws SlickException {
-    //
-    // }
 
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new Main());

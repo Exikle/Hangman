@@ -13,10 +13,9 @@ public class LoseScreen extends BasicGameState {
     }
 
     @Override
-    public void init(GameContainer arg0, StateBasedGame arg1)
+    public void init(GameContainer gc, StateBasedGame arg1)
             throws SlickException {
-        // TODO Auto-generated method stub
-
+        gc.setShowFPS(false);
     }
 
     @Override
@@ -36,7 +35,7 @@ public class LoseScreen extends BasicGameState {
     @Override
     public int getID() {
         // TODO Auto-generated method stub
-        return 0;
+        return 4;
     }
 
 }
