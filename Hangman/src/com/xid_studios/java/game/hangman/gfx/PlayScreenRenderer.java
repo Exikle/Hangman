@@ -14,11 +14,13 @@ public class PlayScreenRenderer implements Renderer {
     private Font dFont;
     String category = "Easy";
     Boolean puzzleCreated = false;
+    @SuppressWarnings("unused")
     private BufferedImage line = null;
     final String LINE_PATH = "/Line.png";
     final String HANGER_PATH = "/Hangman Sprite.png";
 
     private HangmanSpriteSheet sheet;
+    @SuppressWarnings("unused")
     private BufferedImage hanger = null;
 
     public PlayScreenRenderer() {

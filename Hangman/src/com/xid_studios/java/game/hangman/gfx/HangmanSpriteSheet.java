@@ -21,9 +21,9 @@ public class HangmanSpriteSheet {
             return;
         }
 
-        String path1 = path;
-        int width = image.getWidth();
-        int height = image.getHeight();
+//        String path1 = path;
+//        int width = image.getWidth();
+//        int height = image.getHeight();
     }
 
     public BufferedImage getHanger(int c) {

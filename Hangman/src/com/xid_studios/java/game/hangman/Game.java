@@ -8,7 +8,6 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -34,6 +33,7 @@ public class Game extends Canvas implements Runnable {
 
     String[] pOne = { "", "", "", "", "", "" };
 
+    @SuppressWarnings("unused")
     private Boolean puzzleCreated = false;
 
     private final int CHANCES = 7;
@@ -53,6 +53,7 @@ public class Game extends Canvas implements Runnable {
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setMaximumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        @SuppressWarnings("unused")
         MouseInputHandler mInput = new MouseInputHandler(this);
         // KeyInputHandler kInput = new KeyInputHandler(this);
 

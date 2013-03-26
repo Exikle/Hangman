@@ -3,12 +3,14 @@ package com.xid_studios.java.game.hangman.screens;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class StartMenu extends BasicGameState {
     Image backGround = null;
+    Image gallows;
 
     public StartMenu(int State) {
 
@@ -17,7 +19,8 @@ public class StartMenu extends BasicGameState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-        backGround = new Image("res/ChalkBackground.png");gc.setShowFPS(false);
+        backGround = new Image("res/ChalkBackground.png");
+        gallows = new Image("res/Gallows.png");
 
     }
 
@@ -25,19 +28,23 @@ public class StartMenu extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
         backGround.draw(0, 0);
+        gallows.draw(0, 60);
 
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int arg2)
+    public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-        // TODO Auto-generated method stub
+        Input input = gc.getInput();
+
+        if (input.isKeyDown(Input.KEY_ESCAPE)) {
+            System.exit(0);
+        }
 
     }
 
     @Override
     public int getID() {
-        // TODO Auto-generated method stub
         return 0;
     }
 

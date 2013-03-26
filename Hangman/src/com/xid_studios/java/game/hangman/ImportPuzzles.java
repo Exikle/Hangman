@@ -30,6 +30,7 @@ class ImportPuzzles {
         } catch (FileNotFoundException e2) {
             System.out.println("File Not Found");
         }
+        @SuppressWarnings("unused")
         String lineRead = "";
         try {
             if (reader != null) {

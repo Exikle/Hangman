@@ -5,7 +5,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.xid_studios.java.game.hangman.screens.*;
+import com.xid_studios.java.game.hangman.screens.LoseScreen;
+import com.xid_studios.java.game.hangman.screens.PlayScreen;
+import com.xid_studios.java.game.hangman.screens.PlayerOneMenu;
+import com.xid_studios.java.game.hangman.screens.PlayerTwoMenu;
+import com.xid_studios.java.game.hangman.screens.StartMenu;
+import com.xid_studios.java.game.hangman.screens.WinScreen;
 
 public class Main extends StateBasedGame {
 
@@ -29,9 +34,11 @@ public class Main extends StateBasedGame {
         this.addState(new PlayScreen(playScreen));
         this.addState(new LoseScreen(loseMenu));
         this.addState(new WinScreen(winMenu));
+
     }
 
     public static void main(String[] args) throws SlickException {
+//        System.setProperty("-Dorg.lwjgl.opengl.Window.undecorated=true", null);
         AppGameContainer app = new AppGameContainer(new Main());
 
         app.setDisplayMode(FRAME_WIDTH, FRAME_HEIGHT, false);
@@ -46,7 +53,6 @@ public class Main extends StateBasedGame {
         this.getState(playScreen).init(gc, this);
         this.getState(loseMenu).init(gc, this);
         this.getState(winMenu).init(gc, this);
-
         this.enterState(startMenu);
 
     }
