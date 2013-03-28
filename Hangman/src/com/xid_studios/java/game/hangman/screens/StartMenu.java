@@ -1,49 +1,33 @@
 package com.xid_studios.java.game.hangman.screens;
 
-import java.awt.Font;
-import java.io.InputStream;
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
 
-public class StartMenu extends BasicGameState {
-    Image backGround = null;
+public class StartMenu extends BackgroundCode {
     TrueTypeFont f;
 
     public StartMenu(int State) {
-
+        super(State);
     }
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-        backGround = new Image("res/ChalkBackground.png");
-
-        try {
-            InputStream inputStream = ResourceLoader
-                    .getResourceAsStream("res/EraserDust.ttf");
-            Font g = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            g = g.deriveFont(50f); // set font size
-            f = new TrueTypeFont(g, false);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        super.init(gc, sbg);
+        g = g.deriveFont(50f); // set font size
+        f = new TrueTypeFont(g, false);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
-        backGround.draw(0, 0);
+        super.render(gc, sbg, g);
         g.setFont(f);
         g.drawString("1 Player", 250, 112);
         g.drawString("2 Player", 250, 212);
@@ -53,10 +37,7 @@ public class StartMenu extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
         Input input = gc.getInput();
-
-        if (input.isKeyDown(Input.KEY_ESCAPE)) {
-            System.exit(0);
-        }
+        super.update(gc, sbg, delta);
 
         if (input.isMousePressed(0)) {
             final int FRAME_HEIGHT = 375;

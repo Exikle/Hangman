@@ -3,7 +3,6 @@ package com.xid_studios.java.game.hangman.screens;
 import java.awt.Font;
 import java.io.InputStream;
 
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,59 +15,63 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
-public class PlayerTwoMenu extends BackgroundCode {
-    TrueTypeFont f1, f2;
+public class BackgroundCode extends BasicGameState {
+    Image backGround = null;
+    TrueTypeFont f;
+    int s;
+    Font g = null;
 
-    public PlayerTwoMenu(int State) {
-        super(State);
+    public BackgroundCode(int State) {
+        s = State;
     }
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-        super.init(gc, sbg);
-        g = g.deriveFont(28f); // set font size
-        f1 = new TrueTypeFont(g, false);
-        g = g.deriveFont(20f); // set font size
-        f2 = new TrueTypeFont(g, false);
+        backGround = new Image("res/ChalkBackground.png");
+        try {
+            InputStream inputStream = ResourceLoader
+                    .getResourceAsStream("res/EraserDust.ttf");
+            g = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
-        super.render(gc, sbg, g);
-        g.setFont(f1);
-        g.drawString("PLAY", 400, 300);
-        g.drawString("Player One's Name", 240, 80);
-        g.drawString("Player Two's Name", 240, 165);
-        g.setFont(f2);
+        backGround.draw(0, 0);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-        super.update(gc, sbg, delta);
         Input input = gc.getInput();
 
-        final int FRAME_HEIGHT = 375;
-        Rectangle mouse = new Rectangle(Mouse.getX(), FRAME_HEIGHT
-                - Mouse.getY(), 1, 1);
-        Rectangle play = new Rectangle(400, 300, 60, 30);
-
-        if (input.isMousePressed(0)) {
-            if (mouse.intersects(play)) {
-                System.out.println("Play");
-                sbg.enterState(3);
-            }
-
+        if (input.isKeyDown(Input.KEY_ESCAPE)) {
+            Display.destroy();
+            System.exit(0);
         }
+        if (input.isMouseButtonDown(0)) {
+            Rectangle close = new Rectangle(445, 33, 21, 23);
+            Rectangle mouse = new Rectangle(input.getMouseX(),
+                    input.getMouseY(), 21, 23);
+            if (mouse.intersects(close)) {
+                Display.destroy();
+                System.exit(0);
+                System.out.println("Closed");
+            }
+        }
+
     }
 
     @Override
     public int getID() {
         // TODO Auto-generated method stub
-        return 2;
+        return s;
     }
 
 }

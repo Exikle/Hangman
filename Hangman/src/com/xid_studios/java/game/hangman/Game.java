@@ -1,6 +1,8 @@
 package com.xid_studios.java.game.hangman;
 
-import org.newdawn.slick.AppGameContainer;
+import javax.swing.JFrame;
+
+import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -34,14 +36,21 @@ public class Game extends StateBasedGame {
         this.addState(new PlayScreen(playScreen));
         this.addState(new LoseScreen(loseMenu));
         this.addState(new WinScreen(winMenu));
-
     }
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer app = new AppGameContainer(new Game());
-
-        app.setDisplayMode(FRAME_WIDTH, FRAME_HEIGHT, false);
+        System.setProperty(" org.lwjgl.opengl.Window.undecorated", "true");
+        // app.setDisplayMode(FRAME_WIDTH, FRAME_HEIGHT, false);
+        JFrame frame = new JFrame();
+        CanvasGameContainer app = new CanvasGameContainer(new Game());
+        frame.setUndecorated(true);
+        frame.setVisible(true);
+        frame.add(app);
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setFocusable(true);
+        frame.setLocationRelativeTo(null);
         app.start();
+
     }
 
     @Override

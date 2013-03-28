@@ -1,7 +1,9 @@
 package com.xid_studios.java.game.hangman.screens;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -26,9 +28,14 @@ public class LoseScreen extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+    public void update(GameContainer gc, StateBasedGame arg1, int arg2)
             throws SlickException {
-        // TODO Auto-generated method stub
+        Input input = gc.getInput();
+
+        if (input.isKeyDown(Input.KEY_ESCAPE)) {
+            Display.destroy();
+            System.exit(0);
+        }
 
     }
 
