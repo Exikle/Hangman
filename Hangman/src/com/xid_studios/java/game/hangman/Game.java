@@ -39,8 +39,6 @@ public class Game extends StateBasedGame {
     }
 
     public static void main(String[] args) throws SlickException {
-        System.setProperty(" org.lwjgl.opengl.Window.undecorated", "true");
-        // app.setDisplayMode(FRAME_WIDTH, FRAME_HEIGHT, false);
         JFrame frame = new JFrame();
         CanvasGameContainer app = new CanvasGameContainer(new Game());
         frame.setUndecorated(true);

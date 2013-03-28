@@ -2,13 +2,21 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="res"/>
-	<classpathentry kind="lib" path="C:/lwjgl-2.8.5/lwjgl-2.8.5/jar/jinput.jar"/>
-	<classpathentry kind="lib" path="C:/lwjgl-2.8.5/lwjgl-2.8.5/jar/lwjgl.jar">
+	<classpathentry kind="lib" path="lib/jinput.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/lwjgl-2.8.5/lwjgl-2.8.5/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Hangman/lib/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/lwjgl-2.8.5/lwjgl-2.8.5/jar/slick.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Hangman/lib/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/slick.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Hangman/lib/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="res"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
