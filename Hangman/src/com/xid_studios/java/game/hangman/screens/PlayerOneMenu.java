@@ -1,20 +1,13 @@
 package com.xid_studios.java.game.hangman.screens;
 
-import java.awt.Font;
-import java.io.InputStream;
-
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
 
 public class PlayerOneMenu extends BackgroundCode {
     TrueTypeFont f1, f2;
@@ -30,7 +23,6 @@ public class PlayerOneMenu extends BackgroundCode {
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
         super.init(gc, sbg);
-        backGround = new Image("res/ChalkBackground.png");
         g = g.deriveFont(28f); // set font size
         f1 = new TrueTypeFont(g, false);
         g = g.deriveFont(15f); // set font size
@@ -71,7 +63,6 @@ public class PlayerOneMenu extends BackgroundCode {
             }
 
         }
-
     }
 
     @Override

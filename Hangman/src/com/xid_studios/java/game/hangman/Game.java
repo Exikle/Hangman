@@ -17,9 +17,9 @@ import com.xid_studios.java.game.hangman.screens.WinScreen;
 public class Game extends StateBasedGame {
 
     public final static String GAME_NAME = "Hangman - Xid Studios";
-
-    final static int FRAME_WIDTH = 500;
-    final static int FRAME_HEIGHT = 375;
+    static JFrame frame;
+    static int FRAME_WIDTH = 500;
+    static int FRAME_HEIGHT = 375;
 
     int startMenu = 0;
     int pOneMenu = 1;
@@ -36,10 +36,13 @@ public class Game extends StateBasedGame {
         this.addState(new PlayScreen(playScreen));
         this.addState(new LoseScreen(loseMenu));
         this.addState(new WinScreen(winMenu));
+        ImportXML.importValues();
+        FRAME_WIDTH = ImportXML.Values.width;
+        FRAME_HEIGHT = ImportXML.Values.height;
     }
 
     public static void main(String[] args) throws SlickException {
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         CanvasGameContainer app = new CanvasGameContainer(new Game());
         frame.setUndecorated(true);
         frame.setVisible(true);
