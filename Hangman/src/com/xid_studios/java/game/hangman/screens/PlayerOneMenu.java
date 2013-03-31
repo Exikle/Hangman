@@ -1,6 +1,10 @@
 package com.xid_studios.java.game.hangman.screens;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -9,11 +13,18 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class PlayerOneMenu extends BackgroundCode {
+import com.xid_studios.java.game.hangman.InformationHolder;
+
+public class PlayerOneMenu extends BackgroundCode implements KeyListener {
     TrueTypeFont f1, f2;
 
     private final String[] categories = { "Easy", "Food", "Standard",
             "Geography", "Hard", "Holidays", "Animals", "Sports" };
+
+    String[] playerOneName = { " ", " ", " ", " ", " ", " " };
+    int nameCount = 0;
+
+    int slected = 0;
 
     public PlayerOneMenu(int State) {
         super(State);
@@ -37,10 +48,18 @@ public class PlayerOneMenu extends BackgroundCode {
         g.setFont(f1);
         g.drawString("PLAY", 400, 300);
         g.drawString("Player One's Name", 240, 80);
+        for (int x = 0; x < 6; x++) {
+            g.drawString(playerOneName[x], 240 + (20 * x), 120);
+        }
         g.drawString("Categories", 240, 165);
         g.setFont(f2);
 
         for (int c = 0; c < categories.length; c++) {
+            if (slected == c) {
+                g.setColor(Color.orange);
+            } else {
+                g.setColor(Color.white);
+            }
             g.drawString(categories[c], 250, 195 + (c * 15));
         }
     }
@@ -50,7 +69,7 @@ public class PlayerOneMenu extends BackgroundCode {
             throws SlickException {
         super.update(gc, sbg, delta);
         Input input = gc.getInput();
-        
+
         final int FRAME_HEIGHT = 375;
         Rectangle mouse = new Rectangle(Mouse.getX(), FRAME_HEIGHT
                 - Mouse.getY(), 1, 1);
@@ -58,17 +77,69 @@ public class PlayerOneMenu extends BackgroundCode {
 
         if (input.isMousePressed(0)) {
             if (mouse.intersects(play)) {
-                System.out.println("Play");
-                sbg.enterState(3);
-            }
+                String name = "";
+                for (int x = 0; x < 6; x++) {
+                    name += playerOneName[x];
+                }
 
+                System.out.println("Playtime " + name);
+                InformationHolder.playerOneName = name;
+                InformationHolder.playerTwoName = "Computer";
+
+                sbg.enterState(3);
+
+            }
+        }
+
+        if (input.isKeyPressed(Input.KEY_BACK)) {
+            if ((playerOneName[nameCount] == " ") && (nameCount != 0)) {
+                playerOneName[nameCount - 1] = " ";
+            } else {
+                playerOneName[nameCount] = " ";
+            }
+            nameCount--;
+            if (nameCount < 0) {
+                nameCount = 0;
+            }
+        }
+
+        if (nameCount == 6) {
+            nameCount = 5;
         }
     }
 
     @Override
     public int getID() {
-        // TODO Auto-generated method stub
         return 1;
+    }
+
+    @Override
+    public void keyPressed(int key, char c) {
+        if (Character.isLetter(c)) {
+            playerOneName[nameCount] = "" + c;
+            playerOneName[nameCount] = playerOneName[nameCount].toUpperCase();
+            nameCount += 1;
+        } else {
+            // do other stuff
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent k) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent k) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent k) {
+        // TODO Auto-generated method stub
+
     }
 
 }

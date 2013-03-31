@@ -11,10 +11,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ImportXML {
-    static class Values {
-        static int height;
-        static int width;
-    }
 
     public static void importValues() {
         try {
@@ -33,11 +29,11 @@ public class ImportXML {
 
                     Element eElement = (Element) nNode;
 
-                    Values.height = Integer.parseInt(eElement
+                    InformationHolder.height = Integer.parseInt(eElement
                             .getElementsByTagName("height").item(0)
                             .getTextContent());
 
-                    Values.width = Integer.parseInt(eElement
+                    InformationHolder.width = Integer.parseInt(eElement
                             .getElementsByTagName("width").item(0)
                             .getTextContent());
 

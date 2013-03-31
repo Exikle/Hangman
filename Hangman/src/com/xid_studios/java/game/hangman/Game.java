@@ -37,8 +37,8 @@ public class Game extends StateBasedGame {
         this.addState(new LoseScreen(loseMenu));
         this.addState(new WinScreen(winMenu));
         ImportXML.importValues();
-        FRAME_WIDTH = ImportXML.Values.width;
-        FRAME_HEIGHT = ImportXML.Values.height;
+        FRAME_WIDTH = InformationHolder.width;
+        FRAME_HEIGHT = InformationHolder.height;
     }
 
     public static void main(String[] args) throws SlickException {
@@ -51,7 +51,6 @@ public class Game extends StateBasedGame {
         frame.setFocusable(true);
         frame.setLocationRelativeTo(null);
         app.start();
-
     }
 
     @Override

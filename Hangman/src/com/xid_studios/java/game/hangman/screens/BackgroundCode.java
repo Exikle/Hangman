@@ -56,13 +56,18 @@ public class BackgroundCode extends BasicGameState {
             System.exit(0);
         }
         if (input.isMouseButtonDown(0)) {
+            System.out.println(input.getMouseX() + "," + input.getMouseY());
             Rectangle close = new Rectangle(445, 33, 21, 23);
+            Rectangle home = new Rectangle(400, 27, 40, 31);
             Rectangle mouse = new Rectangle(input.getMouseX(),
                     input.getMouseY(), 21, 23);
             if (mouse.intersects(close)) {
                 Display.destroy();
                 System.exit(0);
                 System.out.println("Closed");
+            }
+            if (mouse.intersects(home)) {
+                sbg.enterState(0);
             }
         }
 
