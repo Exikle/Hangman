@@ -14,6 +14,7 @@ public class PlayScreen extends BackgroundCode {
     TrueTypeFont f1, f2;
     String playerOne;
     String playerTwo;
+    char[] alphabet = new char[26];
 
     public PlayScreen(int State) {
         super(State);
@@ -27,6 +28,10 @@ public class PlayScreen extends BackgroundCode {
         f1 = new TrueTypeFont(g, false);
         g = g.deriveFont(20f); // set font size
         f2 = new TrueTypeFont(g, false);
+        for (char c = 'a'; c <= 'z'; ++c) {
+            alphabet[c - 'a'] = c;
+        }
+
     }
 
     @Override
@@ -37,8 +42,14 @@ public class PlayScreen extends BackgroundCode {
         g.drawString("Player Name", 240, 75);
         g.drawString("Opponent Name", 240, 135);
         g.setFont(f2);
-        g.drawString("-" + playerOne, 240, 110);
-        g.drawString("-" + playerTwo, 240, 160);
+        g.drawString(" " + playerOne, 240, 110);
+        g.drawString(" " + playerTwo, 240, 160);
+        for (int x = 0; x < 12; x++)
+            g.drawString(alphabet[x] + "", 240 + (20 * x), 190);
+        for (int x = 12; x < 24; x++)
+            g.drawString(alphabet[x] + "", 240 + (20 * (x - 12)), 210);
+        for (int x = 24; x < 26; x++)
+            g.drawString(alphabet[x] + "", 240 + (20 * (x - 24)), 230);
 
     }
 

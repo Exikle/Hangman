@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -24,7 +25,9 @@ public class PlayerOneMenu extends BackgroundCode implements KeyListener {
     String[] playerOneName = { " ", " ", " ", " ", " ", " " };
     int nameCount = 0;
 
-    int slected = 0;
+    Boolean nameCreationStarted = false, nameCreated = false, firstMove = true;
+
+    int selected = 0;
 
     public PlayerOneMenu(int State) {
         super(State);
@@ -55,7 +58,7 @@ public class PlayerOneMenu extends BackgroundCode implements KeyListener {
         g.setFont(f2);
 
         for (int c = 0; c < categories.length; c++) {
-            if (slected == c) {
+            if (selected == c) {
                 g.setColor(Color.orange);
             } else {
                 g.setColor(Color.white);
@@ -86,7 +89,11 @@ public class PlayerOneMenu extends BackgroundCode implements KeyListener {
                 InformationHolder.playerOneName = name;
                 InformationHolder.playerTwoName = "Computer";
 
-                sbg.enterState(3);
+                if (screenChangeAllowed()) {
+                    sbg.enterState(3);
+                } else {
+                    System.out.println("Not allowed");
+                }
 
             }
         }
@@ -108,6 +115,13 @@ public class PlayerOneMenu extends BackgroundCode implements KeyListener {
         }
     }
 
+    private boolean screenChangeAllowed() {
+        Boolean allow = false;
+        if (nameCreated == true)
+            allow = true;
+        return allow;
+    }
+
     @Override
     public int getID() {
         return 1;
@@ -116,30 +130,48 @@ public class PlayerOneMenu extends BackgroundCode implements KeyListener {
     @Override
     public void keyPressed(int key, char c) {
         if (Character.isLetter(c)) {
+            if (nameCreationStarted == false) {
+                nameCreationStarted = true;
+                nameCreated = true;
+            }
             playerOneName[nameCount] = "" + c;
             playerOneName[nameCount] = playerOneName[nameCount].toUpperCase();
             nameCount += 1;
         } else {
             // do other stuff
         }
+
     }
 
     @Override
     public void keyReleased(KeyEvent k) {
-        // TODO Auto-generated method stub
+//        if (!firstMove) {
+//            firstMove = true;
+//        }
 
     }
 
     @Override
     public void keyTyped(KeyEvent k) {
-        // TODO Auto-generated method stub
-
+        if (firstMove) {
+            if (k.getKeyCode() == KeyEvent.VK_UP) {
+                if (selected != 0) {
+                    selected -= 1;
+                }
+                firstMove = false;
+            }
+            if (k.getKeyCode() == KeyEvent.VK_DOWN) {
+                if (selected != categories.length) {
+                    selected += 1;
+                }
+                firstMove = false;
+            }
+            System.out.println(selected);
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent k) {
-        // TODO Auto-generated method stub
-
     }
 
 }
