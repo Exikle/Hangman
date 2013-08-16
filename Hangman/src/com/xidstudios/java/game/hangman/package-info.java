@@ -2,4 +2,4 @@
  * @author Exikle - Xid Studios
  *
  */
-package com.xid_studios.java.game.hangman;
+package com.xidstudios.java.game.hangman;

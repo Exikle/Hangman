@@ -1,4 +1,4 @@
-package com.xid_studios.java.game.hangman;
+package com.xidstudios.java.game.hangman;
 
 import javax.swing.JFrame;
 
@@ -7,12 +7,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.xid_studios.java.game.hangman.screens.LoseScreen;
-import com.xid_studios.java.game.hangman.screens.PlayScreen;
-import com.xid_studios.java.game.hangman.screens.PlayerOneMenu;
-import com.xid_studios.java.game.hangman.screens.PlayerTwoMenu;
-import com.xid_studios.java.game.hangman.screens.StartMenu;
-import com.xid_studios.java.game.hangman.screens.WinScreen;
+import com.xidstudios.java.game.hangman.screens.LoseScreen;
+import com.xidstudios.java.game.hangman.screens.PlayScreen;
+import com.xidstudios.java.game.hangman.screens.PlayerOneMenu;
+import com.xidstudios.java.game.hangman.screens.PlayerTwoMenu;
+import com.xidstudios.java.game.hangman.screens.StartMenu;
+import com.xidstudios.java.game.hangman.screens.WinScreen;
 
 public class Game extends StateBasedGame {
 

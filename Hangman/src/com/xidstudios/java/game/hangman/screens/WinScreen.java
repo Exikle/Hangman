@@ -1,4 +1,4 @@
-package com.xid_studios.java.game.hangman.screens;
+package com.xidstudios.java.game.hangman.screens;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;

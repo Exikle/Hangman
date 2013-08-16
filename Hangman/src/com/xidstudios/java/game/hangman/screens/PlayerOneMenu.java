@@ -1,4 +1,4 @@
-package com.xid_studios.java.game.hangman.screens;
+package com.xidstudios.java.game.hangman.screens;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,7 +14,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.xid_studios.java.game.hangman.InformationHolder;
+import com.xidstudios.java.game.hangman.InformationHolder;
 
 public class PlayerOneMenu extends BackgroundCode implements KeyListener {
     TrueTypeFont f1, f2;

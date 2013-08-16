@@ -1,4 +1,4 @@
-package com.xid_studios.java.game.hangman.screens;
+package com.xidstudios.java.game.hangman.screens;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.xid_studios.java.game.hangman.InformationHolder;
+import com.xidstudios.java.game.hangman.InformationHolder;
 
 public class PlayScreen extends BackgroundCode {
     Image backGround = null;
