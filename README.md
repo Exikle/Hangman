@@ -1,4 +1,6 @@
 Hangman
+------
+
 The source code for a desktop Hangman game, written in java.
 
 *Inactive*
