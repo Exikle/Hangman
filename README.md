@@ -1,10 +1,7 @@
-Hangman (Original)
-======
+Hangman
 The source code for a desktop Hangman game, written in java.
 
 *Inactive*
-
-New Version (https://github.com/Exikle/Hangman)
 
 License
 -------
