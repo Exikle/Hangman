@@ -23,6 +23,7 @@ package com.exikle.hangman.original;
  * v0.5
  * -> Cleaning up code prerework
  * -> compressed a lot of code
+//TODO remake the panels/jframe 
  */
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -107,8 +108,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     HButton[] close = new HButton[3]; //TODO make into one
     HButton[] lblWordList = new HButton[8];
 
-    HButton player1 = new HButton();
-    HButton player2 = new HButton();
+    HButton pickOnePlayerButton = new HButton();
+    HButton pickTwoPlayersButton = new HButton();
 
     HButton btnBack = new HButton("Back");
     HButton btnStart = new HButton("Start");
@@ -150,6 +151,11 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
     Boolean wrong = true;
     Boolean gameDone = false;
+
+    // ------------ I'm new'
+    HFrame hmWindow;
+    HPanel bgPanel;
+    // till here
 
     HFrame fr1 = new HFrame(""); //todo remove these and use only one frame
 //    HFrame fr2 = new HFrame(""); //perhaps create a new panel, add stuff to that adn then add panel to fram temporarily
@@ -198,6 +204,26 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
     public HangManGUI_CLEANEDUP() {
         initializeFonts();
+
+        hmWindow = new HFrame();
+        bgPanel = new HPanel();
+        hmWindow.add(bgPanel);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
         this.addKeyListener(this);
         this.setFocusable(true);
         // Initialize the Checklists------------->
@@ -228,17 +254,17 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
         // ////Chose Player Menu(1)==============>
         // /Player 1 button initialize--------->
-        player1.setBounds(25, 125, 250, 50);
-        player1.addActionListener(this);
-        player1.setIcon(py1);
+        pickOnePlayerButton.setBounds(25, 125, 250, 50);
+        pickOnePlayerButton.addActionListener(this);
+        pickOnePlayerButton.setIcon(py1);
 //        player1.setText("Player One");
 //        player1.setFont(FONT_FILE_NAME, 11);
-        startScreenPanel.add(player1);
+        startScreenPanel.add(pickOnePlayerButton);
         // /Player 2 button initialize--------->
-        player2.setBounds(25, 200, 250, 50);
-        player2.addActionListener(this);
-        player2.setIcon(py2);
-        startScreenPanel.add(player2);
+        pickTwoPlayersButton.setBounds(25, 200, 250, 50);
+        pickTwoPlayersButton.addActionListener(this);
+        pickTwoPlayersButton.setIcon(py2);
+        startScreenPanel.add(pickTwoPlayersButton);
         // /End Player Button Initialzing------->
         fr1.add(startScreenPanel);
         fr1.setVisible(true);
@@ -270,7 +296,6 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 //        fr2.setSize(300, 300);
 //        fr2.centerFrameOnScreen();
         // ////<==================End Chose Player Menu(2)
-
         // ////Create Playing Board================>
         // Add Board to main form------------->
         pnlBoard.setLayout(new GridLayout(1, 1));
@@ -334,75 +359,75 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         Object source = e.getSource();
 
         if (source instanceof HButton) {
-
-        }
-
-        if (e.getSource() == player1) {
-            System.out.println("Player 1 was pressed");
+            if (source == pickOnePlayerButton) {
+                //Switch to next panel to choose categories
+                debugPrint("Player 1 was pressed");
 //            fr1.setVisible(false);
-            fr1.remove(startScreenPanel);
-            fr1.add(dPnl2);
+                fr1.remove(startScreenPanel);
+                fr1.add(dPnl2);
 //            fr2.setVisible(true);
-            theSource = 2;
-            players = 1;
-            lblWordList[1].setForeground(Color.BLUE);
+                theSource = 2;
+                players = 1;
+                lblWordList[1].setForeground(Color.BLUE);
 
-            dPnl2.add(align);
+                dPnl2.add(align);
 
-            dPnl2.add(playerOneLabel);
-            playerOneLabel.setBounds(50, 50, 75, 25);
-            playerOneLabel.setFont(FONT_FILE_NAME, 11);
-            playerOneLabel.setIcon(name);
+                dPnl2.add(playerOneLabel);
+                playerOneLabel.setBounds(50, 50, 75, 25);
+                playerOneLabel.setFont(FONT_FILE_NAME, 11);
+                playerOneLabel.setIcon(name);
 
-            dPnl2.add(playerOneTextField);
-            playerOneTextField.setBounds(125, 50, 125, 25);
-            playerOneTextField.setFont(FONT_FILE_NAME, 13);
+                dPnl2.add(playerOneTextField);
+                playerOneTextField.setBounds(125, 50, 125, 25);
+                playerOneTextField.setFont(FONT_FILE_NAME, 13);
 
-            dPnl2.add(wordlist);
-            wordlist.setBounds(100, 75, 150, 75);
+                dPnl2.add(wordlist);
+                wordlist.setBounds(100, 75, 150, 75);
 
-            dPnl2.remove(playerTwoLabel);
-            dPnl2.remove(playerTwoTextField);
-            dPnl2.remove(customPuzzleTextField);
-        } else if (e.getSource() == player2) {
-            System.out.println("Player 2 was pressed");
-            lblWordList[1].setForeground(Color.BLUE);
-            players = 2;
-            theSource = 2;
-            selected = "Custom";
+                dPnl2.remove(playerTwoLabel);
+                dPnl2.remove(playerTwoTextField);
+                dPnl2.remove(customPuzzleTextField);
+            } else if (source == pickTwoPlayersButton) {
 
-            fr1.remove(startScreenPanel);
-            fr1.add(dPnl2);
+                System.out.println("Player 2 was pressed");
+                lblWordList[1].setForeground(Color.BLUE);
+                players = 2;
+                theSource = 2;
+                selected = "Custom";
 
-            dPnl2.remove(align);
+                fr1.remove(startScreenPanel);
+                fr1.add(dPnl2);
 
-            dPnl2.remove(wordlist);
-            dPnl2.add(playerTwoLabel);
+                dPnl2.remove(align);
 
-            playerTwoLabel.setBounds(75, 125, 100, 25);
-            playerTwoLabel.setFont(FONT_FILE_NAME, 11);
-            playerTwoLabel.setIcon(opponent);
+                dPnl2.remove(wordlist);
+                dPnl2.add(playerTwoLabel);
 
-            dPnl2.add(playerTwoTextField);
-            playerTwoTextField.setBounds(175, 125, 100, 25);
-            playerTwoTextField.setFont(FONT_FILE_NAME, 13);
+                playerTwoLabel.setBounds(75, 125, 100, 25);
+                playerTwoLabel.setFont(FONT_FILE_NAME, 11);
+                playerTwoLabel.setIcon(opponent);
 
-            dPnl2.add(customPuzzleTextField);
-            customPuzzleTextField.setBounds(100, 175, 100, 25);
+                dPnl2.add(playerTwoTextField);
+                playerTwoTextField.setBounds(175, 125, 100, 25);
+                playerTwoTextField.setFont(FONT_FILE_NAME, 13);
 
-            dPnl2.add(playerOneLabel);
-            playerOneLabel.setBounds(75, 75, 75, 25);
-            playerOneLabel.setFont(FONT_FILE_NAME, 11);
-            playerOneLabel.setIcon(name);
+                dPnl2.add(customPuzzleTextField);
+                customPuzzleTextField.setBounds(100, 175, 100, 25);
 
-            dPnl2.add(playerOneTextField);
-            playerOneTextField.setBounds(150, 75, 125, 25);
-            playerOneTextField.setFont(FONT_FILE_NAME, 13);
+                dPnl2.add(playerOneLabel);
+                playerOneLabel.setBounds(75, 75, 75, 25);
+                playerOneLabel.setFont(FONT_FILE_NAME, 11);
+                playerOneLabel.setIcon(name);
 
+                dPnl2.add(playerOneTextField);
+                playerOneTextField.setBounds(150, 75, 125, 25);
+                playerOneTextField.setFont(FONT_FILE_NAME, 13);
+            }
         }
+
         if (e.getSource() == btnBack) {
             theSource = 1;
-            System.out.println("Back was pressed");
+            debugPrint("Back was pressed");
 
             fr1.remove(dPnl2);
             fr1.add(startScreenPanel);
@@ -421,7 +446,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         }
         if (e.getSource() == btnStart) {
             theSource = 3;
-            System.out.println("Start was pressed");
+            debugPrint("Start was pressed");
             playerOneName = playerOneTextField.getText();
             if (players == 2) {
                 playerTwoName = playerTwoTextField.getText();
@@ -433,7 +458,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                 }
                 createPuz();
             } catch (IOException f) {
-                System.out.println("Problem Creating Puzzle");
+                debugPrint("Problem Creating Puzzle");
             }
             this.setVisible(true);
         }
@@ -458,7 +483,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                 getPuz();
                 createPuz();
             } catch (IOException f) {
-                System.out.println("Problem Creating Puzzle");
+                debugPrint("Problem Creating Puzzle");
             }
             repaint();
         }
@@ -589,6 +614,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             return;
         }
+
     }
 
     public class DrawPanel extends JPanel {
@@ -602,7 +628,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             if ((theSource == 1) || (theSource == 2)) {
                 g2.drawImage(image, 0, 0, 300, 300, 0, 0, 300, 300,
                         this);
-                g2.setColor(Color.BLACK);
+                g2.setColor(Color.WHITE);
                 g2.setFont(startScreenTitleFont);
                 if (theSource == 1) {
                     g2.drawString("Hang Man", 12, 100);
@@ -823,6 +849,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     public void keyPressed(KeyEvent f) {
     }
 
+    public void debugPrint(String str) {
+        System.out.println("DBUG::" + str);
+        return;
+    }
+
     public void keyReleased(KeyEvent f) {
     }
+
 }
