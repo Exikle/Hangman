@@ -26,6 +26,7 @@ package com.exikle.hangman.original;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
@@ -60,7 +61,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
     final String RES_PATH = "res/";
     final String DEFAULT_DIFFICULTY = "Easy";
-    final String FONT_NAME = "VTK.ttf";
+    final String FONT_NAME = "fonts/VTK.ttf";
     final String FONT_FILE_PATH = RES_PATH + FONT_NAME;
     final String FONT_FILE_NAME = "vtks animal 2";
     final String DEFAULT_PLAYER_ONE_NAME = "Player 1";
@@ -86,20 +87,20 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
     String playerOneName = DEFAULT_PLAYER_ONE_NAME;
     String playerTwoName = DEFAULT_PLAYER_TWO_NAME;
-    String puz = "";
+    String currentPuzzle = "";
     String selected = DEFAULT_DIFFICULTY;
 
     String[] categories = DEFAULT_CATEGORIES;
     String[] allPuz;
     String[] puzzle;
 
-    JTextField customPuzzleTextField = new JTextField("Custom Puzzle");
-    JTextField playerOneTextField = new JTextField("Player");
-    JTextField playerTwoTextField = new JTextField("Opponent");
+    HTextField customPuzzleTextField = new HTextField("Custom Puzzle");
+    HTextField playerOneTextField = new HTextField("Player");
+    HTextField playerTwoTextField = new HTextField("Opponent");
 
-    JLabel playerOneLabel = new JLabel();
-    JLabel playerTwoLabel = new JLabel();
-    JLabel wordlist = new JLabel();
+    HLabel playerOneLabel = new HLabel();
+    HLabel playerTwoLabel = new HLabel();
+    HLabel wordlist = new HLabel();
 
     HButton[] btnLetters = new HButton[26];
     HButton[] close = new HButton[3];
@@ -149,25 +150,22 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Boolean wrong = true;
     Boolean gameDone = false;
 
-    HFrame fr1 = new HFrame("");
-    HFrame fr2 = new HFrame("");
+    HFrame fr1 = new HFrame(""); //todo remove these and use only one frame
+    HFrame fr2 = new HFrame(""); //perhaps create a new panel, add stuff to that adn then add panel to fram temporarily
 
-    Font f2;
-    Font f3;
     Font startScreenTitleFont;
     Font f5;
-    Font f6;
     Font f7;
     Font f8;
 
     ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
 
     URL imageURL = cl.getResource(RES_PATH + "chalkBG.png");
-    URL imageURL2 = cl.getResource(RES_PATH + "hanger.png");
+    URL gallowmanImagePath = cl.getResource(RES_PATH + "hanger.png");
     URL imageURL3 = cl.getResource(RES_PATH + "alphaDock.png");
 
     Image image;
-    Image image2;
+    Image gallowmanImage;
     Image image3;
 
     Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -184,16 +182,13 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             }
 
         }
-        f2 = new Font(FONT_FILE_NAME, Font.PLAIN, 11); //
-        f3 = new Font(FONT_FILE_NAME, Font.PLAIN, 12); //
         startScreenTitleFont = new Font(FONT_FILE_NAME, Font.PLAIN, 50);
         f5 = new Font(FONT_FILE_NAME, Font.PLAIN, 16); //
-        f6 = new Font(FONT_FILE_NAME, Font.PLAIN, 13); //
         f7 = new Font(FONT_FILE_NAME, Font.PLAIN, 35); //
         f8 = new Font(FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
-    public void setFontSize(int newSize) {
+    public void setHFont(int newSize) {
         //TODO
     }
 
@@ -206,10 +201,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         this.addKeyListener(this);
         this.setFocusable(true);
         // Initialize the Checklists------------->
-        for (int x = 0; x < 26; x++) {
-            checked[x] = 0;
-            wrLetter[x] = 0;
-        }
+        resetCheckLists();
         // <------- End Initializing Checklists
 
         // Close button---------------------------> //TODO make this into only one
@@ -229,7 +221,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         // Put image into Image Variable------------->
         if (imageURL != null) {
             image = toolkit.createImage(imageURL);
-            image2 = toolkit.createImage(imageURL2);
+            gallowmanImage = toolkit.createImage(gallowmanImagePath);
             image3 = toolkit.createImage(imageURL3);
         }
         // <-------------Put image into Image Variable
@@ -239,6 +231,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         player1.setBounds(25, 125, 250, 50);
         player1.addActionListener(this);
         player1.setIcon(py1);
+//        player1.setText("Player One");
+//        player1.setFont(FONT_FILE_NAME, 11);
         startScreenPanel.add(player1);
         // /Player 2 button initialize--------->
         player2.setBounds(25, 200, 250, 50);
@@ -249,7 +243,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         fr1.add(startScreenPanel);
         fr1.setVisible(true);
         fr1.setSize(300, 300);
-        fr1.setLocation(300, 300);
+        fr1.centerFrameOnScreen();
         // ////<========End Chose Player Menu(1)
 
         // ////Chose Categories Menu(2)========>
@@ -260,12 +254,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         // /Initialize Go To 1st Menu Button---------->
         dPnl2.add(btnBack);
         btnBack.setBounds(0, 250, 75, 25);
-        btnBack.setFont(f2);
+        btnBack.setFont(FONT_FILE_NAME, 11);
         btnBack.addActionListener(this);
         // /Initialize Start Game/Go to Board---------->
         dPnl2.add(btnStart);
         btnStart.setBounds(225, 250, 75, 25);
-        btnStart.setFont(f2);
+        btnStart.setFont(FONT_FILE_NAME, 11);
         btnStart.addActionListener(this);
 
         // /Add Categories into grid------------->
@@ -274,7 +268,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
         fr2.add(dPnl2);
         fr2.setSize(300, 300);
-        fr2.setLocation(300, 300);
+        fr2.centerFrameOnScreen();
         // ////<==================End Chose Player Menu(2)
 
         // ////Create Playing Board================>
@@ -286,26 +280,20 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         pnl7.setLayout(new GridLayout(1, 1));
         pnl7.add(pnl2);
         // Initialize New Game Button---------->
-        newGameBtn.setFont(f2);
+        newGameBtn.setFont(FONT_FILE_NAME, 11);
         newGameBtn.addActionListener(this);
-        newGameBtn.setFocusable(false);
-//		newGameBtn.setOpaque(false);
-//		newGameBtn.setContentAreaFilled(false);
-//		newGameBtn.setBorderPainted(false);
         this.add(newGameBtn);
         newGameBtn.setBounds(225, 0, 100, 25);
 
         // Initialize Reset Scores Button---------->
-        resetBtn.setFont(f2);
+        resetBtn.setFont(FONT_FILE_NAME, 11);
         resetBtn.addActionListener(this);
-        resetBtn.setFocusable(false);
         this.add(resetBtn);
         resetBtn.setBounds(100, 0, 125, 25);
 
         // Initialize Go To Main Menu Button---------->
-        btnMain.setFont(f2);
+        btnMain.setFont(FONT_FILE_NAME, 11);
         btnMain.addActionListener(this);
-        btnMain.setFocusable(false);
         this.add(btnMain);
         btnMain.setBounds(0, 0, 100, 25);
 
@@ -328,7 +316,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
         for (int x = 0; x < CATEGORY_AMNT; x++) {
             lblWordList[x] = new HButton(categories[x] + "");
-            lblWordList[x].setFont(f3);
+            lblWordList[x].setFont(FONT_FILE_NAME, 12);
             lblWordList[x].setOpaque(false);
             lblWordList[x].setContentAreaFilled(false);
             lblWordList[x].setBorderPainted(false);
@@ -362,14 +350,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
             dPnl2.add(playerOneLabel);
             playerOneLabel.setBounds(50, 50, 75, 25);
-            playerOneLabel.setFont(f2);
+            playerOneLabel.setFont(FONT_FILE_NAME, 11);
             playerOneLabel.setIcon(name);
 
             dPnl2.add(playerOneTextField);
             playerOneTextField.setBounds(125, 50, 125, 25);
-            playerOneTextField.setFont(f6);
-            playerOneTextField.setOpaque(false);
-            playerOneTextField.setBorder(null);
+            playerOneTextField.setFont(FONT_FILE_NAME, 13);
 
             dPnl2.add(wordlist);
             wordlist.setBounds(100, 75, 150, 75);
@@ -391,28 +377,24 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             dPnl2.add(playerTwoLabel);
 
             playerTwoLabel.setBounds(75, 125, 100, 25);
-            playerTwoLabel.setFont(f2);
+            playerTwoLabel.setFont(FONT_FILE_NAME, 11);
             playerTwoLabel.setIcon(opponent);
 
             dPnl2.add(playerTwoTextField);
             playerTwoTextField.setBounds(175, 125, 100, 25);
-            playerTwoTextField.setFont(f6);
-            playerTwoTextField.setOpaque(false);
-            playerTwoTextField.setBorder(null);
+            playerTwoTextField.setFont(FONT_FILE_NAME, 13);
 
             dPnl2.add(customPuzzleTextField);
             customPuzzleTextField.setBounds(100, 175, 100, 25);
 
             dPnl2.add(playerOneLabel);
             playerOneLabel.setBounds(75, 75, 75, 25);
-            playerOneLabel.setFont(f2);
+            playerOneLabel.setFont(FONT_FILE_NAME, 11);
             playerOneLabel.setIcon(name);
 
             dPnl2.add(playerOneTextField);
             playerOneTextField.setBounds(150, 75, 125, 25);
-            playerOneTextField.setFont(f6);
-            playerOneTextField.setOpaque(false);
-            playerOneTextField.setBorder(null);
+            playerOneTextField.setFont(FONT_FILE_NAME, 13);
 
         }
         if (e.getSource() == btnBack) {
@@ -461,15 +443,13 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             pScore = 0;
             repaint();
         } else if (e.getSource() == newGameBtn) {
-            imageURL2 = cl.getResource("hanger.png");
-            image2 = toolkit.createImage(imageURL2);
+            gallowmanImagePath = cl.getResource("hanger.png");
+            gallowmanImage = toolkit.createImage(gallowmanImagePath);
             move = 0;
             count = 0;
             gameDone = false;
-            for (int x = 0; x < 26; x++) {
-                checked[x] = 0;
-                wrLetter[x] = 0;
-            }
+
+            resetCheckLists();
             try {
                 getPuz();
                 createPuz();
@@ -486,13 +466,65 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             gameDone = false;
             playerTwoName = "Opponent";
             playerOneName = "Player";
-            for (int x = 0; x < 26; x++) {
-                checked[x] = 0;
-                wrLetter[x] = 0;
-            }
+
+            resetCheckLists();
             this.setVisible(false);
             fr2.setVisible(true);
             theSource = 2;
+        }
+    }
+
+//    private void changeToStartMenu(){
+//        
+//    }
+    private void resetCheckLists() {
+        for (int x = 0; x < 26; x++) {
+            checked[x] = 0;
+            wrLetter[x] = 0;
+        }
+        return;
+    }
+
+    public class HTextField extends JTextField {
+
+        public HTextField(String label) {
+            super(label);
+            this.setStyle();
+        }
+
+        public HTextField() {
+            this.setStyle();
+        }
+
+        private void setStyle() {
+            this.setOpaque(false);
+            this.setBorder(null);
+        }
+
+        public void setFont(String fontName, int size) {
+            this.setFont(new Font(fontName, Font.PLAIN, size));
+        }
+
+    }
+
+    public class HLabel extends JLabel {
+
+        public HLabel(String label) {
+            super(label);
+            setStyle();
+        }
+
+        public HLabel() {
+            super();
+            setStyle();
+        }
+        
+        private void setStyle(){
+            return;
+        }
+
+        public void setFont(String fontName, int size) {
+            this.setFont(new Font(fontName, Font.PLAIN, size));
         }
     }
 
@@ -512,6 +544,10 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             this.setContentAreaFilled(false);
             this.setBorderPainted(false);
             this.setFocusable(false);
+        }
+
+        public void setFont(String fontName, int size) {
+            this.setFont(new Font(fontName, Font.PLAIN, size));
         }
     }
 
@@ -537,6 +573,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             this.setUndecorated(true);// Take out preset border
             this.setVisible(false);
         }
+
+        public void centerFrameOnScreen() {
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            return;
+        }
     }
 
     public class DrawPanel extends JPanel {
@@ -560,17 +602,17 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                 g2.drawImage(image, 0, 0, 500, 275, 0, 0, 300, 300,
                         this);
                 if ((move < 5) && (move >= 0)) {
-                    g2.drawImage(image2, 300 - 25 * move, 125,
+                    g2.drawImage(gallowmanImage, 300 - 25 * move, 125,
                             350 - 25 * move, 200, 0, 0, 131, 300,
                             this);
                 }
                 if ((move >= 5) && (move < 7)) {
-                    g2.drawImage(image2, 300 - 25 * move, 100,
+                    g2.drawImage(gallowmanImage, 300 - 25 * move, 100,
                             350 - 25 * move, 175, 0, 0, 131, 300,
                             this);
                 }
                 if ((move == 7) || (move >= 8)) {
-                    g2.drawImage(image2, 125, 50, 175, 150, 0, 0,
+                    g2.drawImage(gallowmanImage, 125, 50, 175, 150, 0, 0,
                             131, 300, this);
                     if (move == 7) {
                         g2.setColor(Color.RED);
@@ -623,13 +665,11 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         String[] fields;
         BufferedReader in = null;
         String line = "A B 1";
-        File f = new File("Word List/" + selected + ".txt");
+        File f = new File(RES_PATH + "Word List/" + selected + ".txt");
         int num = 0;
         LineNumberReader reader = new LineNumberReader(
                 new FileReader(f));
-        int cnt = 0;
-        String lineRead = "";
-        while ((lineRead = reader.readLine()) != null) {
+        while ((reader.readLine()) != null) {
         }
         linenum = reader.getLineNumber();
         reader.close();
@@ -664,16 +704,16 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     public void createPuz() throws IOException {
         randomnum = (int) (Math.random() * linenum);
         if (players == 1) {
-            puz = "" + allPuz[randomnum];
+            currentPuzzle = "" + allPuz[randomnum];
         } else if (players == 2) {
-            puz = customPuzzleTextField.getText();
+            currentPuzzle = customPuzzleTextField.getText();
         }
-        System.out.println(puz);
-        length = puz.length();
+        System.out.println(currentPuzzle);
+        length = currentPuzzle.length();
         puzle = new char[length];
         hid = new char[length];
         for (int x = 0; x < length; x++) {
-            puzle[x] = (puz.charAt(x));
+            puzle[x] = (currentPuzzle.charAt(x));
             puzle[x] = Character.toUpperCase(puzle[x]);
             if (puzle[x] == ' ') {
                 hid[x] = (' ');
@@ -745,16 +785,16 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             }
             wrong = true;
             if (move == 7) {
-                imageURL2 = cl.getResource("hanger2.png");
-                image2 = toolkit.createImage(imageURL2);
+                gallowmanImagePath = cl.getResource("hanger2.png");
+                gallowmanImage = toolkit.createImage(gallowmanImagePath);
             } else if (move >= 8) {
-                imageURL2 = cl.getResource("hanger3.png");
+                gallowmanImagePath = cl.getResource("hanger3.png");
                 JOptionPane.showMessageDialog(this, "You Lose");
                 oScore += 1;
                 gameDone = true;
                 pnlBoard.setEnabled(false);
                 resetBtn.setEnabled(true);
-                image2 = toolkit.createImage(imageURL2);
+                gallowmanImage = toolkit.createImage(gallowmanImagePath);
                 for (int x = 0; x < 26; x++) {
                     for (int y = 0; y < length; y++) {
                         if (letter[x] == puzle[y]) {
@@ -763,8 +803,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                     }
                 }
             } else {
-                imageURL2 = cl.getResource("hanger.png");
-                image2 = toolkit.createImage(imageURL2);
+                gallowmanImagePath = cl.getResource("hanger.png");
+                gallowmanImage = toolkit.createImage(gallowmanImagePath);
             }
             repaint();
         }
