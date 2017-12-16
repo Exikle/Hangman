@@ -1,27 +1,27 @@
 package com.exikle.hangman.original;
 
 /*
- * Hang Man v0.4
+ * Hang Man v0.5
  * Created by Dixon D'Cunha
  * Version Update Log
  * v0.1
- * ->Create Board
- * ->Get Puzzles from file
- * ->Randomly choose puzzle
- * ->Output puzzle
- * ->Add buttons for letters
+ * -> Create Board
+ * -> Get Puzzles from file
+ * -> Randomly choose puzzle
+ * -> Output puzzle
+ * -> Add buttons for letters
  * v0.2
- * ->Create Catergories
- * ->Change Letter Buttons to Key Buttons
- * ->Created+Added hangman pictures/gallows
+ * -> Create Catergories
+ * -> Change Letter Buttons to Key Buttons
+ * -> Created+Added hangman pictures/gallows
  * v0.3
- * ->Created Scoring
+ * -> Created Scoring
  * v0.4
- * ->Added Player 2 Support
- * ->Fixed correct/incorrect letter
- * ->Fixed wrong color for letters on drawpanel
+ * -> Added Player 2 Support
+ * -> Fixed correct/incorrect letter
+ * -> Fixed wrong color for letters on drawpanel
  * v0.5
- * -> Cleaning up code pre update
+ * -> Cleaning up code prerework
  */
 
 import java.awt.BasicStroke;
@@ -58,11 +58,11 @@ import javax.swing.JTextField;
 public class HangManGUI extends JFrame implements ActionListener,
 	KeyListener {
 
-	DrwPnl dPnl1 = new DrwPnl();
-	DrwPnl dPnl2 = new DrwPnl();
+	DrwPnl dPnl1 = new DrwPnl(); //first screen
+	DrwPnl dPnl2 = new DrwPnl(); //second screen
 	DrwPnl pnlBoard = new DrwPnl(); // Panels where everything is drawn on
 
-	JPanel align = new JPanel();
+	JPanel align = new JPanel(); //panel holding categories to be selected
 	JPanel pnl2 = new JPanel();
 
 	JPanel pnl3 = new JPanel();
@@ -149,21 +149,27 @@ public class HangManGUI extends JFrame implements ActionListener,
 
 	Font dFont = Font.createFont(Font.TRUETYPE_FONT, in);
 
-	Font f1 = dFont.deriveFont(12f), f2 = dFont.deriveFont(11f),
-	     f3 = dFont.deriveFont(12f), f4 = dFont.deriveFont(50f),
-	     f5 = dFont.deriveFont(16f), f6 = dFont.deriveFont(13f),
-	     f7 = dFont.deriveFont(35f), f8 = dFont.deriveFont(22f);
+	Font f1 = dFont.deriveFont(12f);
+	Font f2 = dFont.deriveFont(11f);
+	Font f3 = dFont.deriveFont(12f);
+	Font f4 = dFont.deriveFont(50f);
+	Font f5 = dFont.deriveFont(16f);
+	Font f6 = dFont.deriveFont(13f);
+	Font f7 = dFont.deriveFont(35f);
+	Font f8 = dFont.deriveFont(22f);
 
 	// <----------------------- End Import Font File
 
 	// Import Images----------------------->
 	ClassLoader cl = HangManGUI.class.getClassLoader();
 
-	URL imageURL = cl.getResource("chalkBG.png"), imageURL2 = cl
-	               .getResource("hanger.png"), imageURL3 = cl
-	                       .getResource("alphaDock.png");
+	URL imageURL = cl.getResource("chalkBG.png");
+	URL imageURL2 = cl.getResource("hanger.png");
+	URL imageURL3 = cl.getResource("alphaDock.png");
 
-	Image image, image2, image3;
+	Image image;
+	Image image2;
+	Image image3;
 
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 
