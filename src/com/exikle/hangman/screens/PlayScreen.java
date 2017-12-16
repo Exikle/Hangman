@@ -22,7 +22,7 @@ public class PlayScreen extends BackgroundCode {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
-            throws SlickException {
+    throws SlickException {
         super.init(gc, sbg);
         g = g.deriveFont(28f); // set font size
         f1 = new TrueTypeFont(g, false);
@@ -36,7 +36,7 @@ public class PlayScreen extends BackgroundCode {
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-            throws SlickException {
+    throws SlickException {
         super.render(gc, sbg, g);
         g.setFont(f1);
         g.drawString("Player Name", 240, 75);
@@ -55,7 +55,7 @@ public class PlayScreen extends BackgroundCode {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
-            throws SlickException {
+    throws SlickException {
         super.update(gc, sbg, delta);
         playerOne = InformationHolder.playerOneName;
         playerTwo = InformationHolder.playerTwoName;

@@ -22,7 +22,7 @@ import com.exikle.hangman.original.HangManGUI;
 class HangmanFrame extends JFrame implements ActionListener {
 
 	static HangmanFrame hFrame = new HangmanFrame(
-			"Hangman - Xid Studios");
+	    "Hangman - Xid Studios");
 
 	private final Image[] image = new Image[5];
 
@@ -47,11 +47,12 @@ class HangmanFrame extends JFrame implements ActionListener {
 			ClassLoader cl = HangManGUI.class.getClassLoader();
 			String PIC_PATH = "pictures/";
 			URL[] imgURL = {
-					cl.getResource(PIC_PATH + "chalkBG.png"),
-					cl.getResource(PIC_PATH + "bottomChalkBorder.png"),
-					cl.getResource(PIC_PATH + "topChalkBorder.png"),
-					cl.getResource(PIC_PATH + "leftChalkBorder.png"),
-					cl.getResource(PIC_PATH + "rightChalkBorder.png") };
+				cl.getResource(PIC_PATH + "chalkBG.png"),
+				cl.getResource(PIC_PATH + "bottomChalkBorder.png"),
+				cl.getResource(PIC_PATH + "topChalkBorder.png"),
+				cl.getResource(PIC_PATH + "leftChalkBorder.png"),
+				cl.getResource(PIC_PATH + "rightChalkBorder.png")
+			};
 			if (imgURL != null) {
 				Toolkit toolkit = Toolkit.getDefaultToolkit();
 				for (int x = 0; x < 5; x++)
@@ -90,7 +91,7 @@ class HangmanFrame extends JFrame implements ActionListener {
 			getDimension();
 			// the chalk board part
 			g2.drawImage(image[0], 0, 0, width, height, 0, 0, 300,
-					300, this);
+			             300, this);
 
 		}
 	}

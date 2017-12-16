@@ -16,7 +16,7 @@ public class ImportXML {
         try {
             File xmlFile = new File("res/information.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-                    .newInstance();
+                                               .newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             NodeList nList = doc.getElementsByTagName("int");
@@ -30,12 +30,12 @@ public class ImportXML {
                     Element eElement = (Element) nNode;
 
                     InformationHolder.height = Integer.parseInt(eElement
-                            .getElementsByTagName("height").item(0)
-                            .getTextContent());
+                                               .getElementsByTagName("height").item(0)
+                                               .getTextContent());
 
                     InformationHolder.width = Integer.parseInt(eElement
-                            .getElementsByTagName("width").item(0)
-                            .getTextContent());
+                                              .getElementsByTagName("width").item(0)
+                                              .getTextContent());
 
                 }
             }

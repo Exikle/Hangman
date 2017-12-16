@@ -54,59 +54,62 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class HangManGUI extends JFrame implements ActionListener,
-		KeyListener {
+	KeyListener {
 
 	DrwPnl dPnl1 = new DrwPnl(), dPnl2 = new DrwPnl(),
-			pnlBoard = new DrwPnl(); // Panels where everything is drawn on
+	pnlBoard = new DrwPnl(); // Panels where everything is drawn on
 
 	JPanel align = new JPanel(), pnl2 = new JPanel(),
-			pnl3 = new JPanel(), pnl4 = new JPanel(),
-			pnl5 = new JPanel(), pnl6 = new JPanel(),
-			pnl7 = new JPanel();
+	pnl3 = new JPanel(), pnl4 = new JPanel(),
+	pnl5 = new JPanel(), pnl6 = new JPanel(),
+	pnl7 = new JPanel();
 
 	String p1 = "Dixon", p2 = "Computer", puz = "",
-			selected = "Easy";
+	       selected = "Easy";
 
 	String[] categories = { "Easy", "Food", "Standard", "Geography",
-			"Hard", "Holidays", "Animals", "Sports" }, allPuz,
-			puzzle;
+	                        "Hard", "Holidays", "Animals", "Sports"
+	                      }, allPuz,
+	         puzzle;
 
 	JTextField cusPuz = new JTextField("Custom Puzzle"),
-			txtName = new JTextField("Player"),
-			txtOpponent = new JTextField("Opponent");
+	txtName = new JTextField("Player"),
+	txtOpponent = new JTextField("Opponent");
 
 	JLabel lblName = new JLabel(), lblOpponent = new JLabel(),
-			wordlist = new JLabel();
+	wordlist = new JLabel();
 
 	JButton[] btnLetters = new JButton[26], close = new JButton[3],
-			lblWordList = new JButton[8];
+	lblWordList = new JButton[8];
 
 	JButton player1 = new JButton(), player2 = new JButton(),
-			btnBack = new JButton("Back"), btnStart = new JButton(
-					"Start"), resetBtn = new JButton("Reset Scores"),
-			newGameBtn = new JButton("New Game"),
-			btnMain = new JButton("Menu");
+	btnBack = new JButton("Back"), btnStart = new JButton(
+	    "Start"), resetBtn = new JButton("Reset Scores"),
+	newGameBtn = new JButton("New Game"),
+	btnMain = new JButton("Menu");
 
 	int length, count = 0, chances = 7, linenum, randomnum,
-			pScore = 0, oScore = 0, theSource = 1, move = 0, rong,
-			players = 1;
+	            pScore = 0, oScore = 0, theSource = 1, move = 0, rong,
+	            players = 1;
 
 	int[] wrLetter = new int[26], checked = new int[26];
 
 	Icon[] cate = new ImageIcon[7];
 
 	Icon py1 = new ImageIcon("Player 1.png"), py2 = new ImageIcon(
-			"Player 2.png"), wList = new ImageIcon("WordList.png"),
-			name = new ImageIcon("Name.png"),
-			opponent = new ImageIcon("Opponent.png"),
-			closeIMG = new ImageIcon("closeBtn.png");
+	    "Player 2.png"), wList = new ImageIcon("WordList.png"),
+	name = new ImageIcon("Name.png"),
+	opponent = new ImageIcon("Opponent.png"),
+	closeIMG = new ImageIcon("closeBtn.png");
 
 	char[] puzle, hid, leter = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
-			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-			'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }, leter2 = { 'a',
-			'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-			'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-			'x', 'y', 'z' };
+	                             'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+	                             'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+	                           }, leter2 = { 'a',
+	                                         'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+	                                         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+	                                         'x', 'y', 'z'
+	                                       };
 
 	Boolean wrong = true, undecorated, gameDone = false;
 
@@ -120,9 +123,9 @@ public class HangManGUI extends JFrame implements ActionListener,
 	Font dFont = Font.createFont(Font.TRUETYPE_FONT, in);
 
 	Font f1 = dFont.deriveFont(12f), f2 = dFont.deriveFont(11f),
-			f3 = dFont.deriveFont(12f), f4 = dFont.deriveFont(50f),
-			f5 = dFont.deriveFont(16f), f6 = dFont.deriveFont(13f),
-			f7 = dFont.deriveFont(35f), f8 = dFont.deriveFont(22f);
+	     f3 = dFont.deriveFont(12f), f4 = dFont.deriveFont(50f),
+	     f5 = dFont.deriveFont(16f), f6 = dFont.deriveFont(13f),
+	     f7 = dFont.deriveFont(35f), f8 = dFont.deriveFont(22f);
 
 	// <----------------------- End Import Font File
 
@@ -130,8 +133,8 @@ public class HangManGUI extends JFrame implements ActionListener,
 	ClassLoader cl = HangManGUI.class.getClassLoader();
 
 	URL imageURL = cl.getResource("chalkBG.png"), imageURL2 = cl
-			.getResource("hanger.png"), imageURL3 = cl
-			.getResource("alphaDock.png");
+	               .getResource("hanger.png"), imageURL3 = cl
+	                       .getResource("alphaDock.png");
 
 	Image image, image2, image3;
 
@@ -444,7 +447,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 			Graphics2D g2 = (Graphics2D) g;
 			if ((theSource == 1) || (theSource == 2)) {
 				g2.drawImage(image, 0, 0, 300, 300, 0, 0, 300, 300,
-						this);
+				             this);
 				g2.setColor(Color.WHITE);
 				g2.setFont(f4);
 				if (theSource == 1)
@@ -452,18 +455,18 @@ public class HangManGUI extends JFrame implements ActionListener,
 				g2.setColor(Color.BLACK);
 			} else if (theSource == 3) {
 				g2.drawImage(image, 0, 0, 500, 275, 0, 0, 300, 300,
-						this);
+				             this);
 				if ((move < 5) && (move >= 0))
 					g2.drawImage(image2, 300 - 25 * move, 125,
-							350 - 25 * move, 200, 0, 0, 131, 300,
-							this);
+					             350 - 25 * move, 200, 0, 0, 131, 300,
+					             this);
 				if ((move >= 5) && (move < 7))
 					g2.drawImage(image2, 300 - 25 * move, 100,
-							350 - 25 * move, 175, 0, 0, 131, 300,
-							this);
+					             350 - 25 * move, 175, 0, 0, 131, 300,
+					             this);
 				if ((move == 7) || (move >= 8)) {
 					g2.drawImage(image2, 125, 50, 175, 150, 0, 0,
-							131, 300, this);
+					             131, 300, this);
 					if (move == 7) {
 						g2.setColor(Color.RED);
 						g2.fillRect(125, 150, 50, 25);
@@ -482,7 +485,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 				g2.setColor(Color.BLACK);
 				g2.setFont(f8);
 				g2.drawImage(image3, 0, 275, 500, 325, 0, 0, 320, 48,
-						this);
+				             this);
 				for (int x = 0; x < 26; x++) {
 					if (wrLetter[x] == 0)
 						g2.setColor(Color.BLACK);
@@ -516,7 +519,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		File f = new File("Word List/" + selected + ".txt");
 		int num = 0;
 		LineNumberReader reader = new LineNumberReader(
-				new FileReader(f));
+		    new FileReader(f));
 		int cnt = 0;
 		String lineRead = "";
 		while ((lineRead = reader.readLine()) != null) {
@@ -580,10 +583,10 @@ public class HangManGUI extends JFrame implements ActionListener,
 				if (("" + leter[x]).equalsIgnoreCase(key)) {
 					if (checked[x] == 1) {
 						JOptionPane.showMessageDialog(this,
-								"Already pressed " + leter[x] + ".");
+						                              "Already pressed " + leter[x] + ".");
 						for (int y = 0; y < length; y++) {
 							if ((leter[x] == puzle[y])
-									|| (leter2[x] == puzle[y])) {
+							        || (leter2[x] == puzle[y])) {
 								hid[y] = puzle[y];
 								rightletter = true;
 								wrLetter[x] = 1;
@@ -591,7 +594,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 								checked[x] = 1;
 								if (count == length) {
 									JOptionPane.showMessageDialog(
-											this, "You Win");
+									    this, "You Win");
 									gameDone = true;
 									pScore += 1;
 								}
@@ -600,7 +603,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 					} else if (checked[x] == 0) {
 						for (int y = 0; y < length; y++) {
 							if ((leter[x] == puzle[y])
-									|| (leter2[x] == puzle[y])) {
+							        || (leter2[x] == puzle[y])) {
 								hid[y] = puzle[y];
 								rightletter = true;
 								wrLetter[x] = 1;
@@ -609,7 +612,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 								checked[x] = 1;
 								if (count == length) {
 									JOptionPane.showMessageDialog(
-											this, "You Win");
+									    this, "You Win");
 									gameDone = true;
 									pScore += 1;
 								}
@@ -646,7 +649,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 				for (int x = 0; x < 26; x++) {
 					for (int y = 0; y < length; y++) {
 						if ((leter[x] == puzle[y])
-								|| (leter2[x] == puzle[y])) {
+						        || (leter2[x] == puzle[y])) {
 							hid[y] = puzle[y];
 						}
 					}

@@ -18,7 +18,7 @@ public class StartMenu extends BackgroundCode {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
-            throws SlickException {
+    throws SlickException {
         super.init(gc, sbg);
         g = g.deriveFont(50f); // set font size
         f = new TrueTypeFont(g, false);
@@ -26,7 +26,7 @@ public class StartMenu extends BackgroundCode {
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-            throws SlickException {
+    throws SlickException {
         super.render(gc, sbg, g);
         g.setFont(f);
         g.drawString("1 Player", 250, 112);
@@ -35,14 +35,14 @@ public class StartMenu extends BackgroundCode {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
-            throws SlickException {
+    throws SlickException {
         Input input = gc.getInput();
         super.update(gc, sbg, delta);
 
         if (input.isMousePressed(0)) {
             final int FRAME_HEIGHT = 375;
             Rectangle mouse = new Rectangle(Mouse.getX(), FRAME_HEIGHT
-                    - Mouse.getY(), 1, 1);
+                                            - Mouse.getY(), 1, 1);
             Rectangle playerOneButton = new Rectangle(250, 120, 200, 40);
             Rectangle playerTwoButton = new Rectangle(250, 225, 200, 40);
             if (mouse.intersects(playerOneButton)) {
