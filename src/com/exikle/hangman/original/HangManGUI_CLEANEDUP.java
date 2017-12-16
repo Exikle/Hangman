@@ -30,7 +30,6 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -41,14 +40,11 @@ import java.awt.event.KeyListener;
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -135,6 +131,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
     Icon[] cate = new ImageIcon[7];
 
+    //TODO replace with JLABELS using custom fonts
     Icon py1 = new ImageIcon(RES_PATH + "Player 1.png");
     Icon py2 = new ImageIcon(RES_PATH + "Player 2.png");
     Icon wList = new ImageIcon(RES_PATH + "WordList.png");
@@ -144,17 +141,16 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
     char[] puzle;
     char[] hid;
-    char[] leter = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
+    char[] letter = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
         'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
         'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
 
     Boolean wrong = true;
-    Boolean undecorated;
     Boolean gameDone = false;
 
-    JFrame fr1 = new JFrame("");
-    JFrame fr2 = new JFrame("");
+    HFrame fr1 = new HFrame("");
+    HFrame fr2 = new HFrame("");
 
     Font f2;
     Font f3;
@@ -164,11 +160,6 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Font f7;
     Font f8;
 
-    Font importedFont;
-
-//        Font 
-    // <----------------------- End Import Font File
-    // Import Images----------------------->
     ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
 
     URL imageURL = cl.getResource(RES_PATH + "chalkBG.png");
@@ -203,7 +194,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     }
 
     public void setFontSize(int newSize) {
-
+        //TODO
     }
 
     public static void main(String[] args) {
@@ -221,7 +212,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         }
         // <------- End Initializing Checklists
 
-        // Close button--------------------------->
+        // Close button---------------------------> //TODO make this into only one
         for (int x = 0; x < 3; x++) {
             close[x] = new HButton();
             close[x].addActionListener(this);
@@ -231,6 +222,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         startScreenPanel.add(close[0]);// Add Close button to 1st Screen
         dPnl2.add(close[1]);// Add Close button to 2nd Screen
         this.add(close[2]);// Add Close button to Board
+
         close[2].setBounds(475, 0, 25, 25);
         // <------End Close Button
 
@@ -243,7 +235,6 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         // <-------------Put image into Image Variable
 
         // ////Chose Player Menu(1)==============>
-        startScreenPanel.setLayout(null);
         // /Player 1 button initialize--------->
         player1.setBounds(25, 125, 250, 50);
         player1.addActionListener(this);
@@ -256,15 +247,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         startScreenPanel.add(player2);
         // /End Player Button Initialzing------->
         fr1.add(startScreenPanel);
-        fr1.setUndecorated(true);// Take out preset border
-        undecorated = fr1.isUndecorated();// Take out preset border
         fr1.setVisible(true);
         fr1.setSize(300, 300);
         fr1.setLocation(300, 300);
         // ////<========End Chose Player Menu(1)
 
         // ////Chose Categories Menu(2)========>
-        dPnl2.setLayout(null);
         // /Initialize WordList Icon\Label--->
         dPnl2.add(wordlist);
         wordlist.setBounds(100, 75, 150, 75);
@@ -274,37 +262,19 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         btnBack.setBounds(0, 250, 75, 25);
         btnBack.setFont(f2);
         btnBack.addActionListener(this);
-//		btnBack.setOpaque(false);
-//		btnBack.setContentAreaFilled(false);
-//		btnBack.setBorderPainted(false);
-        btnBack.addActionListener(this);
         // /Initialize Start Game/Go to Board---------->
         dPnl2.add(btnStart);
         btnStart.setBounds(225, 250, 75, 25);
         btnStart.setFont(f2);
         btnStart.addActionListener(this);
-//		btnStart.setOpaque(false);
-//		btnStart.setContentAreaFilled(false);
-//		btnStart.setBorderPainted(false);
-        btnStart.addActionListener(this);
+
         // /Add Categories into grid------------->
         align = createCategoryPanel();
-        // align.setLayout(new GridLayout(4, 2));
-        // for (int x = 0; x < 8; x++) {
-        // 	lblWordList[x] = new HButton(categories[x] + "");
-        // 	lblWordList[x].setFont(f3);
-        // 	lblWordList[x].setOpaque(false);
-        // 	lblWordList[x].setContentAreaFilled(false);
-        // 	lblWordList[x].setBorderPainted(false);
-        // 	lblWordList[x].addActionListener(this);
-        // 	align.add(lblWordList[x]);
-        // }
         // /<-------------End Category Initializing and Layout Setiing
+
         fr2.add(dPnl2);
         fr2.setSize(300, 300);
         fr2.setLocation(300, 300);
-        fr2.setUndecorated(true);// Take out preset border
-        undecorated = fr2.isUndecorated();// Take out preset border
         // ////<==================End Chose Player Menu(2)
 
         // ////Create Playing Board================>
@@ -329,9 +299,6 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         resetBtn.setFont(f2);
         resetBtn.addActionListener(this);
         resetBtn.setFocusable(false);
-//		resetBtn.setOpaque(false);
-//		resetBtn.setContentAreaFilled(false);
-//		resetBtn.setBorderPainted(false);
         this.add(resetBtn);
         resetBtn.setBounds(100, 0, 125, 25);
 
@@ -339,15 +306,11 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         btnMain.setFont(f2);
         btnMain.addActionListener(this);
         btnMain.setFocusable(false);
-//		btnMain.setOpaque(false);
-//		btnMain.setContentAreaFilled(false);
-//		btnMain.setBorderPainted(false);
         this.add(btnMain);
         btnMain.setBounds(0, 0, 100, 25);
 
         this.add(pnl7);
         this.setUndecorated(true);// Take out preset border
-        undecorated = this.isUndecorated();// Take out preset border
         this.setVisible(false);
         this.setLocation(200, 200);
         this.setSize(500, 325);
@@ -355,6 +318,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         return;
     }
 
+    /*
+     *  Add Categories into grid
+     */
     public JPanel createCategoryPanel() {
 
         JPanel categoryListPanel = new JPanel();
@@ -545,6 +511,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             this.setOpaque(false);
             this.setContentAreaFilled(false);
             this.setBorderPainted(false);
+            this.setFocusable(false);
         }
     }
 
@@ -555,7 +522,28 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         }
     }
 
+    public class HFrame extends JFrame {
+
+        public HFrame(String label) {
+            super(label);
+            this.setFrameStyle();
+        }
+
+        public HFrame() {
+            this.setFrameStyle();
+        }
+
+        private void setFrameStyle() {
+            this.setUndecorated(true);// Take out preset border
+            this.setVisible(false);
+        }
+    }
+
     public class DrawPanel extends JPanel {
+
+        public DrawPanel() {
+            this.setLayout(null);
+        }
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
@@ -611,7 +599,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                     } else if (wrLetter[x] == 2) {
                         g2.setColor(Color.RED);
                     }
-                    g2.drawString("" + leter[x], 5 + 19 * x, 305);
+                    g2.drawString("" + letter[x], 5 + 19 * x, 305);
                 }
                 g2.setFont(f7);
                 g2.setColor(Color.BLACK);
@@ -702,12 +690,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             Boolean rightletter = false;
             wrong = true;
             for (int x = 0; x < 26; x++) {
-                if (("" + leter[x]).equalsIgnoreCase(key)) {
+                if (("" + letter[x]).equalsIgnoreCase(key)) {
                     if (checked[x] == 1) {
                         JOptionPane.showMessageDialog(this,
-                                "Already pressed " + leter[x] + ".");
+                                "Already pressed " + letter[x] + ".");
                         for (int y = 0; y < length; y++) {
-                            if (leter[x] == puzle[y]) {
+                            if (letter[x] == puzle[y]) {
                                 hid[y] = puzle[y];
                                 rightletter = true;
                                 wrLetter[x] = 1;
@@ -723,7 +711,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                         }
                     } else if (checked[x] == 0) {
                         for (int y = 0; y < length; y++) {
-                            if (leter[x] == puzle[y]) {
+                            if (letter[x] == puzle[y]) {
                                 hid[y] = puzle[y];
                                 rightletter = true;
                                 wrLetter[x] = 1;
@@ -744,7 +732,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             }
             if (rightletter == false) {
                 for (int x = 0; x < 26; x++) {
-                    if (("" + leter[x]).equalsIgnoreCase(key)) {
+                    if (("" + letter[x]).equalsIgnoreCase(key)) {
                         move++;
                         wrLetter[x] = 2;
                         checked[x] = 1;
@@ -769,7 +757,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                 image2 = toolkit.createImage(imageURL2);
                 for (int x = 0; x < 26; x++) {
                     for (int y = 0; y < length; y++) {
-                        if (leter[x] == puzle[y]) {
+                        if (letter[x] == puzle[y]) {
                             hid[y] = puzle[y];
                         }
                     }
