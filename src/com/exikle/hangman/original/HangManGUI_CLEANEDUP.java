@@ -58,9 +58,16 @@ import javax.swing.JTextField;
 public class HangManGUI extends JFrame implements ActionListener,
 	KeyListener {
 
-	DrwPnl dPnl1 = new DrwPnl(); //first screen
-	DrwPnl dPnl2 = new DrwPnl(); //second screen
-	DrwPnl pnlBoard = new DrwPnl(); // Panels where everything is drawn on
+	final String RES_PATH = "res/";
+	final String DEFAULT_DIFFICULTY = "Easy";
+	final String FONT_NAME = "VTK.ttf";
+	final String DEFAULT_CATEGORIES = { "Easy", "Food", "Standard", "Geography",
+	                                    "Hard", "Holidays", "Animals", "Sports"
+	                                  };
+
+	DrawPanel dPnl1 = new DrawPanel(); //first screen
+	DrawPanel dPnl2 = new DrawPanel(); //second screen
+	DrawPanel pnlBoard = new DrawPanel(); // Panels where everything is drawn on
 
 	JPanel align = new JPanel(); //panel holding categories to be selected
 	JPanel pnl2 = new JPanel();
@@ -74,11 +81,9 @@ public class HangManGUI extends JFrame implements ActionListener,
 	String p1 = "Dixon";
 	String p2 = "Computer";
 	String puz = "";
-	String selected = "Easy";
+	String selected = DEFAULT_DIFFICULTY;
 
-	String[] categories = { "Easy", "Food", "Standard", "Geography",
-	                        "Hard", "Holidays", "Animals", "Sports"
-	                      };
+	String[] categories = DEFAULT_CATEGORIES;
 	String[] allPuz;
 	String[] puzzle;
 
@@ -126,14 +131,17 @@ public class HangManGUI extends JFrame implements ActionListener,
 	Icon opponent = new ImageIcon("Opponent.png"),
 	Icon closeIMG = new ImageIcon("closeBtn.png");
 
-	char[] puzle, hid, leter = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
-	                             'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-	                             'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-	                           }, leter2 = { 'a',
-	                                         'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-	                                         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-	                                         'x', 'y', 'z'
-	                                       };
+	char[] puzle;
+	char[] hid;
+	char[] leter = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+	                 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+	                 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+	               };
+	char[] leter2 = { 'a',
+	                  'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+	                  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+	                  'x', 'y', 'z'
+	                };
 
 	Boolean wrong = true;
 	Boolean undecorated;
@@ -143,20 +151,19 @@ public class HangManGUI extends JFrame implements ActionListener,
 	JFrame fr2 = new JFrame("");
 
 	// Import Font File----------------------->
-	File f = new File("VTK.ttf");
+	File f = new File(FONT_NAME);
 
 	FileInputStream in = new FileInputStream(f);
 
 	Font dFont = Font.createFont(Font.TRUETYPE_FONT, in);
 
-	Font f1 = dFont.deriveFont(12f);
-	Font f2 = dFont.deriveFont(11f);
-	Font f3 = dFont.deriveFont(12f);
-	Font f4 = dFont.deriveFont(50f);
-	Font f5 = dFont.deriveFont(16f);
-	Font f6 = dFont.deriveFont(13f);
-	Font f7 = dFont.deriveFont(35f);
-	Font f8 = dFont.deriveFont(22f);
+	Font f2 = dFont.deriveFont(11f); //
+	Font f3 = dFont.deriveFont(12f); //
+	Font f4 = dFont.deriveFont(50f); //
+	Font f5 = dFont.deriveFont(16f); //
+	Font f6 = dFont.deriveFont(13f); //
+	Font f7 = dFont.deriveFont(35f); //
+	Font f8 = dFont.deriveFont(22f); //
 
 	// <----------------------- End Import Font File
 
@@ -474,7 +481,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		}
 	}
 
-	class DrwPnl extends JPanel {
+	class DrawPanel extends JPanel {
 
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;
