@@ -28,6 +28,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -45,6 +46,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -100,16 +103,17 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 	JLabel wordlist = new JLabel();
 
 	JButton[] btnLetters = new JButton[26];
-	JButton[] close = new JButton[3];
+	HButton[] close = new HButton[3];
 	JButton[] lblWordList = new JButton[8];
 
-	JButton player1 = new JButton();
-	JButton player2 = new JButton();
-	JButton btnBack = new JButton("Back");
-	JButton btnStart = new JButton("Start");
-	JButton resetBtn = new JButton("Reset Scores");
-	JButton newGameBtn = new JButton("New Game");
-	JButton btnMain = new JButton("Menu");
+	HButton player1 = new HButton();
+	HButton player2 = new HButton();
+        
+	HButton btnBack = new HButton("Back");
+	HButton btnStart = new HButton("Start");
+	HButton resetBtn = new HButton("Reset Scores");
+	HButton newGameBtn = new HButton("New Game");
+	HButton btnMain = new HButton("Menu");
 
 	int length;
 	int count = 0;
@@ -149,20 +153,13 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 	JFrame fr1 = new JFrame("");
 	JFrame fr2 = new JFrame("");
 
-	// Import Font File----------------------->
-	File f = new File(RES_PATH + FONT_NAME);
-
-	FileInputStream in = new FileInputStream(f);
-
-	Font dFont = Font.createFont(Font.TRUETYPE_FONT, in);
-
-	Font f2 = dFont.deriveFont(11f); //
-	Font f3 = dFont.deriveFont(12f); //
-	Font f4 = dFont.deriveFont(50f); //
-	Font f5 = dFont.deriveFont(16f); //
-	Font f6 = dFont.deriveFont(13f); //
-	Font f7 = dFont.deriveFont(35f); //
-	Font f8 = dFont.deriveFont(22f); //
+	Font f2;
+	Font f3;
+	Font startScreenTitleFont;
+	Font f5;
+	Font f6;
+	Font f7;
+	Font f8;
 
 	// <----------------------- End Import Font File
 
@@ -181,11 +178,38 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
 	// <----------------------- End Import Images
 
-	public static void main(String[] args) throws Exception {
+        public void initializeFonts(){
+            File f = new File(RES_PATH + FONT_NAME);
+            FileInputStream in;
+            Font dFont = null;
+            try{
+                in = new FileInputStream(f);
+                dFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            }
+            catch(FileNotFoundException fnf){
+                System.out.println("DBUG:: Font file not found!");
+            }
+            catch(FontFormatException ffe){
+                System.out.println("DBUG:: Font format error");
+            }
+            catch(IOException ioe){
+                System.out.println("DBUG:: IO Exception");
+            }
+            f2 = dFont.deriveFont(11f); //
+            f3 = dFont.deriveFont(12f); //
+            startScreenTitleFont = dFont.deriveFont(50f); //
+            f5 = dFont.deriveFont(16f); //
+            f6 = dFont.deriveFont(13f); //
+            f7 = dFont.deriveFont(35f); //
+            f8 = dFont.deriveFont(22f); //
+            
+        }
+                
+	public static void main(String[] args){
 		new HangManGUI_CLEANEDUP();
 	}
 
-	public HangManGUI_CLEANEDUP() throws Exception{
+	public HangManGUI_CLEANEDUP(){
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		// Initialize the Checklists------------->
@@ -197,11 +221,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
 		// Close button--------------------------->
 		for (int x = 0; x < 3; x++) {
-			close[x] = new JButton();
+			close[x] = new HButton();
 			close[x].addActionListener(this);
-			close[x].setOpaque(false);
-			close[x].setContentAreaFilled(false);
-			close[x].setBorderPainted(false);
 			close[x].setBounds(275, 0, 25, 25);
 			close[x].setIcon(closeIMG);
 		}
@@ -223,17 +244,11 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 		startScreenPanel.setLayout(null);
 		// /Player 1 button initialize--------->
 		player1.setBounds(25, 125, 250, 50);
-		player1.setOpaque(false);
-		player1.setContentAreaFilled(false);
-		player1.setBorderPainted(false);
 		player1.addActionListener(this);
 		player1.setIcon(py1);
 		startScreenPanel.add(player1);
 		// /Player 2 button initialize--------->
 		player2.setBounds(25, 200, 250, 50);
-		player2.setOpaque(false);
-		player2.setContentAreaFilled(false);
-		player2.setBorderPainted(false);
 		player2.addActionListener(this);
 		player2.setIcon(py2);
 		startScreenPanel.add(player2);
@@ -540,8 +555,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 			if ((theSource == 1) || (theSource == 2)) {
 				g2.drawImage(image, 0, 0, 300, 300, 0, 0, 300, 300,
 				             this);
-				g2.setColor(Color.WHITE);
-				g2.setFont(f4);
+				g2.setColor(Color.BLACK);
+				g2.setFont(startScreenTitleFont);
 				if (theSource == 1)
 					g2.drawString("Hang Man", 12, 100);
 				g2.setColor(Color.BLACK);
@@ -745,7 +760,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 					}
 				}
 			} else {
-				imageURL2 = cl.getResource("hanger.png");
+				                        imageURL2 = cl.getResource("hanger.png");
 				image2 = toolkit.createImage(imageURL2);
 			}
 			repaint();
