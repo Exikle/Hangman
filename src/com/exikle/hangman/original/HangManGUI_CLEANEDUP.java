@@ -22,6 +22,7 @@ package com.exikle.hangman.original;
  * -> Fixed wrong color for letters on drawpanel
  * v0.5
  * -> Cleaning up code prerework
+ * -> compressed a lot of code
  */
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -103,7 +104,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     HLabel wordlist = new HLabel();
 
     HButton[] btnLetters = new HButton[26];
-    HButton[] close = new HButton[3];
+    HButton[] close = new HButton[3]; //TODO make into one
     HButton[] lblWordList = new HButton[8];
 
     HButton player1 = new HButton();
@@ -151,7 +152,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Boolean gameDone = false;
 
     HFrame fr1 = new HFrame(""); //todo remove these and use only one frame
-    HFrame fr2 = new HFrame(""); //perhaps create a new panel, add stuff to that adn then add panel to fram temporarily
+//    HFrame fr2 = new HFrame(""); //perhaps create a new panel, add stuff to that adn then add panel to fram temporarily
 
     Font startScreenTitleFont;
     Font f5;
@@ -171,6 +172,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Toolkit toolkit = Toolkit.getDefaultToolkit();
 
     // <----------------------- End Import Images
+    /**
+     *
+     */
     public void initializeFonts() {
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -178,7 +182,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(FONT_FILE_PATH)));
         } catch (IOException | FontFormatException e) {
             {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         }
@@ -188,12 +192,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         f8 = new Font(FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
-    public void setHFont(int newSize) {
-        //TODO
-    }
-
     public static void main(String[] args) {
-        new HangManGUI_CLEANEDUP();
+        HangManGUI_CLEANEDUP hangManGUI_CLEANEDUP = new HangManGUI_CLEANEDUP();
     }
 
     public HangManGUI_CLEANEDUP() {
@@ -266,9 +266,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         align = createCategoryPanel();
         // /<-------------End Category Initializing and Layout Setiing
 
-        fr2.add(dPnl2);
-        fr2.setSize(300, 300);
-        fr2.centerFrameOnScreen();
+//        fr2.add(dPnl2);
+//        fr2.setSize(300, 300);
+//        fr2.centerFrameOnScreen();
         // ////<==================End Chose Player Menu(2)
 
         // ////Create Playing Board================>
@@ -300,8 +300,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         this.add(pnl7);
         this.setUndecorated(true);// Take out preset border
         this.setVisible(false);
-        this.setLocation(200, 200);
         this.setSize(500, 325);
+        this.centerFrameOnScreen();
+
         // ////<===========End Create Playing Board
         return;
     }
@@ -338,15 +339,15 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
         if (e.getSource() == player1) {
             System.out.println("Player 1 was pressed");
-            fr1.setVisible(false);
-            fr2.setVisible(true);
+//            fr1.setVisible(false);
+            fr1.remove(startScreenPanel);
+            fr1.add(dPnl2);
+//            fr2.setVisible(true);
             theSource = 2;
             players = 1;
             lblWordList[1].setForeground(Color.BLUE);
 
             dPnl2.add(align);
-            // align.setBounds(25, 125, 250, 100);
-            // align.setOpaque(false);
 
             dPnl2.add(playerOneLabel);
             playerOneLabel.setBounds(50, 50, 75, 25);
@@ -369,8 +370,10 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             players = 2;
             theSource = 2;
             selected = "Custom";
-            fr1.setVisible(false);
-            fr2.setVisible(true);
+
+            fr1.remove(startScreenPanel);
+            fr1.add(dPnl2);
+
             dPnl2.remove(align);
 
             dPnl2.remove(wordlist);
@@ -400,8 +403,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         if (e.getSource() == btnBack) {
             theSource = 1;
             System.out.println("Back was pressed");
-            fr2.setVisible(false);
-            fr1.setVisible(true);
+
+            fr1.remove(dPnl2);
+            fr1.add(startScreenPanel);
         }
         for (int x = 0; x < 8; x++) {
             lblWordList[x].setForeground(Color.BLACK);
@@ -422,7 +426,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             if (players == 2) {
                 playerTwoName = playerTwoTextField.getText();
             }
-            fr2.setVisible(false);
+            fr1.setVisible(false);
             try {
                 if (players == 1) {
                     getPuz();
@@ -469,7 +473,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
             resetCheckLists();
             this.setVisible(false);
-            fr2.setVisible(true);
+            fr1.setVisible(true);
             theSource = 2;
         }
     }
@@ -482,6 +486,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             checked[x] = 0;
             wrLetter[x] = 0;
         }
+        return;
+    }
+
+    public void centerFrameOnScreen() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         return;
     }
 
@@ -518,8 +528,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             super();
             setStyle();
         }
-        
-        private void setStyle(){
+
+        private void setStyle() {
             return;
         }
 
