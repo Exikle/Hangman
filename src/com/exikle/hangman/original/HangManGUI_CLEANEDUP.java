@@ -165,7 +165,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 	// <----------------------- End Import Font File
 
 	// Import Images----------------------->
-	ClassLoader cl = HangManGUI.class.getClassLoader();
+	ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
 
 	URL imageURL = cl.getResource("chalkBG.png");
 	URL imageURL2 = cl.getResource("hanger.png");
@@ -180,10 +180,10 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 	// <----------------------- End Import Images
 
 	public static void main(String[] args) throws Exception {
-		new HangManGUI();
+		new HangManGUI_CLEANEDUP();
 	}
 
-	public HangManGUI() throws Exception {
+	public HangManGUI_CLEANEDUP() throws Exception{
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		// Initialize the Checklists------------->
@@ -353,6 +353,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
 		categoryListPanel.setBounds(25, 125, 250, 100);
 		categoryListPanel.setOpaque(false);
+		return categoryListPanel;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -518,9 +519,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 		}
 
 		private void setButtonStyle(){
-			close[x].setOpaque(false);
-			close[x].setContentAreaFilled(false);
-			close[x].setBorderPainted(false);
+			this.setOpaque(false);
+			this.setContentAreaFilled(false);
+			this.setBorderPainted(false);
 		}
 	}
 
@@ -655,7 +656,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 		hid = new char[length];
 		for (int x = 0; x < length; x++) {
 			puzle[x] = (puz.charAt(x));
-			puzle[x] = puzle[x].toUperCase();
+			puzle[x] = Character.toUpperCase(puzle[x]);
 			if (puzle[x] == ' ') {
 				hid[x] = (' ');
 				count += 1;
