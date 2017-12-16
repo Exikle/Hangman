@@ -137,11 +137,6 @@ public class HangManGUI extends JFrame implements ActionListener,
 	                 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
 	                 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 	               };
-	char[] leter2 = { 'a',
-	                  'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-	                  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-	                  'x', 'y', 'z'
-	                };
 
 	Boolean wrong = true;
 	Boolean undecorated;
@@ -606,6 +601,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		hid = new char[length];
 		for (int x = 0; x < length; x++) {
 			puzle[x] = (puz.charAt(x));
+			puzle[x] = puzle[x].toUperCase();
 			if (puzle[x] == ' ') {
 				hid[x] = (' ');
 				count += 1;
@@ -625,8 +621,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 						JOptionPane.showMessageDialog(this,
 						                              "Already pressed " + leter[x] + ".");
 						for (int y = 0; y < length; y++) {
-							if ((leter[x] == puzle[y])
-							        || (leter2[x] == puzle[y])) {
+							if (leter[x] == puzle[y]) {
 								hid[y] = puzle[y];
 								rightletter = true;
 								wrLetter[x] = 1;
@@ -642,8 +637,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 						}
 					} else if (checked[x] == 0) {
 						for (int y = 0; y < length; y++) {
-							if ((leter[x] == puzle[y])
-							        || (leter2[x] == puzle[y])) {
+							if (leter[x] == puzle[y]) {
 								hid[y] = puzle[y];
 								rightletter = true;
 								wrLetter[x] = 1;
@@ -688,8 +682,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 				image2 = toolkit.createImage(imageURL2);
 				for (int x = 0; x < 26; x++) {
 					for (int y = 0; y < length; y++) {
-						if ((leter[x] == puzle[y])
-						        || (leter2[x] == puzle[y])) {
+						if (leter[x] == puzle[y]) {
 							hid[y] = puzle[y];
 						}
 					}
