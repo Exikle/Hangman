@@ -65,12 +65,14 @@ public class HangManGUI extends JFrame implements ActionListener,
 	                                    "Hard", "Holidays", "Animals", "Sports"
 	                                  };
 
-	DrawPanel dPnl1 = new DrawPanel(); //first screen
+	final int CATEGORY_AMNT = 8;
+
+	DrawPanel startScreenPanel = new DrawPanel(); //first screen
 	DrawPanel dPnl2 = new DrawPanel(); //second screen
 	DrawPanel pnlBoard = new DrawPanel(); // Panels where everything is drawn on
 
-	JPanel align = new JPanel(); //panel holding categories to be selected
-	JPanel pnl2 = new JPanel();
+	JPanel align; //panel holding categories to be selected
+	JPanel pnl2 = new JPanel(); //goes ontop of the pnlBoard
 
 	JPanel pnl3 = new JPanel();
 	JPanel pnl4 = new JPanel();
@@ -201,7 +203,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 			close[x].setBounds(275, 0, 25, 25);
 			close[x].setIcon(closeIMG);
 		}
-		dPnl1.add(close[0]);// Add Close button to 1st Screen
+		startScreenPanel.add(close[0]);// Add Close button to 1st Screen
 		dPnl2.add(close[1]);// Add Close button to 2nd Screen
 		this.add(close[2]);// Add Close button to Board
 		close[2].setBounds(475, 0, 25, 25);
@@ -216,7 +218,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		// <-------------Put image into Image Variable
 
 		// ////Chose Player Menu(1)==============>
-		dPnl1.setLayout(null);
+		startScreenPanel.setLayout(null);
 		// /Player 1 button initialize--------->
 		player1.setBounds(25, 125, 250, 50);
 		player1.setOpaque(false);
@@ -224,7 +226,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		player1.setBorderPainted(false);
 		player1.addActionListener(this);
 		player1.setIcon(py1);
-		dPnl1.add(player1);
+		startScreenPanel.add(player1);
 		// /Player 2 button initialize--------->
 		player2.setBounds(25, 200, 250, 50);
 		player2.setOpaque(false);
@@ -232,9 +234,9 @@ public class HangManGUI extends JFrame implements ActionListener,
 		player2.setBorderPainted(false);
 		player2.addActionListener(this);
 		player2.setIcon(py2);
-		dPnl1.add(player2);
+		startScreenPanel.add(player2);
 		// /End Player Button Initialzing------->
-		fr1.add(dPnl1);
+		fr1.add(startScreenPanel);
 		fr1.setUndecorated(true);// Take out preset border
 		undecorated = fr1.isUndecorated();// Take out preset border
 		fr1.setVisible(true);
@@ -267,16 +269,17 @@ public class HangManGUI extends JFrame implements ActionListener,
 		btnStart.setBorderPainted(false);
 		btnStart.addActionListener(this);
 		// /Add Categories into grid------------->
-		align.setLayout(new GridLayout(4, 2));
-		for (int x = 0; x < 8; x++) {
-			lblWordList[x] = new JButton(categories[x] + "");
-			lblWordList[x].setFont(f3);
-			lblWordList[x].setOpaque(false);
-			lblWordList[x].setContentAreaFilled(false);
-			lblWordList[x].setBorderPainted(false);
-			lblWordList[x].addActionListener(this);
-			align.add(lblWordList[x]);
-		}
+		align = createCategoryPanel();
+		// align.setLayout(new GridLayout(4, 2));
+		// for (int x = 0; x < 8; x++) {
+		// 	lblWordList[x] = new JButton(categories[x] + "");
+		// 	lblWordList[x].setFont(f3);
+		// 	lblWordList[x].setOpaque(false);
+		// 	lblWordList[x].setContentAreaFilled(false);
+		// 	lblWordList[x].setBorderPainted(false);
+		// 	lblWordList[x].addActionListener(this);
+		// 	align.add(lblWordList[x]);
+		// }
 		// /<-------------End Category Initializing and Layout Setiing
 		fr2.add(dPnl2);
 		fr2.setSize(300, 300);
@@ -300,8 +303,9 @@ public class HangManGUI extends JFrame implements ActionListener,
 		newGameBtn.setOpaque(false);
 		newGameBtn.setContentAreaFilled(false);
 		newGameBtn.setBorderPainted(false);
-		this.add(newGameBtn);
+		this.add(newGameBtn);		
 		newGameBtn.setBounds(225, 0, 100, 25);
+
 		// Initialize Reset Scores Button---------->
 		resetBtn.setFont(f2);
 		resetBtn.addActionListener(this);
@@ -311,6 +315,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		resetBtn.setBorderPainted(false);
 		this.add(resetBtn);
 		resetBtn.setBounds(100, 0, 125, 25);
+
 		// Initialize Go To Main Menu Button---------->
 		btnMain.setFont(f2);
 		btnMain.addActionListener(this);
@@ -330,6 +335,25 @@ public class HangManGUI extends JFrame implements ActionListener,
 		// ////<===========End Create Playing Board
 	}
 
+	public JPanel createCategoryPanel() {
+
+		JPanel categoryListPanel = new JPanel();
+		categoryListPanel.setLayout(new GridLayout(4, 2));
+
+		for (int x = 0; x < CATEGORY_AMNT; x++) {
+			lblWordList[x] = new JButton(categories[x] + "");
+			lblWordList[x].setFont(f3);
+			lblWordList[x].setOpaque(false);
+			lblWordList[x].setContentAreaFilled(false);
+			lblWordList[x].setBorderPainted(false);
+			lblWordList[x].addActionListener(this);
+			categoryListPanel.add(lblWordList[x]);
+		}
+
+		categoryListPanel.setBounds(25, 125, 250, 100);
+		categoryListPanel.setOpaque(false);
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == player1) {
 			System.out.println("Player 1 was pressed");
@@ -340,8 +364,8 @@ public class HangManGUI extends JFrame implements ActionListener,
 			lblWordList[1].setForeground(Color.BLUE);
 
 			dPnl2.add(align);
-			align.setBounds(25, 125, 250, 100);
-			align.setOpaque(false);
+			// align.setBounds(25, 125, 250, 100);
+			// align.setOpaque(false);
 
 			dPnl2.add(lblName);
 			lblName.setBounds(50, 50, 75, 25);
@@ -476,7 +500,11 @@ public class HangManGUI extends JFrame implements ActionListener,
 		}
 	}
 
-	class DrawPanel extends JPanel {
+	// public class HPanel extends JPanel{
+
+	// }
+
+	public class DrawPanel extends JPanel {
 
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;
