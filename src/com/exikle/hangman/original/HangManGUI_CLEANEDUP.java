@@ -55,13 +55,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class HangManGUI extends JFrame implements ActionListener,
+public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 	KeyListener {
 
 	final String RES_PATH = "res/";
 	final String DEFAULT_DIFFICULTY = "Easy";
 	final String FONT_NAME = "VTK.ttf";
-	final String DEFAULT_CATEGORIES = { "Easy", "Food", "Standard", "Geography",
+	final String[] DEFAULT_CATEGORIES = { "Easy", "Food", "Standard", "Geography",
 	                                    "Hard", "Holidays", "Animals", "Sports"
 	                                  };
 
@@ -97,9 +97,9 @@ public class HangManGUI extends JFrame implements ActionListener,
 	JLabel lblOpponent = new JLabel();
 	JLabel wordlist = new JLabel();
 
-	JButton[] btnLetters = new JButton[26]
-	JButton close = new JButton[3];
-	JButton lblWordList = new JButton[8];
+	JButton[] btnLetters = new JButton[26];
+	JButton[] close = new JButton[3];
+	JButton[] lblWordList = new JButton[8];
 
 	JButton player1 = new JButton();
 	JButton player2 = new JButton();
@@ -126,11 +126,11 @@ public class HangManGUI extends JFrame implements ActionListener,
 
 	Icon[] cate = new ImageIcon[7];
 
-	Icon py1 = new ImageIcon("Player 1.png")
+	Icon py1 = new ImageIcon("Player 1.png");
 	Icon py2 = new ImageIcon("Player 2.png");
 	Icon wList = new ImageIcon("WordList.png");
 	Icon name = new ImageIcon("Name.png");
-	Icon opponent = new ImageIcon("Opponent.png"),
+	Icon opponent = new ImageIcon("Opponent.png");
 	Icon closeIMG = new ImageIcon("closeBtn.png");
 
 	char[] puzle;
@@ -333,6 +333,7 @@ public class HangManGUI extends JFrame implements ActionListener,
 		this.setLocation(200, 200);
 		this.setSize(500, 325);
 		// ////<===========End Create Playing Board
+		return;
 	}
 
 	public JPanel createCategoryPanel() {
@@ -355,6 +356,12 @@ public class HangManGUI extends JFrame implements ActionListener,
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+
+		if(source instanceof JButton){
+
+		}
+
 		if (e.getSource() == player1) {
 			System.out.println("Player 1 was pressed");
 			fr1.setVisible(false);
@@ -500,9 +507,28 @@ public class HangManGUI extends JFrame implements ActionListener,
 		}
 	}
 
-	// public class HPanel extends JPanel{
+	public class HButton extends JButton{
+		public HButton(){
+			this.setButtonStyle();
+		}
 
-	// }
+		public HButton(String label){
+			this.setText(label);
+			this.setButtonStyle();
+		}
+
+		private void setButtonStyle(){
+			close[x].setOpaque(false);
+			close[x].setContentAreaFilled(false);
+			close[x].setBorderPainted(false);
+		}
+	}
+
+	public class HPanel extends JPanel{
+		public HPanel(){
+
+		}
+	}
 
 	public class DrawPanel extends JPanel {
 
