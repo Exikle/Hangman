@@ -201,9 +201,6 @@ public class Hangman extends JFrame implements ActionListener,
 ////    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
 //        return btn;
 //    }
-    public static void main(String[] args) {
-        Hangman runInstance = new Hangman();
-    }
 
 //    public HPanel createChalkboard() {
 //        final Image bgimg = toolkit.createImage(imageURL);
