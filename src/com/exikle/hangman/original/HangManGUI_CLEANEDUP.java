@@ -106,7 +106,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     HLabel wordlist = new HLabel();
 
     HButton[] btnLetters = new HButton[26];
-    HButton[] close = new HButton[3]; //TODO make into one
+    HButton close = new HButton(); //TODO make into one
     HButton[] lblWordList = new HButton[8];
 
     HButton pickOnePlayerButton = new HButton();
@@ -136,8 +136,8 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Icon[] cate = new ImageIcon[7];
 
     //TODO replace with JLABELS using custom fonts
-    Icon py1 = new ImageIcon(RES_PATH + "Player 1.png");
-    Icon py2 = new ImageIcon(RES_PATH + "Player 2.png");
+//    Icon py1 = new ImageIcon(RES_PATH + "Player 1.png");
+//    Icon py2 = new ImageIcon(RES_PATH + "Player 2.png");
     Icon wList = new ImageIcon(RES_PATH + "WordList.png");
     Icon name = new ImageIcon(RES_PATH + "Name.png");
     Icon opponent = new ImageIcon(RES_PATH + "Opponent.png");
@@ -165,13 +165,13 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Font f5;
     Font f7;
     Font f8;
-    
-    public enum State{
+
+    public enum State {
         WALKING,
         HANGING,
         DEAD;
     }
-    
+
     State currentState = State.WALKING;
 
 //    ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
@@ -205,6 +205,20 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         f8 = new Font(FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
+    public HButton initializeCloseButton() {
+        HButton btn = new HButton();
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+            btn.setBounds(275, 0, 25, 25);
+            btn.setIcon(closeIMG);
+
+//    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
+        return btn;
+    }
+
     public static void main(String[] args) {
         HangManGUI_CLEANEDUP hangManGUI_CLEANEDUP = new HangManGUI_CLEANEDUP();
     }
@@ -220,7 +234,6 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 //            }
 //        };
 //    }
-
     public void initializeStartMenu() {
         // ////Chose Player Menu(1)==============>
         // /Player 1 button initialize--------->
@@ -288,17 +301,18 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         // <------- End Initializing Checklists
 
         // Close button---------------------------> //TODO make this into only one
-        for (int x = 0; x < 3; x++) {
-            close[x] = new HButton();
-            close[x].addActionListener(this);
-            close[x].setBounds(275, 0, 25, 25);
-            close[x].setIcon(closeIMG);
-        }
-        startScreenPanel.add(close[0]);// Add Close button to 1st Screen
-        dPnl2.add(close[1]);// Add Close button to 2nd Screen
-        this.add(close[2]);// Add Close button to Board
+//        for (int x = 0; x < 3; x++) {
+//            close[x] = new HButton();
+//            close[x].addActionListener(this);
+//            close[x].setBounds(275, 0, 25, 25);
+//            close[x].setIcon(closeIMG);
+//        }
+        close = initializeCloseButton();
+        startScreenPanel.add(close);// Add Close button to 1st Screen
+        dPnl2.add(close);// Add Close button to 2nd Screen
+        this.add(close);// Add Close button to Board
 
-        close[2].setBounds(475, 0, 25, 25);
+//        close[2].setBounds(475, 0, 25, 25);
         // <------End Close Button
 
         initializeImages();
@@ -499,11 +513,11 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             }
             this.setVisible(true);
         }
-        for (int x = 0; x < 3; x++) {
-            if (e.getSource() == close[x]) {
-                System.exit(0);
-            }
-        }
+//        for (int x = 0; x < 3; x++) {
+//            if (e.getSource() == close[x]) {
+//                System.exit(0);
+//            }
+//        }
         if (e.getSource() == resetBtn) {
             oScore = 0;
             pScore = 0;
@@ -666,7 +680,6 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             if ((theSource == 1) || (theSource == 2)) {
                 g2.drawImage(image, 0, 0, 300, 300, 0, 0, 300, 300,
                         this);
-//                debugPrint("Paint bg");
                 g2.setColor(Color.WHITE);
                 g2.setFont(startScreenTitleFont);
                 if (theSource == 1) {
