@@ -4,27 +4,34 @@ package com.exikle.hangman;
  * Hang Man v0.5
  * Created by Dixon D'Cunha
  * Version Update Log
+
  * v0.1
  * -> Create Board
  * -> Get Puzzles from file
  * -> Randomly choose puzzle
  * -> Output puzzle
  * -> Add buttons for letters
+
  * v0.2
  * -> Create Catergories
  * -> Change Letter Buttons to Key Buttons
- * -> Created+Added hangman pictures/gallows
+ * -> Created + Added hangman pictures/gallows
+
  * v0.3
  * -> Created Scoring
+
  * v0.4
  * -> Added Player 2 Support
  * -> Fixed correct/incorrect letter
  * -> Fixed wrong color for letters on drawpanel
+
  * v0.5
  * -> Cleaning up code prerework
  * -> compressed a lot of code
 //TODO remake the panels/jframe 
  */
+import com.exikle.hangman.objects.*;
+
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -51,12 +58,9 @@ import javax.imageio.ImageIO;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class Hangman extends JFrame implements ActionListener,
         KeyListener {
@@ -131,7 +135,7 @@ public class Hangman extends JFrame implements ActionListener,
 
     char[] puzle;
     char[] hid;
-    char[] letter = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
+    char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
         'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
         'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
@@ -160,17 +164,10 @@ public class Hangman extends JFrame implements ActionListener,
 
     State currentState = State.WALKING;
 
-//    ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
-//    URL imageURL = cl.getResource(RES_PATH + "chalkBG.png");
-//    URL gallowmanImagePath = cl.getResource(RES_PATH + "hanger.png");
-//    URL imageURL3 = cl.getResource(RES_PATH + "alphaDock.png");
     Image image;
     Image gallowmanImage;
     Image image3;
-
-    Toolkit toolkit = Toolkit.getDefaultToolkit();
-
-    // <----------------------- End Import Images
+    
     /**
      *
      */
@@ -205,7 +202,7 @@ public class Hangman extends JFrame implements ActionListener,
 //        return btn;
 //    }
     public static void main(String[] args) {
-        Hangman hangManGUI_CLEANEDUP = new Hangman();
+        Hangman runInstance = new Hangman();
     }
 
 //    public HPanel createChalkboard() {
@@ -555,103 +552,6 @@ public class Hangman extends JFrame implements ActionListener,
         return;
     }
 
-    public class HTextField extends JTextField {
-
-        public HTextField(String label) {
-            super(label);
-            this.setStyle();
-        }
-
-        public HTextField() {
-            this.setStyle();
-        }
-
-        private void setStyle() {
-            this.setOpaque(false);
-            this.setBorder(null);
-        }
-
-        public void setFont(String fontName, int size) {
-            this.setFont(new Font(fontName, Font.PLAIN, size));
-        }
-
-    }
-
-    public class HLabel extends JLabel {
-
-        public HLabel(String label) {
-            super(label);
-            setStyle();
-        }
-
-        public HLabel() {
-            super();
-            setStyle();
-        }
-
-        private void setStyle() {
-            return;
-        }
-
-        public void setFont(String fontName, int size) {
-            this.setFont(new Font(fontName, Font.PLAIN, size));
-        }
-    }
-
-    public class HButton extends JButton {
-
-        public HButton() {
-            this.setButtonStyle();
-        }
-
-        public HButton(String label) {
-            this.setText(label);
-            this.setButtonStyle();
-        }
-
-        private void setButtonStyle() {
-            this.setOpaque(false);
-            this.setContentAreaFilled(false);
-            this.setBorderPainted(false);
-            this.setFocusable(false);
-        }
-
-        public void setFont(String fontName, int size) {
-            this.setFont(new Font(fontName, Font.PLAIN, size));
-        }
-    }
-
-    public class HPanel extends JPanel {
-
-        public HPanel() {
-
-        }
-    }
-
-    public class HFrame extends JFrame {
-
-        public HFrame(String label) {
-            super(label);
-            this.setFrameStyle();
-        }
-
-        public HFrame() {
-            this.setFrameStyle();
-        }
-
-        private void setFrameStyle() {
-//            this.setUndecorated(true);// Take out preset border
-            this.setVisible(false);
-        }
-
-        public void centerFrameOnScreen() {
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-            return;
-        }
-
-    }
-
     public class DrawPanel extends JPanel {
 
         public DrawPanel() {
@@ -712,7 +612,7 @@ public class Hangman extends JFrame implements ActionListener,
                     } else if (wrLetter[x] == 2) {
                         g2.setColor(Color.RED);
                     }
-                    g2.drawString("" + letter[x], 5 + 19 * x, 305);
+                    g2.drawString("" + alphabet[x], 5 + 19 * x, 305);
                 }
                 g2.setFont(f7);
                 g2.setColor(Color.BLACK);
@@ -801,12 +701,12 @@ public class Hangman extends JFrame implements ActionListener,
             Boolean rightletter = false;
             wrong = true;
             for (int x = 0; x < 26; x++) {
-                if (("" + letter[x]).equalsIgnoreCase(key)) {
+                if (("" + alphabet[x]).equalsIgnoreCase(key)) {
                     if (checked[x] == 1) {
                         JOptionPane.showMessageDialog(this,
-                                "Already pressed " + letter[x] + ".");
+                                "Already pressed " + alphabet[x] + ".");
                         for (int y = 0; y < length; y++) {
-                            if (letter[x] == puzle[y]) {
+                            if (alphabet[x] == puzle[y]) {
                                 hid[y] = puzle[y];
                                 rightletter = true;
                                 wrLetter[x] = 1;
@@ -822,7 +722,7 @@ public class Hangman extends JFrame implements ActionListener,
                         }
                     } else if (checked[x] == 0) {
                         for (int y = 0; y < length; y++) {
-                            if (letter[x] == puzle[y]) {
+                            if (alphabet[x] == puzle[y]) {
                                 hid[y] = puzle[y];
                                 rightletter = true;
                                 wrLetter[x] = 1;
@@ -843,7 +743,7 @@ public class Hangman extends JFrame implements ActionListener,
             }
             if (rightletter == false) {
                 for (int x = 0; x < 26; x++) {
-                    if (("" + letter[x]).equalsIgnoreCase(key)) {
+                    if (("" + alphabet[x]).equalsIgnoreCase(key)) {
                         move++;
                         wrLetter[x] = 2;
                         checked[x] = 1;
@@ -866,7 +766,7 @@ public class Hangman extends JFrame implements ActionListener,
                 resetBtn.setEnabled(true);
                 for (int x = 0; x < 26; x++) {
                     for (int y = 0; y < length; y++) {
-                        if (letter[x] == puzle[y]) {
+                        if (alphabet[x] == puzle[y]) {
                             hid[y] = puzle[y];
                         }
                     }
@@ -879,14 +779,6 @@ public class Hangman extends JFrame implements ActionListener,
     }
 
     public void keyPressed(KeyEvent f) {
-    }
-
-    public static class Debug {
-
-        public static void dbgPrint(String str) {
-            System.out.println("DBUG::" + str);
-            return;
-        }
     }
 
     public void keyReleased(KeyEvent f) {
