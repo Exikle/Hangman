@@ -35,14 +35,12 @@ import com.exikle.hangman.objects.*;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -58,11 +56,10 @@ import javax.imageio.ImageIO;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Hangman extends JFrame implements ActionListener,
+public class Hangman extends HFrame implements ActionListener,
         KeyListener {
 
     DrawPanel startScreenPanel = new DrawPanel(); //first screen
@@ -80,7 +77,7 @@ public class Hangman extends JFrame implements ActionListener,
 
     String playerOneName = Resources.DEFAULT_PLAYER_ONE_NAME;
     String playerTwoName = Resources.DEFAULT_PLAYER_TWO_NAME;
-    String currentPuzzle = "";
+    String currentPuzzleStr = "";
     String selected = Resources.DEFAULT_DIFFICULTY;
 
     String[] categories = Resources.DEFAULT_CATEGORIES;
@@ -108,10 +105,10 @@ public class Hangman extends JFrame implements ActionListener,
     HButton newGameBtn = new HButton("New Game");
     HButton btnMain = new HButton("Menu");
 
-    int length;
+    int puzzleWordLength;
     int count = 0;
     int chances = 7;
-    int linenum;
+    int linenumber;
     int randomnum;
     int playerOneScore = 0;
     int playerTwoScore = 0;
@@ -132,7 +129,6 @@ public class Hangman extends JFrame implements ActionListener,
 //    Icon name = new ImageIcon(Resources.RES_PATH + "Name.png");
 //    Icon opponent = new ImageIcon(Resources.RES_PATH + "Opponent.png");
 //    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png"); //removed completly, will need to rework it
-
     char[] puzle;
     char[] hid;
 
@@ -151,12 +147,6 @@ public class Hangman extends JFrame implements ActionListener,
     Font headerFont;
     Font f7;
     Font f8;
-
-    public enum State {
-        WALKING,
-        HANGING,
-        DEAD;
-    }
 
     State currentState = State.WALKING;
 
@@ -256,7 +246,7 @@ public class Hangman extends JFrame implements ActionListener,
 //        
 
         this.addKeyListener(this);
-        this.setFocusable(true);
+//        this.setFocusable(true);
         // Initialize the Checklists------------->
         resetCheckLists();
         // <------- End Initializing Checklists
@@ -279,8 +269,9 @@ public class Hangman extends JFrame implements ActionListener,
 
         fr1.add(startScreenPanel);
         fr1.setVisible(true);
-        fr1.setSize(300, 300);
-        fr1.centerFrameOnScreen();
+//        fr1.setSize(300, 300);
+        fr1.setSize(Resources.MAIN_WINDOW_DIM);
+//        fr1.centerFrameOnScreen();
 
         // ////Chose Categories Menu(2)========>
         // /Initialize WordList Icon\Label--->
@@ -336,9 +327,9 @@ public class Hangman extends JFrame implements ActionListener,
 
         this.add(pnl7);
 //        this.setUndecorated(true);// Take out preset border
-        this.setVisible(false);
-        this.setSize(500, 325);
-        this.centerFrameOnScreen();
+//        this.setVisible(false);
+        this.setSize(Resources.MAIN_WINDOW_DIM);
+//        this.centerFrameOnScreen();
 
         // ////<===========End Create Playing Board
         return;
@@ -525,9 +516,6 @@ public class Hangman extends JFrame implements ActionListener,
         }
     }
 
-//    private void changeToStartMenu(){
-//        
-//    }
     private void resetCheckLists() {
         for (int x = 0; x < 26; x++) {
             checked[x] = 0;
@@ -536,12 +524,11 @@ public class Hangman extends JFrame implements ActionListener,
         return;
     }
 
-    public void centerFrameOnScreen() {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        return;
-    }
-
+//    public void centerFrameOnScreen() {
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+//        return;
+//    }
     public class DrawPanel extends JPanel {
 
         public DrawPanel() {
@@ -550,9 +537,10 @@ public class Hangman extends JFrame implements ActionListener,
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
+            g2.drawImage(image, 0, 0, Resources.MAIN_WINDOW_DIM.width, Resources.MAIN_WINDOW_DIM.height, 0, 0, 300, 300,
+                    this); //Draw background
+
             if ((theSource == 1) || (theSource == 2)) {
-                g2.drawImage(image, 0, 0, 300, 300, 0, 0, 300, 300,
-                        this);
                 g2.setColor(Color.WHITE);
                 g2.setFont(startScreenTitleFont);
                 if (theSource == 1) {
@@ -560,8 +548,6 @@ public class Hangman extends JFrame implements ActionListener,
                 }
                 g2.setColor(Color.BLACK);
             } else if (theSource == 3) {
-                g2.drawImage(image, 0, 0, 500, 275, 0, 0, 300, 300,
-                        this);
                 if ((move < 5) && (move >= 0)) {
                     g2.drawImage(gallowmanImage, 300 - 25 * move, 125,
                             350 - 25 * move, 200, 0, 0, 131, 300,
@@ -592,8 +578,7 @@ public class Hangman extends JFrame implements ActionListener,
                 g2.drawLine(100, 75, 125, 50);
                 g2.setColor(Color.BLACK);
                 g2.setFont(f8);
-                g2.drawImage(image3, 0, 275, 500, 325, 0, 0, 320, 48,
-                        this);
+                
                 for (int x = 0; x < 26; x++) {
                     if (wrLetter[x] == 0) {
                         g2.setColor(Color.BLACK);
@@ -606,7 +591,7 @@ public class Hangman extends JFrame implements ActionListener,
                 }
                 g2.setFont(f7);
                 g2.setColor(Color.BLACK);
-                for (int x = 0; x < length; x++) {
+                for (int x = 0; x < puzzleWordLength; x++) {
                     g2.drawString("" + hid[x], 25 + 35 * x, 250);
                 }
                 g2.setFont(headerFont);
@@ -623,7 +608,7 @@ public class Hangman extends JFrame implements ActionListener,
     }
 
     public void getPuz() throws IOException {
-        String[] fields;
+//        String[] fields;
         BufferedReader in = null;
         String line = "A B 1";
         File f = new File(Resources.RES_PATH + "Word List/" + selected + ".txt");
@@ -632,10 +617,10 @@ public class Hangman extends JFrame implements ActionListener,
                 new FileReader(f));
         while ((reader.readLine()) != null) {
         }
-        linenum = reader.getLineNumber();
+        linenumber = reader.getLineNumber();
         reader.close();
         try {
-            allPuz = new String[linenum];
+            allPuz = new String[linenumber];
             in = new BufferedReader(new FileReader(f));
             System.out.println("File Opening");
         } catch (FileNotFoundException e) {
@@ -663,19 +648,21 @@ public class Hangman extends JFrame implements ActionListener,
     }
 
     public void createPuz() throws IOException {
-        randomnum = (int) (Math.random() * linenum);
+        randomnum = (int) (Math.random() * linenumber);
+
         if (players == 1) {
-            currentPuzzle = "" + allPuz[randomnum];
+            currentPuzzleStr = "" + allPuz[randomnum];
         } else if (players == 2) {
-            currentPuzzle = customPuzzleTextField.getText();
+            currentPuzzleStr = customPuzzleTextField.getText();
         }
-        System.out.println(currentPuzzle);
-        length = currentPuzzle.length();
-        puzle = new char[length];
-        hid = new char[length];
-        for (int x = 0; x < length; x++) {
-            puzle[x] = (currentPuzzle.charAt(x));
-            puzle[x] = Character.toUpperCase(puzle[x]);
+
+        Debug.dbgPrint("Current Puzzle: " + currentPuzzleStr);
+        puzzleWordLength = currentPuzzleStr.length();
+        puzle = new char[puzzleWordLength];
+        hid = new char[puzzleWordLength];
+
+        for (int x = 0; x < puzzleWordLength; x++) {
+            puzle[x] = Character.toUpperCase(currentPuzzleStr.charAt(x));
             if (puzle[x] == ' ') {
                 hid[x] = (' ');
                 count += 1;
@@ -697,14 +684,14 @@ public class Hangman extends JFrame implements ActionListener,
                     if (checked[x] == 1) {
                         JOptionPane.showMessageDialog(this,
                                 "Already pressed " + Resources.ALPHABET[x] + ".");
-                        for (int y = 0; y < length; y++) {
+                        for (int y = 0; y < puzzleWordLength; y++) {
                             if (Resources.ALPHABET[x] == puzle[y]) {
                                 hid[y] = puzle[y];
                                 rightletter = true;
                                 wrLetter[x] = 1;
                                 wrongLetterFlag = false;
                                 checked[x] = 1;
-                                if (count == length) {
+                                if (count == puzzleWordLength) {
                                     JOptionPane.showMessageDialog(
                                             this, "You Win");
                                     gameDone = true;
@@ -713,7 +700,7 @@ public class Hangman extends JFrame implements ActionListener,
                             }
                         }
                     } else if (checked[x] == 0) {
-                        for (int y = 0; y < length; y++) {
+                        for (int y = 0; y < puzzleWordLength; y++) {
                             if (Resources.ALPHABET[x] == puzle[y]) {
                                 hid[y] = puzle[y];
                                 rightletter = true;
@@ -721,7 +708,7 @@ public class Hangman extends JFrame implements ActionListener,
                                 count += 1;
                                 wrongLetterFlag = false;
                                 checked[x] = 1;
-                                if (count == length) {
+                                if (count == puzzleWordLength) {
                                     JOptionPane.showMessageDialog(
                                             this, "You Win");
                                     gameDone = true;
@@ -757,7 +744,7 @@ public class Hangman extends JFrame implements ActionListener,
                 pnlBoard.setEnabled(false);
                 resetBtn.setEnabled(true);
                 for (int x = 0; x < 26; x++) {
-                    for (int y = 0; y < length; y++) {
+                    for (int y = 0; y < puzzleWordLength; y++) {
                         if (Resources.ALPHABET[x] == puzle[y]) {
                             hid[y] = puzle[y];
                         }

@@ -5,6 +5,8 @@
  */
 package com.exikle.hangman;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author dixondcunha
@@ -25,5 +27,7 @@ public class Resources {
         'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
     public static final int CATEGORY_AMNT = 8;
+    
+    public static Dimension MAIN_WINDOW_DIM = new Dimension(500, 325);   
     
 }

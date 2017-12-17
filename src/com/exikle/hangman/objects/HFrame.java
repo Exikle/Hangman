@@ -25,8 +25,9 @@ import javax.swing.JFrame;
         }
 
         private void setFrameStyle() {
-//            this.setUndecorated(true);// Take out preset border
+            this.setUndecorated(true);// Take out preset border
             this.setVisible(false);
+            this.centerFrameOnScreen();
         }
 
         public void centerFrameOnScreen() {
