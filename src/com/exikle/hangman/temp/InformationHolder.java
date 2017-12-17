@@ -1,4 +1,4 @@
-package com.exikle.hangman;
+package com.exikle.hangman.temp;
 
 public class InformationHolder {
 	public static String playerOneName;

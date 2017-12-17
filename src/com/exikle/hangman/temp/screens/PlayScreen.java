@@ -1,4 +1,4 @@
-package com.exikle.hangman.screens;
+package com.exikle.hangman.temp.screens;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.exikle.hangman.InformationHolder;
+import com.exikle.hangman.temp.InformationHolder;
 
 public class PlayScreen extends BackgroundCode {
     Image backGround = null;

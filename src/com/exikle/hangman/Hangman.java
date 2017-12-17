@@ -1,4 +1,4 @@
-package com.exikle.hangman.original;
+package com.exikle.hangman;
 
 /*
  * Hang Man v0.5
@@ -47,7 +47,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.net.URL;
 import javax.imageio.ImageIO;
 
 import javax.swing.Icon;
@@ -59,7 +58,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
+public class Hangman extends JFrame implements ActionListener,
         KeyListener {
 
     final String RES_PATH = "res/";
@@ -106,7 +105,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     HLabel wordlist = new HLabel();
 
     HButton[] btnLetters = new HButton[26];
-    HButton close = new HButton(); //TODO make into one
+//    HButton close = new HButton(); //TODO make into one
     HButton[] lblWordList = new HButton[8];
 
     HButton pickOnePlayerButton = new HButton();
@@ -141,7 +140,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Icon wList = new ImageIcon(RES_PATH + "WordList.png");
     Icon name = new ImageIcon(RES_PATH + "Name.png");
     Icon opponent = new ImageIcon(RES_PATH + "Opponent.png");
-    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
+//    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
 
     char[] puzle;
     char[] hid;
@@ -205,22 +204,21 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         f8 = new Font(FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
-    public HButton initializeCloseButton() {
-        HButton btn = new HButton();
-        btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-            btn.setBounds(275, 0, 25, 25);
-            btn.setIcon(closeIMG);
-
-//    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
-        return btn;
-    }
-
+//    public HButton initializeCloseButton() {
+//        HButton btn = new HButton();
+//        btn.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                System.exit(0);
+//            }
+//        });
+//            btn.setBounds(275, 0, 25, 25);
+//            btn.setIcon(closeIMG);
+//
+////    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
+//        return btn;
+//    }
     public static void main(String[] args) {
-        HangManGUI_CLEANEDUP hangManGUI_CLEANEDUP = new HangManGUI_CLEANEDUP();
+        Hangman hangManGUI_CLEANEDUP = new Hangman();
     }
 
 //    public HPanel createChalkboard() {
@@ -283,7 +281,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         return;
     }
 
-    public HangManGUI_CLEANEDUP() {
+    public Hangman() {
         initializeFonts();
 //
 //        hmWindow = new HFrame();
@@ -307,14 +305,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 //            close[x].setBounds(275, 0, 25, 25);
 //            close[x].setIcon(closeIMG);
 //        }
-        close = initializeCloseButton();
-        startScreenPanel.add(close);// Add Close button to 1st Screen
-        dPnl2.add(close);// Add Close button to 2nd Screen
-        this.add(close);// Add Close button to Board
-
+//        close = initializeCloseButton();
+//        startScreenPanel.add(close);// Add Close button to 1st Screen
+//        dPnl2.add(close);// Add Close button to 2nd Screen
+//        this.add(close);// Add Close button to Board
 //        close[2].setBounds(475, 0, 25, 25);
         // <------End Close Button
-
         initializeImages();
         initializeStartMenu();
 
@@ -374,7 +370,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         btnMain.setBounds(0, 0, 100, 25);
 
         this.add(pnl7);
-        this.setUndecorated(true);// Take out preset border
+//        this.setUndecorated(true);// Take out preset border
         this.setVisible(false);
         this.setSize(500, 325);
         this.centerFrameOnScreen();
@@ -412,7 +408,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         if (source instanceof HButton) {
             if (source == pickOnePlayerButton) {
                 //Switch to next panel to choose categories
-                debugPrint("Player 1 was pressed");
+                Debug.dbgPrint("Player 1 was pressed");
 //            fr1.setVisible(false);
                 fr1.remove(startScreenPanel);
                 fr1.add(dPnl2);
@@ -478,7 +474,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
         if (e.getSource() == btnBack) {
             theSource = 1;
-            debugPrint("Back was pressed");
+            Debug.dbgPrint("Back was pressed");
 
             fr1.remove(dPnl2);
             fr1.add(startScreenPanel);
@@ -497,7 +493,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         }
         if (e.getSource() == btnStart) {
             theSource = 3;
-            debugPrint("Start was pressed");
+            Debug.dbgPrint("Start was pressed");
             playerOneName = playerOneTextField.getText();
             if (players == 2) {
                 playerTwoName = playerTwoTextField.getText();
@@ -509,7 +505,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                 }
                 createPuz();
             } catch (IOException f) {
-                debugPrint("Problem Creating Puzzle");
+                Debug.dbgPrint("Problem Creating Puzzle");
             }
             this.setVisible(true);
         }
@@ -535,7 +531,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                 getPuz();
                 createPuz();
             } catch (IOException f) {
-                debugPrint("Problem Creating Puzzle");
+                Debug.dbgPrint("Problem Creating Puzzle");
             }
             repaint();
         }
@@ -657,7 +653,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         }
 
         private void setFrameStyle() {
-            this.setUndecorated(true);// Take out preset border
+//            this.setUndecorated(true);// Take out preset border
             this.setVisible(false);
         }
 
@@ -898,9 +894,12 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     public void keyPressed(KeyEvent f) {
     }
 
-    public void debugPrint(String str) {
-        System.out.println("DBUG::" + str);
-        return;
+    public static class Debug {
+
+        public static void dbgPrint(String str) {
+            System.out.println("DBUG::" + str);
+            return;
+        }
     }
 
     public void keyReleased(KeyEvent f) {

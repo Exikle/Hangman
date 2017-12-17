@@ -1,4 +1,4 @@
-package com.exikle.hangman.screens;
+package com.exikle.hangman.temp.screens;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;

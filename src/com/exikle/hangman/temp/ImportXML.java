@@ -1,4 +1,4 @@
-package com.exikle.hangman;
+package com.exikle.hangman.temp;
 
 import java.io.File;
 

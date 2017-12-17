@@ -1,4 +1,4 @@
-package com.exikle.hangman.screens;
+package com.exikle.hangman.temp.screens;
 
 import java.awt.Font;
 import java.io.InputStream;
