@@ -61,19 +61,6 @@ import javax.swing.JTextField;
 public class Hangman extends JFrame implements ActionListener,
         KeyListener {
 
-    final String RES_PATH = "res/";
-    final String DEFAULT_DIFFICULTY = "Easy";
-    final String FONT_NAME = "fonts/VTK.ttf";
-    final String FONT_FILE_PATH = RES_PATH + FONT_NAME;
-    final String FONT_FILE_NAME = "vtks animal 2";
-    final String DEFAULT_PLAYER_ONE_NAME = "Player 1";
-    final String DEFAULT_PLAYER_TWO_NAME = "Player 2";
-    final String[] DEFAULT_CATEGORIES = {"Easy", "Food", "Standard", "Geography",
-        "Hard", "Holidays", "Animals", "Sports"
-    };
-
-    final int CATEGORY_AMNT = 8;
-
     DrawPanel startScreenPanel = new DrawPanel(); //first screen
     DrawPanel dPnl2 = new DrawPanel(); //second screen
     DrawPanel pnlBoard = new DrawPanel(); // Panels where everything is drawn on
@@ -87,12 +74,12 @@ public class Hangman extends JFrame implements ActionListener,
     JPanel pnl6 = new JPanel();
     JPanel pnl7 = new JPanel();
 
-    String playerOneName = DEFAULT_PLAYER_ONE_NAME;
-    String playerTwoName = DEFAULT_PLAYER_TWO_NAME;
+    String playerOneName = Resources.DEFAULT_PLAYER_ONE_NAME;
+    String playerTwoName = Resources.DEFAULT_PLAYER_TWO_NAME;
     String currentPuzzle = "";
-    String selected = DEFAULT_DIFFICULTY;
+    String selected = Resources.DEFAULT_DIFFICULTY;
 
-    String[] categories = DEFAULT_CATEGORIES;
+    String[] categories = Resources.DEFAULT_CATEGORIES;
     String[] allPuz;
     String[] puzzle;
 
@@ -137,9 +124,9 @@ public class Hangman extends JFrame implements ActionListener,
     //TODO replace with JLABELS using custom fonts
 //    Icon py1 = new ImageIcon(RES_PATH + "Player 1.png");
 //    Icon py2 = new ImageIcon(RES_PATH + "Player 2.png");
-    Icon wList = new ImageIcon(RES_PATH + "WordList.png");
-    Icon name = new ImageIcon(RES_PATH + "Name.png");
-    Icon opponent = new ImageIcon(RES_PATH + "Opponent.png");
+    Icon wList = new ImageIcon(Resources.RES_PATH + "WordList.png");
+    Icon name = new ImageIcon(Resources.RES_PATH + "Name.png");
+    Icon opponent = new ImageIcon(Resources.RES_PATH + "Opponent.png");
 //    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png");
 
     char[] puzle;
@@ -191,17 +178,17 @@ public class Hangman extends JFrame implements ActionListener,
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(FONT_FILE_PATH)));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Resources.FONT_FILE_PATH)));
         } catch (IOException | FontFormatException e) {
             {
 //                e.printStackTrace();
             }
 
         }
-        startScreenTitleFont = new Font(FONT_FILE_NAME, Font.PLAIN, 50);
-        f5 = new Font(FONT_FILE_NAME, Font.PLAIN, 16); //
-        f7 = new Font(FONT_FILE_NAME, Font.PLAIN, 35); //
-        f8 = new Font(FONT_FILE_NAME, Font.PLAIN, 22); //
+        startScreenTitleFont = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 50);
+        f5 = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 16); //
+        f7 = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 35); //
+        f8 = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
 //    public HButton initializeCloseButton() {
@@ -239,14 +226,14 @@ public class Hangman extends JFrame implements ActionListener,
         pickOnePlayerButton.addActionListener(this);
 //        pickOnePlayerButton.setIcon(py1);
         pickOnePlayerButton.setText("Player One");
-        pickOnePlayerButton.setFont(FONT_FILE_NAME, 30);
+        pickOnePlayerButton.setFont(Resources.FONT_FILE_NAME, 30);
         startScreenPanel.add(pickOnePlayerButton);
         // /Player 2 button initialize--------->
         pickTwoPlayersButton.setBounds(25, 200, 250, 50);
         pickTwoPlayersButton.addActionListener(this);
 //        pickTwoPlayersButton.setIcon(py2);
         pickTwoPlayersButton.setText("Player Two");
-        pickTwoPlayersButton.setFont(FONT_FILE_NAME, 30);
+        pickTwoPlayersButton.setFont(Resources.FONT_FILE_NAME, 30);
         startScreenPanel.add(pickTwoPlayersButton);
         // /End Player Button Initialzing------->
         // ////<========End Chose Player Menu(1)
@@ -257,11 +244,11 @@ public class Hangman extends JFrame implements ActionListener,
         try {
             switch (newState) {
                 case WALKING:
-                    return ImageIO.read(new File(RES_PATH + "hanger.png"));
+                    return ImageIO.read(new File(Resources.RES_PATH + "hanger.png"));
                 case HANGING:
-                    return ImageIO.read(new File(RES_PATH + "hanger2.png"));
+                    return ImageIO.read(new File(Resources.RES_PATH + "hanger2.png"));
                 case DEAD:
-                    return ImageIO.read(new File(RES_PATH + "hanger3.png"));
+                    return ImageIO.read(new File(Resources.RES_PATH + "hanger3.png"));
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -272,9 +259,9 @@ public class Hangman extends JFrame implements ActionListener,
     public void initializeImages() {
 
         try {
-            image = ImageIO.read(new File(RES_PATH + "chalkBG.png"));
+            image = ImageIO.read(new File(Resources.RES_PATH + "chalkBG.png"));
             gallowmanImage = updateGallowMan(State.WALKING);
-            image3 = ImageIO.read(new File(RES_PATH + "alphaDock.png"));
+            image3 = ImageIO.read(new File(Resources.RES_PATH + "alphaDock.png"));
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -327,12 +314,12 @@ public class Hangman extends JFrame implements ActionListener,
         // /Initialize Go To 1st Menu Button---------->
         dPnl2.add(btnBack);
         btnBack.setBounds(0, 250, 75, 25);
-        btnBack.setFont(FONT_FILE_NAME, 11);
+        btnBack.setFont(Resources.FONT_FILE_NAME, 11);
         btnBack.addActionListener(this);
         // /Initialize Start Game/Go to Board---------->
         dPnl2.add(btnStart);
         btnStart.setBounds(225, 250, 75, 25);
-        btnStart.setFont(FONT_FILE_NAME, 11);
+        btnStart.setFont(Resources.FONT_FILE_NAME, 11);
         btnStart.addActionListener(this);
 
         // /Add Categories into grid------------->
@@ -352,19 +339,19 @@ public class Hangman extends JFrame implements ActionListener,
         pnl7.setLayout(new GridLayout(1, 1));
         pnl7.add(pnl2);
         // Initialize New Game Button---------->
-        newGameBtn.setFont(FONT_FILE_NAME, 11);
+        newGameBtn.setFont(Resources.FONT_FILE_NAME, 11);
         newGameBtn.addActionListener(this);
         this.add(newGameBtn);
         newGameBtn.setBounds(225, 0, 100, 25);
 
         // Initialize Reset Scores Button---------->
-        resetBtn.setFont(FONT_FILE_NAME, 11);
+        resetBtn.setFont(Resources.FONT_FILE_NAME, 11);
         resetBtn.addActionListener(this);
         this.add(resetBtn);
         resetBtn.setBounds(100, 0, 125, 25);
 
         // Initialize Go To Main Menu Button---------->
-        btnMain.setFont(FONT_FILE_NAME, 11);
+        btnMain.setFont(Resources.FONT_FILE_NAME, 11);
         btnMain.addActionListener(this);
         this.add(btnMain);
         btnMain.setBounds(0, 0, 100, 25);
@@ -387,9 +374,9 @@ public class Hangman extends JFrame implements ActionListener,
         JPanel categoryListPanel = new JPanel();
         categoryListPanel.setLayout(new GridLayout(4, 2));
 
-        for (int x = 0; x < CATEGORY_AMNT; x++) {
+        for (int x = 0; x < Resources.CATEGORY_AMNT; x++) {
             lblWordList[x] = new HButton(categories[x] + "");
-            lblWordList[x].setFont(FONT_FILE_NAME, 12);
+            lblWordList[x].setFont(Resources.FONT_FILE_NAME, 12);
             lblWordList[x].setOpaque(false);
             lblWordList[x].setContentAreaFilled(false);
             lblWordList[x].setBorderPainted(false);
@@ -421,12 +408,12 @@ public class Hangman extends JFrame implements ActionListener,
 
                 dPnl2.add(playerOneLabel);
                 playerOneLabel.setBounds(50, 50, 75, 25);
-                playerOneLabel.setFont(FONT_FILE_NAME, 11);
+                playerOneLabel.setFont(Resources.FONT_FILE_NAME, 11);
                 playerOneLabel.setIcon(name);
 
                 dPnl2.add(playerOneTextField);
                 playerOneTextField.setBounds(125, 50, 125, 25);
-                playerOneTextField.setFont(FONT_FILE_NAME, 13);
+                playerOneTextField.setFont(Resources.FONT_FILE_NAME, 13);
 
                 dPnl2.add(wordlist);
                 wordlist.setBounds(100, 75, 150, 75);
@@ -451,24 +438,24 @@ public class Hangman extends JFrame implements ActionListener,
                 dPnl2.add(playerTwoLabel);
 
                 playerTwoLabel.setBounds(75, 125, 100, 25);
-                playerTwoLabel.setFont(FONT_FILE_NAME, 11);
+                playerTwoLabel.setFont(Resources.FONT_FILE_NAME, 11);
                 playerTwoLabel.setIcon(opponent);
 
                 dPnl2.add(playerTwoTextField);
                 playerTwoTextField.setBounds(175, 125, 100, 25);
-                playerTwoTextField.setFont(FONT_FILE_NAME, 13);
+                playerTwoTextField.setFont(Resources.FONT_FILE_NAME, 13);
 
                 dPnl2.add(customPuzzleTextField);
                 customPuzzleTextField.setBounds(100, 175, 100, 25);
 
                 dPnl2.add(playerOneLabel);
                 playerOneLabel.setBounds(75, 75, 75, 25);
-                playerOneLabel.setFont(FONT_FILE_NAME, 11);
+                playerOneLabel.setFont(Resources.FONT_FILE_NAME, 11);
                 playerOneLabel.setIcon(name);
 
                 dPnl2.add(playerOneTextField);
                 playerOneTextField.setBounds(150, 75, 125, 25);
-                playerOneTextField.setFont(FONT_FILE_NAME, 13);
+                playerOneTextField.setFont(Resources.FONT_FILE_NAME, 13);
             }
         }
 
@@ -749,7 +736,7 @@ public class Hangman extends JFrame implements ActionListener,
         String[] fields;
         BufferedReader in = null;
         String line = "A B 1";
-        File f = new File(RES_PATH + "Word List/" + selected + ".txt");
+        File f = new File(Resources.RES_PATH + "Word List/" + selected + ".txt");
         int num = 0;
         LineNumberReader reader = new LineNumberReader(
                 new FileReader(f));
