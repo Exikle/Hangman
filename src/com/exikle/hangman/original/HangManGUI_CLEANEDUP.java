@@ -165,6 +165,14 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Font f5;
     Font f7;
     Font f8;
+    
+    public enum State{
+        WALKING,
+        HANGING,
+        DEAD;
+    }
+    
+    State currentState = State.WALKING;
 
 //    ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
 //    URL imageURL = cl.getResource(RES_PATH + "chalkBG.png");
@@ -234,14 +242,14 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         return;
     }
 
-    public Image updateGallowMan(int state) {
+    public Image updateGallowMan(State newState) {
         try {
-            switch (state) {
-                case 1:
+            switch (newState) {
+                case WALKING:
                     return ImageIO.read(new File(RES_PATH + "hanger.png"));
-                case 2:
+                case HANGING:
                     return ImageIO.read(new File(RES_PATH + "hanger2.png"));
-                case 3:
+                case DEAD:
                     return ImageIO.read(new File(RES_PATH + "hanger3.png"));
             }
         } catch (IOException ioe) {
@@ -254,7 +262,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
 
         try {
             image = ImageIO.read(new File(RES_PATH + "chalkBG.png"));
-            gallowmanImage = updateGallowMan(1);
+            gallowmanImage = updateGallowMan(State.WALKING);
             image3 = ImageIO.read(new File(RES_PATH + "alphaDock.png"));
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -852,10 +860,10 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             }
             wrong = true;
             if (move == 7) {
-                gallowmanImage = updateGallowMan(2);
+                gallowmanImage = updateGallowMan(State.HANGING);
             } else if (move >= 8) {
                 JOptionPane.showMessageDialog(this, "You Lose");
-                gallowmanImage = updateGallowMan(3);
+                gallowmanImage = updateGallowMan(State.DEAD);
                 oScore += 1;
                 gameDone = true;
                 pnlBoard.setEnabled(false);
@@ -868,7 +876,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                     }
                 }
             } else {
-                gallowmanImage = updateGallowMan(1);
+                gallowmanImage = updateGallowMan(State.WALKING);
             }
             repaint();
         }
