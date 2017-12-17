@@ -20,7 +20,10 @@ public class Resources {
     public static final String[] DEFAULT_CATEGORIES = {"Easy", "Food", "Standard", "Geography",
         "Hard", "Holidays", "Animals", "Sports"
     };
-
+    public static final char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
+        'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+    };
     public static final int CATEGORY_AMNT = 8;
     
 }
