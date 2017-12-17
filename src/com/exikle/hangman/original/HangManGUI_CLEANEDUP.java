@@ -48,6 +48,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.net.URL;
+import javax.imageio.ImageIO;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -165,12 +166,10 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
     Font f7;
     Font f8;
 
-    ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
-
-    URL imageURL = cl.getResource(RES_PATH + "chalkBG.png");
-    URL gallowmanImagePath = cl.getResource(RES_PATH + "hanger.png");
-    URL imageURL3 = cl.getResource(RES_PATH + "alphaDock.png");
-
+//    ClassLoader cl = HangManGUI_CLEANEDUP.class.getClassLoader();
+//    URL imageURL = cl.getResource(RES_PATH + "chalkBG.png");
+//    URL gallowmanImagePath = cl.getResource(RES_PATH + "hanger.png");
+//    URL imageURL3 = cl.getResource(RES_PATH + "alphaDock.png");
     Image image;
     Image gallowmanImage;
     Image image3;
@@ -202,27 +201,77 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         HangManGUI_CLEANEDUP hangManGUI_CLEANEDUP = new HangManGUI_CLEANEDUP();
     }
 
+//    public HPanel createChalkboard() {
+//        final Image bgimg = toolkit.createImage(imageURL);
+//        return new HPanel() {
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                super.paintComponent(g);
+//                g.drawImage(bgimg, 0, 0, 300, 300, 0, 0, 300, 300,
+//                        this);
+//            }
+//        };
+//    }
+
+    public void initializeStartMenu() {
+        // ////Chose Player Menu(1)==============>
+        // /Player 1 button initialize--------->
+        pickOnePlayerButton.setBounds(25, 125, 250, 50);
+        pickOnePlayerButton.addActionListener(this);
+//        pickOnePlayerButton.setIcon(py1);
+        pickOnePlayerButton.setText("Player One");
+        pickOnePlayerButton.setFont(FONT_FILE_NAME, 30);
+        startScreenPanel.add(pickOnePlayerButton);
+        // /Player 2 button initialize--------->
+        pickTwoPlayersButton.setBounds(25, 200, 250, 50);
+        pickTwoPlayersButton.addActionListener(this);
+//        pickTwoPlayersButton.setIcon(py2);
+        pickTwoPlayersButton.setText("Player Two");
+        pickTwoPlayersButton.setFont(FONT_FILE_NAME, 30);
+        startScreenPanel.add(pickTwoPlayersButton);
+        // /End Player Button Initialzing------->
+        // ////<========End Chose Player Menu(1)
+        return;
+    }
+
+    public Image updateGallowMan(int state) {
+        try {
+            switch (state) {
+                case 1:
+                    return ImageIO.read(new File(RES_PATH + "hanger.png"));
+                case 2:
+                    return ImageIO.read(new File(RES_PATH + "hanger2.png"));
+                case 3:
+                    return ImageIO.read(new File(RES_PATH + "hanger3.png"));
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return null;
+    }
+
+    public void initializeImages() {
+
+        try {
+            image = ImageIO.read(new File(RES_PATH + "chalkBG.png"));
+            gallowmanImage = updateGallowMan(1);
+            image3 = ImageIO.read(new File(RES_PATH + "alphaDock.png"));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return;
+    }
+
     public HangManGUI_CLEANEDUP() {
         initializeFonts();
-
-        hmWindow = new HFrame();
-        bgPanel = new HPanel();
-        hmWindow.add(bgPanel);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+//
+//        hmWindow = new HFrame();
+//        bgPanel = createChalkboard();
+//        hmWindow.getContentPane().add(bgPanel);
+//        
+//        hmWindow.setVisible(true);
+//        hmWindow.setSize(500, 325);
+//        
 
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -244,33 +293,13 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
         close[2].setBounds(475, 0, 25, 25);
         // <------End Close Button
 
-        // Put image into Image Variable------------->
-        if (imageURL != null) {
-            image = toolkit.createImage(imageURL);
-            gallowmanImage = toolkit.createImage(gallowmanImagePath);
-            image3 = toolkit.createImage(imageURL3);
-        }
-        // <-------------Put image into Image Variable
+        initializeImages();
+        initializeStartMenu();
 
-        // ////Chose Player Menu(1)==============>
-        // /Player 1 button initialize--------->
-        pickOnePlayerButton.setBounds(25, 125, 250, 50);
-        pickOnePlayerButton.addActionListener(this);
-        pickOnePlayerButton.setIcon(py1);
-//        player1.setText("Player One");
-//        player1.setFont(FONT_FILE_NAME, 11);
-        startScreenPanel.add(pickOnePlayerButton);
-        // /Player 2 button initialize--------->
-        pickTwoPlayersButton.setBounds(25, 200, 250, 50);
-        pickTwoPlayersButton.addActionListener(this);
-        pickTwoPlayersButton.setIcon(py2);
-        startScreenPanel.add(pickTwoPlayersButton);
-        // /End Player Button Initialzing------->
         fr1.add(startScreenPanel);
         fr1.setVisible(true);
         fr1.setSize(300, 300);
         fr1.centerFrameOnScreen();
-        // ////<========End Chose Player Menu(1)
 
         // ////Chose Categories Menu(2)========>
         // /Initialize WordList Icon\Label--->
@@ -472,8 +501,9 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             pScore = 0;
             repaint();
         } else if (e.getSource() == newGameBtn) {
-            gallowmanImagePath = cl.getResource("hanger.png");
-            gallowmanImage = toolkit.createImage(gallowmanImagePath);
+//            gallowmanImagePath = cl.getResource("hanger.png");
+//            gallowmanImage = toolkit.createImage(gallowmanImagePath);
+//            gallowmanImage = ImageIO.read(new File(RES_PATH + "hanger.png"));
             move = 0;
             count = 0;
             gameDone = false;
@@ -628,6 +658,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             if ((theSource == 1) || (theSource == 2)) {
                 g2.drawImage(image, 0, 0, 300, 300, 0, 0, 300, 300,
                         this);
+//                debugPrint("Paint bg");
                 g2.setColor(Color.WHITE);
                 g2.setFont(startScreenTitleFont);
                 if (theSource == 1) {
@@ -821,16 +852,14 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
             }
             wrong = true;
             if (move == 7) {
-                gallowmanImagePath = cl.getResource("hanger2.png");
-                gallowmanImage = toolkit.createImage(gallowmanImagePath);
+                gallowmanImage = updateGallowMan(2);
             } else if (move >= 8) {
-                gallowmanImagePath = cl.getResource("hanger3.png");
                 JOptionPane.showMessageDialog(this, "You Lose");
+                gallowmanImage = updateGallowMan(3);
                 oScore += 1;
                 gameDone = true;
                 pnlBoard.setEnabled(false);
                 resetBtn.setEnabled(true);
-                gallowmanImage = toolkit.createImage(gallowmanImagePath);
                 for (int x = 0; x < 26; x++) {
                     for (int y = 0; y < length; y++) {
                         if (letter[x] == puzle[y]) {
@@ -839,8 +868,7 @@ public class HangManGUI_CLEANEDUP extends JFrame implements ActionListener,
                     }
                 }
             } else {
-                gallowmanImagePath = cl.getResource("hanger.png");
-                gallowmanImage = toolkit.createImage(gallowmanImagePath);
+                gallowmanImage = updateGallowMan(1);
             }
             repaint();
         }
