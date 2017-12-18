@@ -449,13 +449,6 @@ public class Hangman extends HFrame implements ActionListener,
         return;
     }
 
-    public void drawBG(Graphics2D g2) {
-        g2.drawImage(Resources.CHALK_BG, 0, 0, Resources.MAIN_WINDOW_DIM.width,
-                Resources.MAIN_WINDOW_DIM.height, 0, 0, 300, 300,
-                this); //Draw background
-        return;
-    }
-
     public class DrawPanel extends HPanel {
 
         public void paintComponent(Graphics g) {
@@ -463,9 +456,7 @@ public class Hangman extends HFrame implements ActionListener,
             drawBG(g2);
             switch (currentScreen) {
                 case START:
-                    g2.setColor(Color.WHITE);
-                    g2.setFont(startScreenTitleFont);
-                    g2.drawString("Hang Man", 12, 100);
+                    drawStartMenu(g2);
                     break;
                 case CATEGORY_A:
                 case CATEGORY_B:
@@ -473,25 +464,25 @@ public class Hangman extends HFrame implements ActionListener,
                     g2.setFont(startScreenTitleFont);
                     break;
                 case GAME:
-                    if ((move < 5) && (move >= 0)) {
-                        g2.drawImage(gallowmanImage, 300 - 25 * move, 125,
-                                350 - 25 * move, 200, 0, 0, 131, 300,
-                                this);
-                    }
-                    if ((move >= 5) && (move < 7)) {
-                        g2.drawImage(gallowmanImage, 300 - 25 * move, 100,
-                                350 - 25 * move, 175, 0, 0, 131, 300,
-                                this);
-                    }
-                    if ((move == 7) || (move >= 8)) {
-                        g2.drawImage(gallowmanImage, 125, 50, 175, 150, 0, 0,
-                                131, 300, this);
-                        if (move == 7) {
-                            g2.setColor(Color.RED);
-                            g2.fillRect(125, 150, 50, 25);
-                        }
+                    drawCharacter(g2);
+                    drawGallows(g2);
+                    drawLetters(g2);
+
+                    g2.setFont(currentPuzzleDisplayFont);
+                    g2.setColor(Color.BLACK);
+                    for (int x = 0; x < puzzleWordLength; x++) {
+                        g2.drawString("" + hid[x], 25 + 35 * x, 250);
                     }
 
+                    drawScoreBoard(g2);
+
+                    break;
+                default:
+                    throw new AssertionError(currentScreen.name());
+            }
+        }
+        
+        private void drawGallows(Graphics2D g2){
                     g2.setColor(Color.RED);
                     g2.fillRect(50, 175, 125, 25);
                     g2.fillRect(75, 25, 25, 150);
@@ -499,43 +490,81 @@ public class Hangman extends HFrame implements ActionListener,
                     g2.fillRect(175, 175, 25, 25);
                     g2.setStroke(new BasicStroke(10));
                     g2.drawLine(100, 75, 125, 50);
-                    g2.setColor(Color.BLACK);
-                    g2.setFont(alphabetDockFont);
+        }
 
-                    for (int x = 0; x < 26; x++) {
-                        switch (wrLetter[x]) {
-                            case 0:
-                                g2.setColor(Color.BLACK);
-                                break;
-                            case 1:
-                                g2.setColor(Color.GREEN);
-                                break;
-                            case 2:
-                                g2.setColor(Color.RED);
-                                break;
-                        }
-                        g2.drawString("" + Resources.ALPHABET[x], 5 + 19 * x, 305);
-                    }
-                    g2.setFont(currentPuzzleDisplayFont);
-                    g2.setColor(Color.BLACK);
-                    for (int x = 0; x < puzzleWordLength; x++) {
-                        g2.drawString("" + hid[x], 25 + 35 * x, 250);
-                    }
-                    g2.setFont(headerFont);
-                    g2.setColor(Color.WHITE);
-                    g2.drawString("Category:", 375, 50);
-                    g2.drawString(playerOneName, 375, 100);
-                    g2.drawString(playerTwoName, 375, 150);
+        private void drawLetters(Graphics2D g2) {
+            g2.setColor(Color.BLACK);
+            g2.setFont(alphabetDockFont);
 
-                    g2.setColor(Color.BLACK);
-                    g2.drawString(selected, 375, 75);
-                    g2.drawString("" + playerOneScore, 375, 125);
-                    g2.drawString("" + playerTwoScore, 375, 175);
-
-                    break;
-                default:
-                    throw new AssertionError(currentScreen.name());
+            for (int x = 0; x < 26; x++) {
+                switch (wrLetter[x]) {
+                    case 0:
+                        g2.setColor(Color.BLACK);
+                        break;
+                    case 1:
+                        g2.setColor(Color.GREEN);
+                        break;
+                    case 2:
+                        g2.setColor(Color.RED);
+                        break;
+                }
+                g2.drawString("" + Resources.ALPHABET[x], 5 + 19 * x, 305);
             }
+        }
+
+        private void drawStartMenu(Graphics2D g2) {
+            int titleX = Resources.MAIN_WINDOW_DIM.width / 5;
+            int titleY = Resources.MAIN_WINDOW_DIM.height / 3;
+
+            g2.setColor(Color.WHITE);
+            g2.setFont(startScreenTitleFont);
+            g2.drawString("Hang Man", titleX, titleY);
+        }
+
+        private void drawBG(Graphics2D g2) {
+            g2.drawImage(Resources.CHALK_BG, 0, 0, Resources.MAIN_WINDOW_DIM.width,
+                    Resources.MAIN_WINDOW_DIM.height, 0, 0, 300, 300,
+                    this); //Draw background
+            return;
+        }
+
+        private void drawCharacter(Graphics2D g2) {
+
+            if ((move < 5) && (move >= 0)) {
+                g2.drawImage(gallowmanImage,
+                        300 - 25 * move, 125, 350 - 25 * move, 200, 0, 0,
+                        Resources.CHARACTER_WIDTH, Resources.CHARACTER_HEIGHT,
+                        this);
+            }
+            if ((move >= 5) && (move < 7)) {
+                g2.drawImage(gallowmanImage,
+                        300 - 25 * move, 100, 350 - 25 * move, 175,
+                        0, 0, Resources.CHARACTER_WIDTH, Resources.CHARACTER_HEIGHT,
+                        this);
+            }
+            if ((move == 7) || (move >= 8)) {
+                g2.drawImage(gallowmanImage, 125, 50, 175, 150,
+                        0, 0, Resources.CHARACTER_WIDTH, Resources.CHARACTER_HEIGHT,
+                        this);
+                if (move == 7) {
+                    g2.setColor(Color.RED);
+                    g2.fillRect(125, 150, 50, 25);
+                }
+            }
+            return;
+        }
+
+        private void drawScoreBoard(Graphics2D g2) {
+            g2.setFont(headerFont);
+            g2.setColor(Color.WHITE);
+            g2.drawString("Category:", 375, 50);
+            g2.drawString(playerOneName, 375, 100);
+            g2.drawString(playerTwoName, 375, 150);
+
+            g2.setColor(Color.BLACK);
+            g2.drawString(selected, 375, 75);
+            g2.drawString("" + playerOneScore, 375, 125);
+            g2.drawString("" + playerTwoScore, 375, 175);
         }
     }
 

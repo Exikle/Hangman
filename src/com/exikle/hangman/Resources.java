@@ -7,8 +7,6 @@ package com.exikle.hangman;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +35,8 @@ public class Resources {
         'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
     public static final int CATEGORY_AMNT = 8;
+    public static final int CHARACTER_WIDTH = 131;
+    public static final int CHARACTER_HEIGHT = 300;
 
     public static Dimension MAIN_WINDOW_DIM = new Dimension(500, 325);
 
