@@ -66,14 +66,10 @@ public class Hangman extends HFrame implements ActionListener,
     DrawPanel dPnl2 = new DrawPanel(); //second screen
     DrawPanel pnlBoard = new DrawPanel(); // Panels where everything is drawn on
 
-    JPanel align; //panel holding categories to be selected
+    HPanel align; //panel holding categories to be selected
     JPanel pnl2 = new JPanel(); //goes ontop of the pnlBoard
 
-    JPanel pnl3 = new JPanel();
-    JPanel pnl4 = new JPanel();
-    JPanel pnl5 = new JPanel();
-    JPanel pnl6 = new JPanel();
-    JPanel pnl7 = new JPanel();
+    HPanel gameBoardPanel = new HPanel();
 
     String playerOneName = Resources.DEFAULT_PLAYER_ONE_NAME;
     String playerTwoName = Resources.DEFAULT_PLAYER_TWO_NAME;
@@ -111,10 +107,10 @@ public class Hangman extends HFrame implements ActionListener,
     int randomnum;
     int playerOneScore = 0;
     int playerTwoScore = 0;
-    int theSource = 1;
     int move = 0;
     int rong;
     int players = 1;
+//    int theSource = 1;
 
     int[] wrLetter = new int[26];
     int[] checked = new int[26];
@@ -130,14 +126,13 @@ public class Hangman extends HFrame implements ActionListener,
 
     Font startScreenTitleFont;
     Font headerFont;
-    Font f7;
-    Font f8;
+    Font currentPuzzleDisplayFont;
+    Font alphabetDockFont;
 
-    State currentState = State.WALKING;
+    State currentState;
+    Screen currentScreen;
 
-    Image image;
     Image gallowmanImage;
-    Image image3;
 
     /**
      *
@@ -149,17 +144,20 @@ public class Hangman extends HFrame implements ActionListener,
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Resources.FONT_FILE_PATH)));
         } catch (IOException | FontFormatException e) {
             {
-                e.printStackTrace();
+                Debug.dbgPrint(e + "");
             }
 
         }
         startScreenTitleFont = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 50);
         headerFont = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 16); //
-        f7 = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 35); //
-        f8 = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 22); //
+        currentPuzzleDisplayFont = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 35); //
+        alphabetDockFont = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
     public void initializeStartMenu() {
+        fr1.add(startScreenPanel);
+        fr1.setVisible(true);
+        fr1.setSize(Resources.MAIN_WINDOW_DIM);
         // ////Chose Player Menu(1)==============>
         // /Player 1 button initialize--------->
         pickOnePlayerButton.setBounds(25, 125, 250, 50);
@@ -196,32 +194,22 @@ public class Hangman extends HFrame implements ActionListener,
         return null;
     }
 
-    public void initializeImages() {
-
-        try {
-            image = ImageIO.read(new File(Resources.RES_PATH + "chalkBG.png"));
-            gallowmanImage = updateGallowMan(State.WALKING);
-            image3 = ImageIO.read(new File(Resources.RES_PATH + "alphaDock.png"));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+    public void initializeVariables() {
+        currentState = State.WALKING;
+        currentScreen = Resources.START_SCREEN;
         return;
     }
 
     public Hangman() {
         initializeFonts();
+        initializeVariables();
 
         this.addKeyListener(this);
         // Initialize the Checklists------------->
         resetCheckLists();
         // <------- End Initializing Checklists
 
-        initializeImages();
         initializeStartMenu();
-
-        fr1.add(startScreenPanel);
-        fr1.setVisible(true);
-        fr1.setSize(Resources.MAIN_WINDOW_DIM);
 
         // ////Chose Categories Menu(2)========>
         // /Initialize WordList Icon\Label--->
@@ -252,8 +240,8 @@ public class Hangman extends HFrame implements ActionListener,
         pnl2.setLayout(new BorderLayout());
         pnl2.add(pnlBoard, BorderLayout.CENTER);
         // <---------End Add Board to main form
-        pnl7.setLayout(new GridLayout(1, 1));
-        pnl7.add(pnl2);
+        gameBoardPanel.setLayout(new GridLayout(1, 1));
+        gameBoardPanel.add(pnl2);
         // Initialize New Game Button---------->
         newGameBtn.setFont(Resources.FONT_FILE_NAME, 11);
         newGameBtn.addActionListener(this);
@@ -272,7 +260,8 @@ public class Hangman extends HFrame implements ActionListener,
         this.add(btnMain);
         btnMain.setBounds(0, 0, 100, 25);
 
-        this.add(pnl7);
+        gallowmanImage = updateGallowMan(State.WALKING);
+        this.add(gameBoardPanel);
         this.setSize(Resources.MAIN_WINDOW_DIM);
         // ////<===========End Create Playing Board
         return;
@@ -281,9 +270,9 @@ public class Hangman extends HFrame implements ActionListener,
     /*
      *  Add Categories into grid
      */
-    public JPanel createCategoryPanel() {
+    public HPanel createCategoryPanel() {
 
-        JPanel categoryListPanel = new JPanel();
+        HPanel categoryListPanel = new HPanel();
         categoryListPanel.setLayout(new GridLayout(4, 2));
 
         for (int x = 0; x < Resources.CATEGORY_AMNT; x++) {
@@ -312,7 +301,7 @@ public class Hangman extends HFrame implements ActionListener,
                 fr1.remove(startScreenPanel);
                 fr1.add(dPnl2);
 
-                theSource = 2;
+                currentScreen = Screen.CATEGORY_A;
                 players = 1;
                 lblWordList[1].setForeground(Color.BLUE);
 
@@ -339,7 +328,8 @@ public class Hangman extends HFrame implements ActionListener,
                 System.out.println("Player 2 was pressed");
                 lblWordList[1].setForeground(Color.BLUE);
                 players = 2;
-                theSource = 2;
+                currentScreen = Screen.CATEGORY_B;
+
                 selected = "Custom";
 
                 fr1.remove(startScreenPanel);
@@ -375,7 +365,7 @@ public class Hangman extends HFrame implements ActionListener,
         }
 
         if (e.getSource() == btnBack) {
-            theSource = 1;
+            currentScreen = Screen.START;
             Debug.dbgPrint("Back was pressed");
 
             fr1.remove(dPnl2);
@@ -395,21 +385,22 @@ public class Hangman extends HFrame implements ActionListener,
             }
         }
         if (e.getSource() == btnStart) {
-            theSource = 3;
+            currentScreen = Screen.GAME;
+
             Debug.dbgPrint("Start was pressed");
             playerOneName = playerOneTextField.getText();
             if (players == 2) {
                 playerTwoName = playerTwoTextField.getText();
             }
             fr1.setVisible(false);
-            try {
-                if (players == 1) {
-                    getPuz();
-                }
-                createPuz();
-            } catch (IOException f) {
-                Debug.dbgPrint("Problem Creating Puzzle");
-            }
+//            try {
+//                if (players == 1) {
+//                    getPuz();
+//                }
+//                createPuz();
+//            } catch (IOException f) {
+//                Debug.dbgPrint("Problem Creating Puzzle");
+//            }
             this.setVisible(true);
             repaint();
         }
@@ -424,12 +415,12 @@ public class Hangman extends HFrame implements ActionListener,
             gameDone = false;
 
             resetCheckLists();
-            try {
-                getPuz();
-                createPuz();
-            } catch (IOException f) {
-                Debug.dbgPrint("Problem Creating Puzzle");
-            }
+//            try {
+//                getPuz();
+//                createPuz();
+//            } catch (IOException f) {
+//                Debug.dbgPrint("Problem Creating Puzzle");
+//            }
             repaint();
         }
         if (e.getSource() == btnMain) {
@@ -444,7 +435,8 @@ public class Hangman extends HFrame implements ActionListener,
             resetCheckLists();
             this.setVisible(false);
             fr1.setVisible(true);
-            theSource = 2;
+            currentScreen = Screen.CATEGORY_A;
+
             repaint();
         }
     }
@@ -457,121 +449,125 @@ public class Hangman extends HFrame implements ActionListener,
         return;
     }
 
-    public class DrawPanel extends JPanel {
+    public void drawBG(Graphics2D g2) {
+        g2.drawImage(Resources.CHALK_BG, 0, 0, Resources.MAIN_WINDOW_DIM.width,
+                Resources.MAIN_WINDOW_DIM.height, 0, 0, 300, 300,
+                this); //Draw background
+        return;
+    }
 
-        public DrawPanel() {
-            this.setLayout(null);
-        }
+    public class DrawPanel extends HPanel {
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            g2.drawImage(image, 0, 0, Resources.MAIN_WINDOW_DIM.width, Resources.MAIN_WINDOW_DIM.height, 0, 0, 300, 300,
-                    this); //Draw background
-
-            if ((theSource == 1) || (theSource == 2)) {
-                g2.setColor(Color.WHITE);
-                g2.setFont(startScreenTitleFont);
-                if (theSource == 1) {
+            drawBG(g2);
+            switch (currentScreen) {
+                case START:
+                    g2.setColor(Color.WHITE);
+                    g2.setFont(startScreenTitleFont);
                     g2.drawString("Hang Man", 12, 100);
-                }
-                g2.setColor(Color.BLACK);
-            } else if (theSource == 3) {
-                if ((move < 5) && (move >= 0)) {
-                    g2.drawImage(gallowmanImage, 300 - 25 * move, 125,
-                            350 - 25 * move, 200, 0, 0, 131, 300,
-                            this);
-                }
-                if ((move >= 5) && (move < 7)) {
-                    g2.drawImage(gallowmanImage, 300 - 25 * move, 100,
-                            350 - 25 * move, 175, 0, 0, 131, 300,
-                            this);
-                }
-                if ((move == 7) || (move >= 8)) {
-                    g2.drawImage(gallowmanImage, 125, 50, 175, 150, 0, 0,
-                            131, 300, this);
-                    if (move == 7) {
-                        g2.setColor(Color.RED);
-                        g2.fillRect(125, 150, 50, 25);
+                    break;
+                case CATEGORY_A:
+                case CATEGORY_B:
+                    g2.setColor(Color.WHITE);
+                    g2.setFont(startScreenTitleFont);
+                    break;
+                case GAME:
+                    if ((move < 5) && (move >= 0)) {
+                        g2.drawImage(gallowmanImage, 300 - 25 * move, 125,
+                                350 - 25 * move, 200, 0, 0, 131, 300,
+                                this);
                     }
-                }
-
-                g2.setColor(Color.RED);
-                g2.fillRect(50, 175, 125, 25);
-                g2.fillRect(75, 25, 25, 150);
-                g2.fillRect(100, 25, 75, 25);
-                g2.fillRect(175, 175, 25, 25);
-                g2.setStroke(new BasicStroke(10));
-                g2.drawLine(100, 75, 125, 50);
-                g2.setColor(Color.BLACK);
-                g2.setFont(f8);
-
-                for (int x = 0; x < 26; x++) {
-                    switch (wrLetter[x]) {
-                        case 0:
-                            g2.setColor(Color.BLACK);
-                            break;
-                        case 1:
-                            g2.setColor(Color.GREEN);
-                            break;
-                        case 2:
+                    if ((move >= 5) && (move < 7)) {
+                        g2.drawImage(gallowmanImage, 300 - 25 * move, 100,
+                                350 - 25 * move, 175, 0, 0, 131, 300,
+                                this);
+                    }
+                    if ((move == 7) || (move >= 8)) {
+                        g2.drawImage(gallowmanImage, 125, 50, 175, 150, 0, 0,
+                                131, 300, this);
+                        if (move == 7) {
                             g2.setColor(Color.RED);
-                            break;
+                            g2.fillRect(125, 150, 50, 25);
+                        }
                     }
-                    g2.drawString("" + Resources.ALPHABET[x], 5 + 19 * x, 305);
-                }
-                g2.setFont(f7);
-                g2.setColor(Color.BLACK);
-                for (int x = 0; x < puzzleWordLength; x++) {
-                    g2.drawString("" + hid[x], 25 + 35 * x, 250);
-                }
-                g2.setFont(headerFont);
-                g2.setColor(Color.WHITE);
-                g2.drawString("Category:", 375, 50);
-                g2.drawString(playerOneName, 375, 100);
-                g2.drawString(playerTwoName, 375, 150);
 
-                g2.setColor(Color.BLACK);
-                g2.drawString(selected, 375, 75);
-                g2.drawString("" + playerOneScore, 375, 125);
-                g2.drawString("" + playerTwoScore, 375, 175);
+                    g2.setColor(Color.RED);
+                    g2.fillRect(50, 175, 125, 25);
+                    g2.fillRect(75, 25, 25, 150);
+                    g2.fillRect(100, 25, 75, 25);
+                    g2.fillRect(175, 175, 25, 25);
+                    g2.setStroke(new BasicStroke(10));
+                    g2.drawLine(100, 75, 125, 50);
+                    g2.setColor(Color.BLACK);
+                    g2.setFont(alphabetDockFont);
+
+                    for (int x = 0; x < 26; x++) {
+                        switch (wrLetter[x]) {
+                            case 0:
+                                g2.setColor(Color.BLACK);
+                                break;
+                            case 1:
+                                g2.setColor(Color.GREEN);
+                                break;
+                            case 2:
+                                g2.setColor(Color.RED);
+                                break;
+                        }
+                        g2.drawString("" + Resources.ALPHABET[x], 5 + 19 * x, 305);
+                    }
+                    g2.setFont(currentPuzzleDisplayFont);
+                    g2.setColor(Color.BLACK);
+                    for (int x = 0; x < puzzleWordLength; x++) {
+                        g2.drawString("" + hid[x], 25 + 35 * x, 250);
+                    }
+                    g2.setFont(headerFont);
+                    g2.setColor(Color.WHITE);
+                    g2.drawString("Category:", 375, 50);
+                    g2.drawString(playerOneName, 375, 100);
+                    g2.drawString(playerTwoName, 375, 150);
+
+                    g2.setColor(Color.BLACK);
+                    g2.drawString(selected, 375, 75);
+                    g2.drawString("" + playerOneScore, 375, 125);
+                    g2.drawString("" + playerTwoScore, 375, 175);
+
+                    break;
+                default:
+                    throw new AssertionError(currentScreen.name());
             }
         }
     }
 
     public File getWordFile(String fileName) {
-        return new File(Resources.RES_PATH + "Word List/" + fileName + ".txt");
+        String fullNameFilePath = Resources.RES_PATH + "Word List/" + fileName + ".txt";
+        Debug.dbgPrint(fullNameFilePath);
+        return new File(fullNameFilePath);
     }
 
-    public LineNumberReader getReader(File f) {
-        LineNumberReader reader = null;
+    public int getLinesInFile(File f) {
+        int lines = 0;
+        LineNumberReader reader;
+
         try {
             reader = new LineNumberReader(
                     new FileReader(f));
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        }
-        return reader;
-    }
-
-    public int getLinesInFile(File f){
-        int lines = 0;
-        LineNumberReader reader = getReader(f);
-
-        lines = reader.getLineNumber();
-        try {
+            lines = reader.getLineNumber();
+            Debug.dbgPrint("Lines" + lines);
             reader.close();
-        } catch (IOException ioe) {
+        } catch (IOException e) {
         }
         return lines;
     }
-    
+
     public void getPuz() {
         BufferedReader in = null;
         String line = "A B 1";
         File wordFile = getWordFile(selected);
         int num = 0;
-        
+
         lineNumber = getLinesInFile(wordFile);
+        Debug.dbgPrint("?Lines in file:" + lineNumber);
 
         try {
             allPuz = new String[lineNumber];

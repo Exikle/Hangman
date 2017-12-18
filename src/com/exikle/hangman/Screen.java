@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.exikle.hangman.objects;
-
-import javax.swing.JPanel;
+package com.exikle.hangman;
 
 /**
  *
  * @author dixondcunha
  */
-public class HPanel extends JPanel {
-
-        public HPanel() {
-            this.setLayout(null);
-        }
-    }
+public enum Screen {
+    START,
+    CATEGORY_A,
+    CATEGORY_B,
+    GAME;
+}
