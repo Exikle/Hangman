@@ -5,7 +5,6 @@
  */
 package com.exikle.hangman;
 
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,13 +12,15 @@ import javax.swing.JOptionPane;
  */
 public class Debug {
 
-        public static void dbgPrint(String str) {
+    public static void dbgPrint(String str) {
+        if (Resources.DEBUG_APP) {
             System.out.println("DBUG::" + str);
-            return;
         }
-        
-        public void dbgPrompt(String str){
-//            JOptionPane.showMessageDialog(this, str);
-            return;
-        }
+        return;
     }
+
+    public void dbgPrompt(String str) {
+//            JOptionPane.showMessageDialog(this, str);
+        return;
+    }
+}
