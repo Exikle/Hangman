@@ -93,7 +93,6 @@ public class Hangman extends HFrame implements ActionListener,
     HLabel wordlist = new HLabel();
 
     HButton[] btnLetters = new HButton[26];
-//    HButton close = new HButton(); //TODO make into one
     HButton[] lblWordList = new HButton[8];
 
     HButton pickOnePlayerButton = new HButton();
@@ -108,7 +107,7 @@ public class Hangman extends HFrame implements ActionListener,
     int puzzleWordLength;
     int count = 0;
     int chances = 7;
-    int linenumber;
+    int lineNumber;
     int randomnum;
     int playerOneScore = 0;
     int playerTwoScore = 0;
@@ -122,26 +121,12 @@ public class Hangman extends HFrame implements ActionListener,
 
     Icon[] cate = new ImageIcon[7];
 
-    //TODO replace with JLABELS using custom fonts
-//    Icon py1 = new ImageIcon(RES_PATH + "Player 1.png"); //replaced
-//    Icon py2 = new ImageIcon(RES_PATH + "Player 2.png"); //replaced
-//    Icon wList = new ImageIcon(Resources.RES_PATH + "WordList.png");
-//    Icon name = new ImageIcon(Resources.RES_PATH + "Name.png");
-//    Icon opponent = new ImageIcon(Resources.RES_PATH + "Opponent.png");
-//    Icon closeIMG = new ImageIcon(RES_PATH + "closeBtn.png"); //removed completly, will need to rework it
     char[] puzle;
     char[] hid;
 
-//    Boolean wrong = true;
     Boolean gameDone = false;
 
-    // ------------ I'm new'
-    HFrame hmWindow;
-    HPanel bgPanel;
-    // till here
-
     HFrame fr1 = new HFrame(""); //todo remove these and use only one frame
-//    HFrame fr2 = new HFrame(""); //perhaps create a new panel, add stuff to that adn then add panel to fram temporarily
 
     Font startScreenTitleFont;
     Font headerFont;
@@ -164,7 +149,7 @@ public class Hangman extends HFrame implements ActionListener,
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Resources.FONT_FILE_PATH)));
         } catch (IOException | FontFormatException e) {
             {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
 
         }
@@ -174,32 +159,21 @@ public class Hangman extends HFrame implements ActionListener,
         f8 = new Font(Resources.FONT_FILE_NAME, Font.PLAIN, 22); //
     }
 
-//    public HPanel createChalkboard() {
-//        final Image bgimg = toolkit.createImage(imageURL);
-//        return new HPanel() {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                g.drawImage(bgimg, 0, 0, 300, 300, 0, 0, 300, 300,
-//                        this);
-//            }
-//        };
-//    }
     public void initializeStartMenu() {
         // ////Chose Player Menu(1)==============>
         // /Player 1 button initialize--------->
         pickOnePlayerButton.setBounds(25, 125, 250, 50);
         pickOnePlayerButton.addActionListener(this);
-//        pickOnePlayerButton.setIcon(py1);
         pickOnePlayerButton.setText("Player One");
         pickOnePlayerButton.setFont(Resources.FONT_FILE_NAME, 30);
+
         startScreenPanel.add(pickOnePlayerButton);
         // /Player 2 button initialize--------->
         pickTwoPlayersButton.setBounds(25, 200, 250, 50);
         pickTwoPlayersButton.addActionListener(this);
-//        pickTwoPlayersButton.setIcon(py2);
         pickTwoPlayersButton.setText("Player Two");
         pickTwoPlayersButton.setFont(Resources.FONT_FILE_NAME, 30);
+
         startScreenPanel.add(pickTwoPlayersButton);
         // /End Player Button Initialzing------->
         // ////<========End Chose Player Menu(1)
@@ -236,42 +210,18 @@ public class Hangman extends HFrame implements ActionListener,
 
     public Hangman() {
         initializeFonts();
-//
-//        hmWindow = new HFrame();
-//        bgPanel = createChalkboard();
-//        hmWindow.getContentPane().add(bgPanel);
-//        
-//        hmWindow.setVisible(true);
-//        hmWindow.setSize(500, 325);
-//        
 
         this.addKeyListener(this);
-//        this.setFocusable(true);
         // Initialize the Checklists------------->
         resetCheckLists();
         // <------- End Initializing Checklists
 
-        // Close button---------------------------> //TODO make this into only one
-//        for (int x = 0; x < 3; x++) {
-//            close[x] = new HButton();
-//            close[x].addActionListener(this);
-//            close[x].setBounds(275, 0, 25, 25);
-//            close[x].setIcon(closeIMG);
-//        }
-//        close = initializeCloseButton();
-//        startScreenPanel.add(close);// Add Close button to 1st Screen
-//        dPnl2.add(close);// Add Close button to 2nd Screen
-//        this.add(close);// Add Close button to Board
-//        close[2].setBounds(475, 0, 25, 25);
-        // <------End Close Button
         initializeImages();
         initializeStartMenu();
 
         fr1.add(startScreenPanel);
         fr1.setVisible(true);
-//        fr1.setSize(300, 300);
         fr1.setSize(Resources.MAIN_WINDOW_DIM);
-//        fr1.centerFrameOnScreen();
 
         // ////Chose Categories Menu(2)========>
         // /Initialize WordList Icon\Label--->
@@ -295,9 +245,6 @@ public class Hangman extends HFrame implements ActionListener,
         align = createCategoryPanel();
         // /<-------------End Category Initializing and Layout Setiing
 
-//        fr2.add(dPnl2);
-//        fr2.setSize(300, 300);
-//        fr2.centerFrameOnScreen();
         // ////<==================End Chose Player Menu(2)
         // ////Create Playing Board================>
         // Add Board to main form------------->
@@ -326,11 +273,7 @@ public class Hangman extends HFrame implements ActionListener,
         btnMain.setBounds(0, 0, 100, 25);
 
         this.add(pnl7);
-//        this.setUndecorated(true);// Take out preset border
-//        this.setVisible(false);
         this.setSize(Resources.MAIN_WINDOW_DIM);
-//        this.centerFrameOnScreen();
-
         // ////<===========End Create Playing Board
         return;
     }
@@ -365,10 +308,10 @@ public class Hangman extends HFrame implements ActionListener,
             if (source == pickOnePlayerButton) {
                 //Switch to next panel to choose categories
                 Debug.dbgPrint("Player 1 was pressed");
-//            fr1.setVisible(false);
+
                 fr1.remove(startScreenPanel);
                 fr1.add(dPnl2);
-//            fr2.setVisible(true);
+
                 theSource = 2;
                 players = 1;
                 lblWordList[1].setForeground(Color.BLUE);
@@ -378,7 +321,6 @@ public class Hangman extends HFrame implements ActionListener,
                 dPnl2.add(playerOneLabel);
                 playerOneLabel.setBounds(50, 50, 75, 25);
                 playerOneLabel.setFont(Resources.FONT_FILE_NAME, 15);
-//                playerOneLabel.setIcon(name);
                 playerOneLabel.setForeground(Color.WHITE);
                 playerOneLabel.setText("Name");
 
@@ -410,7 +352,6 @@ public class Hangman extends HFrame implements ActionListener,
 
                 playerTwoLabel.setBounds(75, 125, 100, 25);
                 playerTwoLabel.setFont(Resources.FONT_FILE_NAME, 15);
-//                playerOneLabel.setIcon(opponent);
                 playerTwoLabel.setForeground(Color.WHITE);
                 playerTwoLabel.setText("Opponent");
 
@@ -424,7 +365,6 @@ public class Hangman extends HFrame implements ActionListener,
                 dPnl2.add(playerOneLabel);
                 playerOneLabel.setBounds(75, 75, 75, 25);
                 playerOneLabel.setFont(Resources.FONT_FILE_NAME, 15);
-//                playerOneLabel.setIcon(name);
                 playerOneLabel.setForeground(Color.WHITE);
                 playerOneLabel.setText("Name");
 
@@ -473,19 +413,12 @@ public class Hangman extends HFrame implements ActionListener,
             this.setVisible(true);
             repaint();
         }
-//        for (int x = 0; x < 3; x++) {
-//            if (e.getSource() == close[x]) {
-//                System.exit(0);
-//            }
-//        }
+
         if (e.getSource() == resetBtn) {
             playerTwoScore = 0;
             playerOneScore = 0;
             repaint();
         } else if (e.getSource() == newGameBtn) {
-//            gallowmanImagePath = cl.getResource("hanger.png");
-//            gallowmanImage = toolkit.createImage(gallowmanImagePath);
-//            gallowmanImage = ImageIO.read(new File(RES_PATH + "hanger.png"));
             move = 0;
             count = 0;
             gameDone = false;
@@ -524,11 +457,6 @@ public class Hangman extends HFrame implements ActionListener,
         return;
     }
 
-//    public void centerFrameOnScreen() {
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-//        return;
-//    }
     public class DrawPanel extends JPanel {
 
         public DrawPanel() {
@@ -566,9 +494,7 @@ public class Hangman extends HFrame implements ActionListener,
                         g2.fillRect(125, 150, 50, 25);
                     }
                 }
-//                g2.setColor(Color.YELLOW);
-//                g2.drawLine(365, 25, 365, 215);
-//                g2.drawLine(25, 210, 375, 210);
+
                 g2.setColor(Color.RED);
                 g2.fillRect(50, 175, 125, 25);
                 g2.fillRect(75, 25, 25, 150);
@@ -578,14 +504,18 @@ public class Hangman extends HFrame implements ActionListener,
                 g2.drawLine(100, 75, 125, 50);
                 g2.setColor(Color.BLACK);
                 g2.setFont(f8);
-                
+
                 for (int x = 0; x < 26; x++) {
-                    if (wrLetter[x] == 0) {
-                        g2.setColor(Color.BLACK);
-                    } else if (wrLetter[x] == 1) {
-                        g2.setColor(Color.GREEN);
-                    } else if (wrLetter[x] == 2) {
-                        g2.setColor(Color.RED);
+                    switch (wrLetter[x]) {
+                        case 0:
+                            g2.setColor(Color.BLACK);
+                            break;
+                        case 1:
+                            g2.setColor(Color.GREEN);
+                            break;
+                        case 2:
+                            g2.setColor(Color.RED);
+                            break;
                     }
                     g2.drawString("" + Resources.ALPHABET[x], 5 + 19 * x, 305);
                 }
@@ -599,6 +529,7 @@ public class Hangman extends HFrame implements ActionListener,
                 g2.drawString("Category:", 375, 50);
                 g2.drawString(playerOneName, 375, 100);
                 g2.drawString(playerTwoName, 375, 150);
+
                 g2.setColor(Color.BLACK);
                 g2.drawString(selected, 375, 75);
                 g2.drawString("" + playerOneScore, 375, 125);
@@ -607,25 +538,49 @@ public class Hangman extends HFrame implements ActionListener,
         }
     }
 
-    public void getPuz() throws IOException {
-//        String[] fields;
+    public File getWordFile(String fileName) {
+        return new File(Resources.RES_PATH + "Word List/" + fileName + ".txt");
+    }
+
+    public LineNumberReader getReader(File f) {
+        LineNumberReader reader = null;
+        try {
+            reader = new LineNumberReader(
+                    new FileReader(f));
+        } catch (FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+        }
+        return reader;
+    }
+
+    public int getLinesInFile(File f){
+        int lines = 0;
+        LineNumberReader reader = getReader(f);
+
+        lines = reader.getLineNumber();
+        try {
+            reader.close();
+        } catch (IOException ioe) {
+        }
+        return lines;
+    }
+    
+    public void getPuz() {
         BufferedReader in = null;
         String line = "A B 1";
-        File f = new File(Resources.RES_PATH + "Word List/" + selected + ".txt");
+        File wordFile = getWordFile(selected);
         int num = 0;
-        LineNumberReader reader = new LineNumberReader(
-                new FileReader(f));
-        while ((reader.readLine()) != null) {
-        }
-        linenumber = reader.getLineNumber();
-        reader.close();
+        
+        lineNumber = getLinesInFile(wordFile);
+
         try {
-            allPuz = new String[linenumber];
-            in = new BufferedReader(new FileReader(f));
+            allPuz = new String[lineNumber];
+            in = new BufferedReader(new FileReader(wordFile));
             System.out.println("File Opening");
         } catch (FileNotFoundException e) {
             System.out.println("Problem opening File");
         }
+
         while (line != null) {
             try {
                 line = in.readLine();
@@ -636,19 +591,17 @@ public class Hangman extends HFrame implements ActionListener,
             } catch (IOException e) {
                 System.out.println("Problem reading data from file");
             }
-            if (line != null) {
-            }
         }
         try {
             in.close();
-            System.out.println("Closing File");
+            Debug.dbgPrint("Closing File");
         } catch (IOException e) {
-            System.out.println("Problem Closing " + e);
+            Debug.dbgPrint("Problem Closing " + e);
         }
     }
 
     public void createPuz() throws IOException {
-        randomnum = (int) (Math.random() * linenumber);
+        randomnum = (int) (Math.random() * lineNumber);
 
         if (players == 1) {
             currentPuzzleStr = "" + allPuz[randomnum];
