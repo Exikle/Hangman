@@ -46,12 +46,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.GraphicsEnvironment;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.LineNumberReader;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import javax.swing.Icon;
@@ -79,6 +83,8 @@ public class Hangman extends HFrame implements ActionListener,
     String[] categories = Resources.DEFAULT_CATEGORIES;
     String[] allPuz;
     String[] puzzle;
+
+    ArrayList<String> puzzleWordList = new ArrayList<>();
 
     HTextField customPuzzleTextField = new HTextField("Custom Puzzle");
     HTextField playerOneTextField = new HTextField("Player");
@@ -393,6 +399,8 @@ public class Hangman extends HFrame implements ActionListener,
                 playerTwoName = playerTwoTextField.getText();
             }
             fr1.setVisible(false);
+
+            puzzleWordList = Parser.loadPuzzlesFromFile(selected);
 //            try {
 //                if (players == 1) {
 //                    getPuz();
@@ -481,15 +489,15 @@ public class Hangman extends HFrame implements ActionListener,
                     throw new AssertionError(currentScreen.name());
             }
         }
-        
-        private void drawGallows(Graphics2D g2){
-                    g2.setColor(Color.RED);
-                    g2.fillRect(50, 175, 125, 25);
-                    g2.fillRect(75, 25, 25, 150);
-                    g2.fillRect(100, 25, 75, 25);
-                    g2.fillRect(175, 175, 25, 25);
-                    g2.setStroke(new BasicStroke(10));
-                    g2.drawLine(100, 75, 125, 50);
+
+        private void drawGallows(Graphics2D g2) {
+            g2.setColor(Color.RED);
+            g2.fillRect(50, 175, 125, 25);
+            g2.fillRect(75, 25, 25, 150);
+            g2.fillRect(100, 25, 75, 25);
+            g2.fillRect(175, 175, 25, 25);
+            g2.setStroke(new BasicStroke(10));
+            g2.drawLine(100, 75, 125, 50);
         }
 
         private void drawLetters(Graphics2D g2) {
