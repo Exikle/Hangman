@@ -16,17 +16,17 @@ import java.util.ArrayList;
  * @author dixondcunha
  */
 public class Parser {
-    
-    public static ArrayList<String> loadPuzzlesFromFile(String str){
+
+    public static ArrayList<String> loadPuzzlesFromFile(String str) {
         ArrayList<String> list = new ArrayList<String>();
-        
-        
+        int lineNumber = countLines(str);
+
         return list;
     }
-    
 
-    public static int countLines(String filename) throws IOException {
-        try (InputStream is = new BufferedInputStream(new FileInputStream(filename))) {
+    public static int countLines(String str) {
+        String fileName = Resources.RES_PATH + "Word List/" + str + ".txt";
+        try (InputStream is = new BufferedInputStream(new FileInputStream(fileName))) {
             byte[] c = new byte[1024];
             int count = 0;
             int readChars = 0;
@@ -35,11 +35,13 @@ public class Parser {
                 empty = false;
                 for (int i = 0; i < readChars; ++i) {
                     if (c[i] == '\n') {
-                        ++count;
+                        count++;
                     }
                 }
             }
             return (count == 0 && !empty) ? 1 : count;
+        } catch (IOException ioe) {
+            return -1;
         }
     }
 }

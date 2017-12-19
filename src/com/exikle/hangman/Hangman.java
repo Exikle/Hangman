@@ -46,14 +46,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
@@ -214,7 +211,6 @@ public class Hangman extends HFrame implements ActionListener,
         // Initialize the Checklists------------->
         resetCheckLists();
         // <------- End Initializing Checklists
-
         initializeStartMenu();
 
         // ////Chose Categories Menu(2)========>
@@ -378,19 +374,19 @@ public class Hangman extends HFrame implements ActionListener,
             fr1.add(startScreenPanel);
             repaint();
         }
-        for (int x = 0; x < 8; x++) {
-            lblWordList[x].setForeground(Color.BLACK);
-            if (e.getSource() == lblWordList[x]) {
-                if (players == 1) {
-                    selected = lblWordList[x].getText();
-                    lblWordList[x].setForeground(Color.BLUE);
-                    System.out.println(x);
-                } else {
-                    selected = playerTwoName + "'s Puzzle";
+        if (e.getSource() == btnStart) {
+            for (int x = 0; x < 8; x++) {
+                lblWordList[x].setForeground(Color.BLACK);
+                if (e.getSource() == lblWordList[x]) {
+                    if (players == 1) {
+                        selected = lblWordList[x].getText();
+                        lblWordList[x].setForeground(Color.BLUE);
+                        System.out.println(x);
+                    } else {
+                        selected = playerTwoName + "'s Puzzle";
+                    }
                 }
             }
-        }
-        if (e.getSource() == btnStart) {
             currentScreen = Screen.GAME;
 
             Debug.dbgPrint("Start was pressed");
@@ -399,8 +395,8 @@ public class Hangman extends HFrame implements ActionListener,
                 playerTwoName = playerTwoTextField.getText();
             }
             fr1.setVisible(false);
-
-            puzzleWordList = Parser.loadPuzzlesFromFile(selected);
+//            puzzleWordList = Parser.loadPuzzlesFromFile(selected);
+            Parser.countLines(selected);
 //            try {
 //                if (players == 1) {
 //                    getPuz();
@@ -597,12 +593,17 @@ public class Hangman extends HFrame implements ActionListener,
         return lines;
     }
 
+    public void createPuzzle(String selectedCategory) {
+        int linesInFile = Parser.countLines(selectedCategory);
+    }
+
     public void getPuz() {
         BufferedReader in = null;
         String line = "A B 1";
         File wordFile = getWordFile(selected);
         int num = 0;
 
+//        lineNumber = Parser.countLines(selected);
         lineNumber = getLinesInFile(wordFile);
         Debug.dbgPrint("?Lines in file:" + lineNumber);
 
