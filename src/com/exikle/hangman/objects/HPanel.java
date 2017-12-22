@@ -14,6 +14,6 @@ import javax.swing.JPanel;
 public class HPanel extends JPanel {
 
         public HPanel() {
-            this.setLayout(null);
+//            this.setLayout(null);
         }
     }

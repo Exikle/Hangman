@@ -5,6 +5,8 @@
  */
 package com.exikle.hangman;
 
+import com.exikle.hangman.graphics.HangmanFonts;
+
 /**
  *
  * @author dixondcunha
@@ -12,6 +14,7 @@ package com.exikle.hangman;
 public class Run {
 
     public static void main(String[] args) {
+        HangmanFonts.loadFonts();
         new Hangman();
     }
 }

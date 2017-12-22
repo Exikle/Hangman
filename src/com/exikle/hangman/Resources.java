@@ -19,6 +19,8 @@ import javax.imageio.ImageIO;
 public class Resources {
 
     public static final boolean DEBUG_APP = true;
+    
+    public static final String TITLE = "Hangman";
     public static final String RES_PATH = "res/";
     public static final String DEFAULT_DIFFICULTY = "Easy";
     public static final String FONT_NAME = "fonts/VTK.ttf";
