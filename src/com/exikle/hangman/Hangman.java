@@ -154,8 +154,6 @@ public class Hangman extends HFrame implements ActionListener,
         // Initialize the Checklists------------->
 //        resetCheckLists();
         // <------- End Initializing Checklists
-
-        initializeStartMenu();
         // ////Chose Categories Menu(2)========>
         // /Initialize WordList Icon\Label--->
 //        dPnl2.add(wordlist);
