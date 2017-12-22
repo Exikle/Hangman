@@ -37,14 +37,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.File;
@@ -57,11 +53,12 @@ import javax.imageio.ImageIO;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Hangman extends HFrame implements ActionListener,
-        KeyListener {
+//public class Hangman extends HFrame implements ActionListener,
+//        KeyListener {
+    
+public class Hangman {
 
     DrawPanel startScreenPanel = new DrawPanel(); //first screen
     DrawPanel dPnl2 = new DrawPanel(); //second screen
@@ -164,21 +161,20 @@ public class Hangman extends HFrame implements ActionListener,
         // ////Chose Player Menu(1)==============>
         // /Player 1 button initialize--------->
         pickOnePlayerButton.setBounds(25, 125, 250, 50);
-        pickOnePlayerButton.addActionListener(this);
+//        pickOnePlayerButton.addActionListener(this);
         pickOnePlayerButton.setText("Player One");
         pickOnePlayerButton.setFont(Resources.FONT_FILE_NAME, 30);
 
         startScreenPanel.add(pickOnePlayerButton);
         // /Player 2 button initialize--------->
         pickTwoPlayersButton.setBounds(25, 200, 250, 50);
-        pickTwoPlayersButton.addActionListener(this);
+//        pickTwoPlayersButton.addActionListener(this);
         pickTwoPlayersButton.setText("Player Two");
         pickTwoPlayersButton.setFont(Resources.FONT_FILE_NAME, 30);
 
         startScreenPanel.add(pickTwoPlayersButton);
         // /End Player Button Initialzing------->
         // ////<========End Chose Player Menu(1)
-        return;
     }
 
     public Image updateGallowMan(State newState) {
@@ -192,7 +188,6 @@ public class Hangman extends HFrame implements ActionListener,
                     return ImageIO.read(new File(Resources.RES_PATH + "hanger3.png"));
             }
         } catch (IOException ioe) {
-            ioe.printStackTrace();
         }
         return null;
     }
@@ -200,18 +195,17 @@ public class Hangman extends HFrame implements ActionListener,
     public void initializeVariables() {
         currentState = State.WALKING;
         currentScreen = Resources.START_SCREEN;
-        return;
     }
 
     public Hangman() {
-        initializeFonts();
-        initializeVariables();
+//        initializeFonts();
+//        initializeVariables();
 
-        this.addKeyListener(this);
+//        this.addKeyListener(this);
         // Initialize the Checklists------------->
         resetCheckLists();
         // <------- End Initializing Checklists
-        initializeStartMenu();
+//        initializeStartMenu();
 
         // ////Chose Categories Menu(2)========>
         // /Initialize WordList Icon\Label--->
@@ -224,15 +218,15 @@ public class Hangman extends HFrame implements ActionListener,
         dPnl2.add(btnBack);
         btnBack.setBounds(0, 250, 75, 25);
         btnBack.setFont(Resources.FONT_FILE_NAME, 11);
-        btnBack.addActionListener(this);
+//        btnBack.addActionListener(this);
         // /Initialize Start Game/Go to Board---------->
         dPnl2.add(btnStart);
         btnStart.setBounds(225, 250, 75, 25);
         btnStart.setFont(Resources.FONT_FILE_NAME, 11);
-        btnStart.addActionListener(this);
+//        btnStart.addActionListener(this);
 
         // /Add Categories into grid------------->
-        align = createCategoryPanel();
+//        align = createCategoryPanel();
         // /<-------------End Category Initializing and Layout Setiing
 
         // ////<==================End Chose Player Menu(2)
@@ -246,27 +240,26 @@ public class Hangman extends HFrame implements ActionListener,
         gameBoardPanel.add(pnl2);
         // Initialize New Game Button---------->
         newGameBtn.setFont(Resources.FONT_FILE_NAME, 11);
-        newGameBtn.addActionListener(this);
-        this.add(newGameBtn);
+//        newGameBtn.addActionListener(this);
+//        this.add(newGameBtn);
         newGameBtn.setBounds(225, 0, 100, 25);
 
         // Initialize Reset Scores Button---------->
         resetBtn.setFont(Resources.FONT_FILE_NAME, 11);
-        resetBtn.addActionListener(this);
-        this.add(resetBtn);
+//        resetBtn.addActionListener(this);
+//        this.add(resetBtn);
         resetBtn.setBounds(100, 0, 125, 25);
 
         // Initialize Go To Main Menu Button---------->
         btnMain.setFont(Resources.FONT_FILE_NAME, 11);
-        btnMain.addActionListener(this);
-        this.add(btnMain);
+//        btnMain.addActionListener(this);
+//        this.add(btnMain);
         btnMain.setBounds(0, 0, 100, 25);
 
-        gallowmanImage = updateGallowMan(State.WALKING);
-        this.add(gameBoardPanel);
-        this.setSize(Resources.MAIN_WINDOW_DIM);
+//        gallowmanImage = updateGallowMan(State.WALKING);
+//        this.add(gameBoardPanel);
+//        this.setSize(Resources.MAIN_WINDOW_DIM);
         // ////<===========End Create Playing Board
-        return;
     }
 
     /*
@@ -283,7 +276,7 @@ public class Hangman extends HFrame implements ActionListener,
             lblWordList[x].setOpaque(false);
             lblWordList[x].setContentAreaFilled(false);
             lblWordList[x].setBorderPainted(false);
-            lblWordList[x].addActionListener(this);
+//            lblWordList[x].addActionListener(this);
             categoryListPanel.add(lblWordList[x]);
         }
 
@@ -372,7 +365,7 @@ public class Hangman extends HFrame implements ActionListener,
 
             fr1.remove(dPnl2);
             fr1.add(startScreenPanel);
-            repaint();
+//            repaint();
         }
         if (e.getSource() == btnStart) {
             for (int x = 0; x < 8; x++) {
@@ -405,14 +398,14 @@ public class Hangman extends HFrame implements ActionListener,
 //            } catch (IOException f) {
 //                Debug.dbgPrint("Problem Creating Puzzle");
 //            }
-            this.setVisible(true);
-            repaint();
+//            this.setVisible(true);
+//            repaint();
         }
 
         if (e.getSource() == resetBtn) {
             playerTwoScore = 0;
             playerOneScore = 0;
-            repaint();
+//            repaint();
         } else if (e.getSource() == newGameBtn) {
             move = 0;
             count = 0;
@@ -425,7 +418,7 @@ public class Hangman extends HFrame implements ActionListener,
 //            } catch (IOException f) {
 //                Debug.dbgPrint("Problem Creating Puzzle");
 //            }
-            repaint();
+//            repaint();
         }
         if (e.getSource() == btnMain) {
             playerTwoScore = 0;
@@ -437,11 +430,11 @@ public class Hangman extends HFrame implements ActionListener,
             playerOneName = "Player";
 
             resetCheckLists();
-            this.setVisible(false);
+//            this.setVisible(false);
             fr1.setVisible(true);
             currentScreen = Screen.CATEGORY_A;
 
-            repaint();
+//            repaint();
         }
     }
 
@@ -450,41 +443,40 @@ public class Hangman extends HFrame implements ActionListener,
             checked[x] = 0;
             wrLetter[x] = 0;
         }
-        return;
     }
 
     public class DrawPanel extends HPanel {
 
-        public void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g;
-            drawBG(g2);
-            switch (currentScreen) {
-                case START:
-                    drawStartMenu(g2);
-                    break;
-                case CATEGORY_A:
-                case CATEGORY_B:
-                    g2.setColor(Color.WHITE);
-                    g2.setFont(startScreenTitleFont);
-                    break;
-                case GAME:
-                    drawCharacter(g2);
-                    drawGallows(g2);
-                    drawLetters(g2);
-
-                    g2.setFont(currentPuzzleDisplayFont);
-                    g2.setColor(Color.BLACK);
-                    for (int x = 0; x < puzzleWordLength; x++) {
-                        g2.drawString("" + hid[x], 25 + 35 * x, 250);
-                    }
-
-                    drawScoreBoard(g2);
-
-                    break;
-                default:
-                    throw new AssertionError(currentScreen.name());
-            }
-        }
+//        public void paintComponent(Graphics g) {
+//            Graphics2D g2 = (Graphics2D) g;
+//            drawBG(g2);
+//            switch (currentScreen) {
+//                case START:
+//                    drawStartMenu(g2);
+//                    break;
+//                case CATEGORY_A:
+//                case CATEGORY_B:
+//                    g2.setColor(Color.WHITE);
+//                    g2.setFont(startScreenTitleFont);
+//                    break;
+//                case GAME:
+//                    drawCharacter(g2);
+//                    drawGallows(g2);
+//                    drawLetters(g2);
+//
+//                    g2.setFont(currentPuzzleDisplayFont);
+//                    g2.setColor(Color.BLACK);
+//                    for (int x = 0; x < puzzleWordLength; x++) {
+//                        g2.drawString("" + hid[x], 25 + 35 * x, 250);
+//                    }
+//
+//                    drawScoreBoard(g2);
+//
+//                    break;
+//                default:
+//                    throw new AssertionError(currentScreen.name());
+//            }
+//        }
 
         private void drawGallows(Graphics2D g2) {
             g2.setColor(Color.RED);
@@ -529,7 +521,6 @@ public class Hangman extends HFrame implements ActionListener,
             g2.drawImage(Resources.CHALK_BG, 0, 0, Resources.MAIN_WINDOW_DIM.width,
                     Resources.MAIN_WINDOW_DIM.height, 0, 0, 300, 300,
                     this); //Draw background
-            return;
         }
 
         private void drawCharacter(Graphics2D g2) {
@@ -555,7 +546,6 @@ public class Hangman extends HFrame implements ActionListener,
                     g2.fillRect(125, 150, 50, 25);
                 }
             }
-            return;
         }
 
         private void drawScoreBoard(Graphics2D g2) {
@@ -658,96 +648,96 @@ public class Hangman extends HFrame implements ActionListener,
             }
         }
     }
-
-    public void keyTyped(KeyEvent f) {
-        Boolean wrongLetterFlag = true;
-
-        if (gameDone == false) {
-            String key = "" + f.getKeyChar();
-            Boolean rightletter = false;
-            wrongLetterFlag = true;
-            for (int x = 0; x < 26; x++) {
-                if (("" + Resources.ALPHABET[x]).equalsIgnoreCase(key)) {
-                    if (checked[x] == 1) {
-                        JOptionPane.showMessageDialog(this,
-                                "Already pressed " + Resources.ALPHABET[x] + ".");
-                        for (int y = 0; y < puzzleWordLength; y++) {
-                            if (Resources.ALPHABET[x] == puzle[y]) {
-                                hid[y] = puzle[y];
-                                rightletter = true;
-                                wrLetter[x] = 1;
-                                wrongLetterFlag = false;
-                                checked[x] = 1;
-                                if (count == puzzleWordLength) {
-                                    JOptionPane.showMessageDialog(
-                                            this, "You Win");
-                                    gameDone = true;
-                                    playerOneScore += 1;
-                                }
-                            }
-                        }
-                    } else if (checked[x] == 0) {
-                        for (int y = 0; y < puzzleWordLength; y++) {
-                            if (Resources.ALPHABET[x] == puzle[y]) {
-                                hid[y] = puzle[y];
-                                rightletter = true;
-                                wrLetter[x] = 1;
-                                count += 1;
-                                wrongLetterFlag = false;
-                                checked[x] = 1;
-                                if (count == puzzleWordLength) {
-                                    JOptionPane.showMessageDialog(
-                                            this, "You Win");
-                                    gameDone = true;
-                                    playerOneScore += 1;
-                                }
-                            }
-                        }
-                    }
-                    rong = x;
-                }
-            }
-            if (rightletter == false) {
-                for (int x = 0; x < 26; x++) {
-                    if (("" + Resources.ALPHABET[x]).equalsIgnoreCase(key)) {
-                        move++;
-                        wrLetter[x] = 2;
-                        checked[x] = 1;
-                        rong = x;
-                    }
-                }
-            }
-            if (wrongLetterFlag == true) {
-                wrLetter[rong] = 2;
-            }
-            wrongLetterFlag = true;
-            if (move == 7) {
-                gallowmanImage = updateGallowMan(State.HANGING);
-            } else if (move >= 8) {
-                JOptionPane.showMessageDialog(this, "You Lose");
-                gallowmanImage = updateGallowMan(State.DEAD);
-                playerTwoScore += 1;
-                gameDone = true;
-                pnlBoard.setEnabled(false);
-                resetBtn.setEnabled(true);
-                for (int x = 0; x < 26; x++) {
-                    for (int y = 0; y < puzzleWordLength; y++) {
-                        if (Resources.ALPHABET[x] == puzle[y]) {
-                            hid[y] = puzle[y];
-                        }
-                    }
-                }
-            } else {
-                gallowmanImage = updateGallowMan(State.WALKING);
-            }
-            repaint();
-        }
-    }
-
-    public void keyPressed(KeyEvent f) {
-    }
-
-    public void keyReleased(KeyEvent f) {
-    }
+//
+//    public void keyTyped(KeyEvent f) {
+//        Boolean wrongLetterFlag = true;
+//
+//        if (gameDone == false) {
+//            String key = "" + f.getKeyChar();
+//            Boolean rightletter = false;
+//            wrongLetterFlag = true;
+//            for (int x = 0; x < 26; x++) {
+//                if (("" + Resources.ALPHABET[x]).equalsIgnoreCase(key)) {
+//                    if (checked[x] == 1) {
+//                        JOptionPane.showMessageDialog(this,
+//                                "Already pressed " + Resources.ALPHABET[x] + ".");
+//                        for (int y = 0; y < puzzleWordLength; y++) {
+//                            if (Resources.ALPHABET[x] == puzle[y]) {
+//                                hid[y] = puzle[y];
+//                                rightletter = true;
+//                                wrLetter[x] = 1;
+//                                wrongLetterFlag = false;
+//                                checked[x] = 1;
+//                                if (count == puzzleWordLength) {
+//                                    JOptionPane.showMessageDialog(
+//                                            this, "You Win");
+//                                    gameDone = true;
+//                                    playerOneScore += 1;
+//                                }
+//                            }
+//                        }
+//                    } else if (checked[x] == 0) {
+//                        for (int y = 0; y < puzzleWordLength; y++) {
+//                            if (Resources.ALPHABET[x] == puzle[y]) {
+//                                hid[y] = puzle[y];
+//                                rightletter = true;
+//                                wrLetter[x] = 1;
+//                                count += 1;
+//                                wrongLetterFlag = false;
+//                                checked[x] = 1;
+//                                if (count == puzzleWordLength) {
+//                                    JOptionPane.showMessageDialog(
+//                                            this, "You Win");
+//                                    gameDone = true;
+//                                    playerOneScore += 1;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    rong = x;
+//                }
+//            }
+//            if (rightletter == false) {
+//                for (int x = 0; x < 26; x++) {
+//                    if (("" + Resources.ALPHABET[x]).equalsIgnoreCase(key)) {
+//                        move++;
+//                        wrLetter[x] = 2;
+//                        checked[x] = 1;
+//                        rong = x;
+//                    }
+//                }
+//            }
+//            if (wrongLetterFlag == true) {
+//                wrLetter[rong] = 2;
+//            }
+//            wrongLetterFlag = true;
+//            if (move == 7) {
+//                gallowmanImage = updateGallowMan(State.HANGING);
+//            } else if (move >= 8) {
+//                JOptionPane.showMessageDialog(this, "You Lose");
+//                gallowmanImage = updateGallowMan(State.DEAD);
+//                playerTwoScore += 1;
+//                gameDone = true;
+//                pnlBoard.setEnabled(false);
+//                resetBtn.setEnabled(true);
+//                for (int x = 0; x < 26; x++) {
+//                    for (int y = 0; y < puzzleWordLength; y++) {
+//                        if (Resources.ALPHABET[x] == puzle[y]) {
+//                            hid[y] = puzle[y];
+//                        }
+//                    }
+//                }
+//            } else {
+//                gallowmanImage = updateGallowMan(State.WALKING);
+//            }
+//            repaint();
+//        }
+//    }
+//
+//    public void keyPressed(KeyEvent f) {
+//    }
+//
+//    public void keyReleased(KeyEvent f) {
+//    }
 
 }
